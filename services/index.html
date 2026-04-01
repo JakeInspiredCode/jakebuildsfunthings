@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Services | The Digital Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline-variant": "#3f4945",
+            "outline": "#89938f",
+            "inverse-surface": "#dce1fb",
+            "on-error-container": "#ffdad6",
+            "primary-container": "#004e34",
+            "on-primary-fixed-variant": "#005236",
+            "surface-tint": "#4edea3",
+            "inverse-primary": "#006c49",
+            "error": "#ffb4ab",
+            "on-error": "#690005",
+            "surface-container": "#191f31",
+            "on-tertiary-fixed": "#07006c",
+            "surface-variant": "#2e3447",
+            "on-primary-fixed": "#002113",
+            "tertiary-fixed": "#e1e0ff",
+            "on-secondary-fixed": "#131b2e",
+            "on-surface-variant": "#bfc9c4",
+            "secondary-fixed-dim": "#bec6e0",
+            "tertiary-fixed-dim": "#c0c1ff",
+            "on-primary-container": "#2fc88e",
+            "error-container": "#93000a",
+            "on-secondary-container": "#adb4ce",
+            "inverse-on-surface": "#2a3043",
+            "surface-container-highest": "#2e3447",
+            "surface": "#0c1324",
+            "surface-bright": "#33394c",
+            "on-surface": "#dce1fb",
+            "primary": "#4edea3",
+            "on-tertiary-fixed-variant": "#2f2ebe",
+            "surface-dim": "#0c1324",
+            "secondary": "#bec6e0",
+            "on-background": "#dce1fb",
+            "secondary-container": "#3f465c",
+            "primary-fixed": "#6ffbbe",
+            "tertiary": "#c0c1ff",
+            "on-tertiary-container": "#a7a9ff",
+            "surface-container-high": "#23293c",
+            "primary-fixed-dim": "#4edea3",
+            "on-secondary-fixed-variant": "#3f465c",
+            "surface-container-low": "#151b2d",
+            "on-primary": "#003824",
+            "surface-container-lowest": "#070d1f",
+            "secondary-fixed": "#dae2fd",
+            "on-tertiary": "#1000a9",
+            "background": "#0c1324",
+            "on-secondary": "#283044",
+            "tertiary-container": "#2b29bb"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-effect {
+      backdrop-filter: blur(24px);
+    }
+    .text-glow {
+      text-shadow: 0 0 15px rgba(78, 222, 163, 0.3);
+    }
+    body {
+      background-color: #0c1324;
+      color: #dce1fb;
+    }
+  </style>
+</head>
+<body class="font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-[#191f31]/80 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0px_20px_40px_rgba(7,13,31,0.4)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tighter text-white font-headline">
+        Architect Portfolio
+      </div>
+<div class="hidden md:flex items-center space-x-8 font-manrope tracking-tight text-sm font-medium">
+<a class="text-[#c0c1ff]/70 hover:text-white transition-colors" href="#">Projects</a>
+<a class="text-[#c0c1ff]/70 hover:text-white transition-colors" href="#">Resume</a>
+<a class="text-[#c0c1ff]/70 hover:text-white transition-colors" href="#">The Lab</a>
+<a class="text-[#4edea3] border-b-2 border-[#4edea3] pb-1" href="#">Services</a>
+</div>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-[#4edea3] cursor-pointer" data-icon="terminal">terminal</span>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-5 py-2 rounded-lg font-medium hover:scale-95 duration-200 transition-all">
+          Contact
+        </button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Shared Component) -->
+<aside class="bg-[#0c1324] h-full w-20 hover:w-64 transition-all duration-300 border-r border-[#3f4945]/15 fixed left-0 top-0 hidden md:flex flex-col z-40 overflow-hidden group">
+<div class="p-6 mb-8 flex flex-col items-center group-hover:items-start transition-all">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden mb-4">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a senior tech architect in a dark studio setting with dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvTkrAFMi4X90v4ye8uADKbSLJeFdEv23PXulwulJBcSdPFqGq23VnW4JhAqeRlAF1_aI75sm7DW39gwnd4EDAJrIsp_dTPCF5OKsLBysHOALRylsUtYahcfnIa28hg3bNa18CwYlXxPiM4FghP7TDeyoLalPJk0IPthBYk6-1FXpXWo5zHWZZiKN55nBjjesn3WEhZO0pw8muoEU9EO032oVuyHH3lisHeFFrvjueSfhGRr1Bds1oWrx9MwGr9fHSXCkejLYCdbY"/>
+</div>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+<h3 class="text-[#4edea3] font-black text-sm">THE CURATOR</h3>
+<p class="text-[#c0c1ff]/50 text-[10px] uppercase tracking-widest font-label">Automation Specialist</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-4">
+<a class="flex items-center space-x-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="opacity-0 group-hover:opacity-100 font-label text-xs tracking-widest uppercase">Home</span>
+</a>
+<a class="flex items-center space-x-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="opacity-0 group-hover:opacity-100 font-label text-xs tracking-widest uppercase">Projects</span>
+</a>
+<a class="flex items-center space-x-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="opacity-0 group-hover:opacity-100 font-label text-xs tracking-widest uppercase">Resume</span>
+</a>
+<a class="flex items-center space-x-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="opacity-0 group-hover:opacity-100 font-label text-xs tracking-widest uppercase">Lab</span>
+</a>
+<a class="flex items-center space-x-4 p-2 bg-[#151b2d] text-[#4edea3] border-r-4 border-[#4edea3] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+<span class="opacity-0 group-hover:opacity-100 font-label text-xs tracking-widest uppercase">Services</span>
+</a>
+</nav>
+<div class="p-4 border-t border-[#3f4945]/15 space-y-4">
+<a class="flex items-center space-x-4 p-2 text-[#c0c1ff]/50 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="opacity-0 group-hover:opacity-100 font-label text-xs tracking-widest uppercase">Settings</span>
+</a>
+<button class="hidden group-hover:block w-full bg-[#151b2d] border border-[#4edea3]/30 text-[#4edea3] py-2 text-[10px] font-black uppercase tracking-widest rounded-sm">Hire Me</button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-20 pt-24 min-h-screen">
+<!-- Hero Section / Context -->
+<section class="px-8 md:px-20 py-16 max-w-7xl">
+<div class="flex flex-col md:flex-row gap-12 items-start">
+<div class="w-full md:w-2/3">
+<div class="flex items-center space-x-3 mb-6">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_#4edea3]"></div>
+<span class="text-primary font-label text-[10px] uppercase tracking-[0.2em] font-bold">Solutions Architecture</span>
+</div>
+<h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-[-0.04em] text-white leading-none mb-8">
+            The Digital <span class="text-primary text-glow">Curator</span> of Efficient Systems.
+          </h1>
+<p class="text-xl text-on-surface-variant font-body max-w-2xl leading-relaxed">
+            I help high-growth businesses transform chaotic manual processes into lean, automated ecosystems. Orchestrating complexity through precision engineering.
+          </p>
+</div>
+<div class="hidden md:block w-1/3 bg-surface-container-low p-8 rounded-xl border border-outline-variant/15">
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/15 pb-4">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Uptime</span>
+<span class="font-headline text-2xl font-bold text-white">99.98%</span>
+</div>
+<div class="flex justify-between items-end border-b border-outline-variant/15 pb-4">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Avg. ROI</span>
+<span class="font-headline text-2xl font-bold text-white">4.2x</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Efficiency Gain</span>
+<span class="font-headline text-2xl font-bold text-white">~600 hrs/yr</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Section (Bento Grid) -->
+<section class="bg-surface-container-low px-8 md:px-20 py-24">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
+<h2 class="text-3xl md:text-4xl font-headline font-bold text-white tracking-tight">How I Help Businesses Automate</h2>
+<span class="text-on-surface-variant font-label text-sm tracking-tight border-b border-primary/30 pb-1">01 — CORE CAPABILITIES</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+<!-- Card 1: Workflow Optimization -->
+<div class="md:col-span-4 bg-surface-container p-8 rounded-xl border border-outline-variant/10 hover:border-primary/20 transition-all group">
+<div class="flex flex-col h-full justify-between">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="alt_route">alt_route</span>
+<h3 class="text-2xl font-headline font-bold text-white mb-4">Workflow Optimization</h3>
+<p class="text-on-surface-variant leading-relaxed mb-8 max-w-xl">
+                  Auditing existing operations to identify bottlenecks. I design and implement custom logic flows that eliminate redundant tasks and synchronize data across disparate SaaS tools.
+                </p>
+</div>
+<ul class="grid grid-cols-2 gap-4">
+<li class="flex items-center space-x-2 text-xs font-label uppercase tracking-widest text-[#c0c1ff]/70">
+<span class="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+<span>CRM Integration</span>
+</li>
+<li class="flex items-center space-x-2 text-xs font-label uppercase tracking-widest text-[#c0c1ff]/70">
+<span class="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+<span>Auto-Reporting</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Card 2: Custom Software -->
+<div class="md:col-span-2 bg-[#070d1f] p-8 rounded-xl border border-outline-variant/10 group overflow-hidden relative">
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]" data-icon="code">code</span>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="terminal">terminal</span>
+<h3 class="text-2xl font-headline font-bold text-white mb-4">Custom Dev</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+              Bespoke middleware and internal tools built with React, Node, and Python for deep technical control.
+            </p>
+<span class="text-primary font-label text-[10px] tracking-widest uppercase border-b border-primary/40 group-hover:border-primary transition-all cursor-pointer">Explore Tech Stack</span>
+</div>
+<!-- Card 3: Infrastructure -->
+<div class="md:col-span-3 bg-surface-container-high p-8 rounded-xl border border-outline-variant/10 hover:shadow-[0px_20px_40px_rgba(7,13,31,0.4)] transition-all">
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="cloud_done" style="font-variation-settings: 'FILL' 1;">cloud_done</span>
+<h3 class="text-2xl font-headline font-bold text-white mb-4">Infrastructure Automation</h3>
+<p class="text-on-surface-variant leading-relaxed">
+              Implementing IaC (Infrastructure as Code) to ensure your cloud environment is scalable, secure, and self-healing. Zero-touch deployments for modern teams.
+            </p>
+</div>
+<!-- Card 4: Data Visuals -->
+<div class="md:col-span-3 bg-surface-container p-8 rounded-xl border border-outline-variant/10 flex flex-col justify-between">
+<div>
+<h3 class="text-2xl font-headline font-bold text-white mb-2">Technical Consulting</h3>
+<p class="text-on-surface-variant text-sm mb-6">Strategic roadmap planning for digital transformation.</p>
+</div>
+<div class="h-32 w-full bg-surface-container-lowest rounded-lg border border-outline-variant/10 relative overflow-hidden">
+<div class="absolute inset-0 opacity-20 flex items-center justify-center">
+<div class="w-full h-[1px] bg-primary absolute" style="top: 25%"></div>
+<div class="w-full h-[1px] bg-primary absolute" style="top: 50%"></div>
+<div class="w-full h-[1px] bg-primary absolute" style="top: 75%"></div>
+<div class="h-full w-[1px] bg-primary absolute" style="left: 33%"></div>
+<div class="h-full w-[1px] bg-primary absolute" style="left: 66%"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 flex items-end space-x-2 h-16">
+<div class="w-full bg-primary/20 h-1/2 rounded-t-sm"></div>
+<div class="w-full bg-primary/40 h-3/4 rounded-t-sm"></div>
+<div class="w-full bg-primary h-full rounded-t-sm"></div>
+<div class="w-full bg-primary/60 h-2/3 rounded-t-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Case Studies Section -->
+<section class="px-8 md:px-20 py-24 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-4">
+<h2 class="text-3xl md:text-4xl font-headline font-bold text-white tracking-tight">Case Studies &amp; Validation</h2>
+<span class="text-on-surface-variant font-label text-sm tracking-tight border-b border-primary/30 pb-1">02 — PROVEN IMPACT</span>
+</div>
+<div class="space-y-12">
+<!-- Project 1 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center group">
+<div class="md:col-span-5 aspect-video bg-surface-container rounded-xl overflow-hidden order-2 md:order-1">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="Screenshot of a complex technical dashboard with glowing green charts and data visualizations on a dark interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4YqxlZMOVln9UkQdaK4q0rz_-SiNR0ErjgJCzHLOLUGu3IYoXYrutmP5KFb7cAtwcXTAZMiqQg2qhVNaUOnV4oQrdjjKL6XRS1M7QPJAvlMzu7_T3Wl3T1SV9W6ZT4yaEyEitmAU366_l85TnpvMo9U6D3UR4UsieWU3sGkx0E7le-Pwu9xe4_aYn99EdZMHIRi3jA1IJoeidT3vDYJ_4JV8K2tJQdPIqbfDGoSf7gptSitaiOkalI0nWyhrX-5K84xfsSAZpN7Q"/>
+</div>
+<div class="md:col-span-7 order-1 md:order-2">
+<div class="flex items-center space-x-4 mb-4">
+<span class="text-xs font-label uppercase tracking-widest text-primary font-bold">FinTech</span>
+<span class="text-on-surface-variant text-sm">•</span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Architecture Audit</span>
+</div>
+<h3 class="text-3xl font-headline font-bold text-white mb-4 group-hover:text-primary transition-colors">Project: Obsidian Gateway</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">
+              Rebuilt a legacy data ingestion engine for a Series B fintech firm, resulting in a 70% reduction in processing latency and $45k annual cloud savings.
+            </p>
+<a class="inline-flex items-center text-primary font-bold tracking-tight hover:translate-x-2 transition-transform" href="#">
+              View Detailed Breakdown <span class="material-symbols-outlined ml-2" data-icon="arrow_right_alt">arrow_right_alt</span>
+</a>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center group">
+<div class="md:col-span-7">
+<div class="flex items-center space-x-4 mb-4">
+<span class="text-xs font-label uppercase tracking-widest text-primary font-bold">E-Commerce</span>
+<span class="text-on-surface-variant text-sm">•</span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Logistics Automation</span>
+</div>
+<h3 class="text-3xl font-headline font-bold text-white mb-4 group-hover:text-primary transition-colors">The Fulfillment Core</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">
+              Automated multi-channel inventory management and shipping label generation, handling over 10,000 SKUs with 0.01% error rate.
+            </p>
+<a class="inline-flex items-center text-primary font-bold tracking-tight hover:translate-x-2 transition-transform" href="#">
+              View Technical Specs <span class="material-symbols-outlined ml-2" data-icon="arrow_right_alt">arrow_right_alt</span>
+</a>
+</div>
+<div class="md:col-span-5 aspect-video bg-surface-container rounded-xl overflow-hidden">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="Overhead view of a modern automated warehouse with robotics and orange glowing light trails on the floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPYW6zZPx_KyZiaVEh4s9Wx9aot4BkrETWnbzrqTXVGNk68oGbLsyJFSuEDazafDA4Dog2hxPx60KpyybX2XsQLGYqGNu_x-HCGJm7WwNldF6ESg6GRGdKH3s67DOsS9AGfogsMafmXIdXn-X0AlxOHYOogAntTYyGFDuY48Wy4s8tdLVzNe6_TEzWcUmx8H-VBOUpEdxXtwREbPxqumIxG-1BX161WSBwEn0JkWttn6ejlR29RRBapyfNJrD3Pxb43cilAlTfC8I"/>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="px-8 md:px-20 py-32">
+<div class="max-w-4xl mx-auto bg-gradient-to-br from-surface-container to-surface-container-low p-12 md:p-20 rounded-[2rem] border border-outline-variant/20 text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+<h2 class="text-4xl md:text-6xl font-headline font-extrabold text-white mb-8 tracking-tighter">Ready to <span class="italic font-normal">optimize</span>?</h2>
+<p class="text-on-surface-variant text-lg mb-12 max-w-xl mx-auto leading-relaxed font-body">
+          Schedule a 30-minute technical audit. We'll map your current architecture and identify the highest ROI automation opportunities.
+        </p>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<button class="w-full md:w-auto px-10 py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-lg hover:scale-105 transition-all shadow-[0_0_30px_rgba(78,222,163,0.2)]">
+            Schedule a Consultation
+          </button>
+<button class="w-full md:w-auto px-10 py-5 bg-transparent border border-outline-variant/30 text-white font-bold rounded-lg hover:bg-surface-container-highest transition-all">
+            View Pricing Guide
+          </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-[#070d1f] w-full border-t border-[#3f4945]/15">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full max-w-7xl mx-auto">
+<div class="flex flex-col items-center md:items-start mb-8 md:mb-0">
+<span class="text-[#4edea3] font-mono text-xl mb-2">THE DIGITAL CURATOR</span>
+<p class="text-[#c0c1ff]/60 font-inter text-sm leading-relaxed">© 2024 The Digital Curator. Built for precision.</p>
+</div>
+<div class="flex space-x-8 font-inter text-sm">
+<a class="text-[#c0c1ff]/60 hover:text-[#4edea3] hover:translate-x-1 duration-200 transition-all" href="#">LinkedIn</a>
+<a class="text-[#c0c1ff]/60 hover:text-[#4edea3] hover:translate-x-1 duration-200 transition-all" href="#">GitHub</a>
+<a class="text-[#c0c1ff]/60 hover:text-[#4edea3] hover:translate-x-1 duration-200 transition-all" href="#">Twitter</a>
+<a class="text-[#c0c1ff]/60 hover:text-[#4edea3] hover:translate-x-1 duration-200 transition-all" href="#">Documentation</a>
+</div>
+</div>
+</footer>
+</body></html>

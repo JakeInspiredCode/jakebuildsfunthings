@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Curator | Senior Automation Specialist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#3f4945",
+              "outline": "#89938f",
+              "inverse-surface": "#dce1fb",
+              "on-error-container": "#ffdad6",
+              "primary-container": "#004e34",
+              "on-primary-fixed-variant": "#005236",
+              "surface-tint": "#4edea3",
+              "inverse-primary": "#006c49",
+              "error": "#ffb4ab",
+              "on-error": "#690005",
+              "surface-container": "#191f31",
+              "on-tertiary-fixed": "#07006c",
+              "surface-variant": "#2e3447",
+              "on-primary-fixed": "#002113",
+              "tertiary-fixed": "#e1e0ff",
+              "on-secondary-fixed": "#131b2e",
+              "on-surface-variant": "#bfc9c4",
+              "secondary-fixed-dim": "#bec6e0",
+              "tertiary-fixed-dim": "#c0c1ff",
+              "on-primary-container": "#2fc88e",
+              "error-container": "#93000a",
+              "on-secondary-container": "#adb4ce",
+              "inverse-on-surface": "#2a3043",
+              "surface-container-highest": "#2e3447",
+              "surface": "#0c1324",
+              "surface-bright": "#33394c",
+              "on-surface": "#dce1fb",
+              "primary": "#4edea3",
+              "on-tertiary-fixed-variant": "#2f2ebe",
+              "surface-dim": "#0c1324",
+              "secondary": "#bec6e0",
+              "on-background": "#dce1fb",
+              "secondary-container": "#3f465c",
+              "primary-fixed": "#6ffbbe",
+              "tertiary": "#c0c1ff",
+              "on-tertiary-container": "#a7a9ff",
+              "surface-container-high": "#23293c",
+              "primary-fixed-dim": "#4edea3",
+              "on-secondary-fixed-variant": "#3f465c",
+              "surface-container-low": "#151b2d",
+              "on-primary": "#003824",
+              "surface-container-lowest": "#070d1f",
+              "secondary-fixed": "#dae2fd",
+              "on-tertiary": "#1000a9",
+              "background": "#0c1324",
+              "on-secondary": "#283044",
+              "tertiary-container": "#2b29bb"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(46, 52, 71, 0.4);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(78, 222, 163, 0.1);
+      }
+      .automation-pulse {
+        box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.4);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(78, 222, 163, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0); }
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#191f31]/80 backdrop-blur-xl shadow-[0px_20px_40px_rgba(7,13,31,0.4)] flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tighter text-white font-headline">
+            Architect Portfolio
+        </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-manrope tracking-tight text-sm font-medium text-[#4edea3] border-b-2 border-[#4edea3] pb-1" href="#">Projects</a>
+<a class="font-manrope tracking-tight text-sm font-medium text-[#c0c1ff]/70 hover:text-white transition-colors" href="#">Resume</a>
+<a class="font-manrope tracking-tight text-sm font-medium text-[#c0c1ff]/70 hover:text-white transition-colors" href="#">The Lab</a>
+<a class="font-manrope tracking-tight text-sm font-medium text-[#c0c1ff]/70 hover:text-white transition-colors" href="#">Services</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-manrope tracking-tight text-sm font-medium text-white px-4 py-2 hover:bg-[#23293c] rounded-md transition-all active:scale-95 duration-200">
+                Contact
+            </button>
+<span class="material-symbols-outlined text-[#4edea3] cursor-pointer" data-icon="terminal">terminal</span>
+</div>
+</nav>
+<!-- Side Navigation Bar (Hidden on Mobile) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 bg-[#0c1324] h-full w-20 hover:w-64 transition-all duration-300 border-r border-[#3f4945]/15 group overflow-hidden hidden md:flex">
+<div class="flex flex-col items-center group-hover:items-start p-6 gap-8 h-full">
+<div class="text-[#4edea3] font-black tracking-tighter text-2xl">TC</div>
+<div class="flex flex-col gap-6 w-full">
+<div class="flex items-center gap-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Home</span>
+</div>
+<div class="flex items-center gap-4 p-2 bg-[#151b2d] text-[#4edea3] border-r-4 border-[#4edea3] transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-inter text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Projects</span>
+</div>
+<div class="flex items-center gap-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-inter text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Resume</span>
+</div>
+<div class="flex items-center gap-4 p-2 text-[#c0c1ff]/50 hover:text-white hover:bg-[#191f31] rounded transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-inter text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Lab</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-4 w-full">
+<div class="flex items-center gap-4 p-2 text-[#c0c1ff]/50 hover:text-white transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Settings</span>
+</div>
+<div class="bg-primary text-on-primary px-4 py-3 rounded text-center font-bold text-xs uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">
+                    Hire Me
+                </div>
+</div>
+</div>
+</aside>
+<main class="min-h-screen pt-24 md:pl-20">
+<!-- Hero Section -->
+<section class="relative px-8 md:px-20 py-20 flex flex-col lg:flex-row items-center gap-16 overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -mr-64 -mt-64"></div>
+<div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-tertiary/5 blur-[100px] rounded-full -ml-32 -mb-32"></div>
+<!-- Content Area -->
+<div class="flex-1 z-10 max-w-2xl">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-2 h-2 rounded-full bg-primary automation-pulse"></div>
+<span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant font-semibold">System Operational // Senior Architect</span>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tight leading-[0.95] text-on-surface mb-8">
+                    Engineering Efficiency: <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-br from-primary to-primary-container">High-Grade Automation</span> <br/>
+                    for the Modern Business.
+                </h1>
+<p class="font-body text-lg md:text-xl text-on-surface-variant leading-relaxed max-w-xl mb-12">
+                    A curated collection of over 20 projects, deep-dive technical insights, and a vision for the future of work.
+                </p>
+<div class="flex flex-col sm:flex-row gap-6">
+<button class="px-8 py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform flex items-center justify-center gap-3">
+                        Explore My Projects
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="px-8 py-4 border border-outline-variant/20 hover:bg-surface-container-highest transition-all rounded-lg font-bold flex items-center justify-center gap-3">
+                        Let's Chat
+                        <span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+<div class="mt-16 grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-outline-variant/10 pt-12">
+<div>
+<div class="font-headline text-3xl font-bold text-white mb-1">20+</div>
+<div class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Active Clusters</div>
+</div>
+<div>
+<div class="font-headline text-3xl font-bold text-white mb-1">99.9%</div>
+<div class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Uptime Precision</div>
+</div>
+<div>
+<div class="font-headline text-3xl font-bold text-white mb-1">500k+</div>
+<div class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Events / Hour</div>
+</div>
+</div>
+</div>
+<!-- Hero Visual Area -->
+<div class="flex-1 relative w-full lg:w-auto flex justify-center">
+<div class="relative w-full max-w-[500px] aspect-square group">
+<!-- Glassmorphic Card representing Automation/Precision -->
+<div class="glass-panel absolute inset-0 rounded-[2rem] p-8 flex flex-col justify-between shadow-2xl overflow-hidden">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl"></div>
+<div class="flex justify-between items-start">
+<div class="p-4 bg-surface-container-highest rounded-xl border border-outline-variant/30">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="hub">hub</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label text-[10px] uppercase tracking-widest text-primary/70">Load State</span>
+<span class="font-headline text-xl font-bold text-white">NOMINAL</span>
+</div>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-mono text-on-surface-variant">
+<span>Core_Engine.v2</span>
+<span>72%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[72%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-mono text-on-surface-variant">
+<span>Sync_Rate</span>
+<span>94%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[94%]"></div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-lowest/50 rounded-xl border border-outline-variant/10 font-mono text-[10px] text-primary/60 leading-relaxed">
+                            &gt; initializing_cluster_04<br/>
+                            &gt; checking_parity_integrity... OK<br/>
+                            &gt; optimizing_workload_distribution
+                        </div>
+</div>
+<!-- Decorative elements -->
+<div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border-2 border-primary/5 rounded-full rotate-12"></div>
+<div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-tertiary/5 rounded-full -rotate-45"></div>
+<!-- 3D style image placeholder -->
+<div class="absolute -right-8 -bottom-8 w-48 h-48 rounded-2xl overflow-hidden shadow-2xl border-4 border-surface rotate-6">
+<img alt="Automation Abstract" class="w-full h-full object-cover" data-alt="abstract 3d mathematical fractal mesh in glowing emerald and deep navy light representing complex digital systems" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMHMIUbDbG5BcQKckJMP1xTBbZmiOgSjE4XwsTKBHEmceGIHhMEkN9vNr3imz8gDHlSRebB1Dxnhu3dPvC47Ws65k9P8fwZDEpHQ0Vgz4jOER7C3GEMVOIzEBPAXsDUfWjBxGMxbGT-tRSHhtNicHqYkaORiI0RO-7PYejcEiX_D7d-GMQQ8oOMEDa2uPZwzIUcPHxHJn1RDN1Olsani4PiOPfPuMjCciSuxS6yi_BX1mnfF3hErWZLYzXUCvc2gEzkJ7S4vR2Mzk"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid Preview Section -->
+<section class="px-8 md:px-20 py-24 bg-surface-container-low">
+<div class="mb-16">
+<h2 class="font-headline text-3xl font-bold mb-4">Precision Layers</h2>
+<div class="w-12 h-1 bg-primary"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-2 md:row-span-2 glass-panel p-8 rounded-full border border-outline-variant/10 flex flex-col justify-end min-h-[400px] relative overflow-hidden group">
+<img alt="Tech Base" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="ultra modern high tech server room with green glowing cable management and metallic surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAICJoZkKVBeiVrf6ZNq2hh7KeDPYL-rOyLH3Tw61DgEASOVvvb55d0-LNWHn_nPfgV1W9HJNlUD8cmQp02B0ryw1hXb9e5tmdoTfyup8X63gfsexAuMbV7a4eaiS9OaapgBS3yURJ65_j72-O8UTG9RDBS5r0WHG2yWkTClTnsNQDYb4szIXEljxWgOj8ymqU2B7xWRxHg374hFxBUFM46VBk4TWB49eS-ahlK0sRZkbioVoSZ2f7AAtilMeOuXOBSkkfmFCkwbwE"/>
+<div class="z-10">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="architecture">architecture</span>
+<h3 class="font-headline text-2xl font-bold mb-2">Systems Architecture</h3>
+<p class="text-on-surface-variant text-sm max-w-xs">Building resilient, self-healing infrastructures for enterprise-grade deployments.</p>
+</div>
+</div>
+<div class="md:col-span-1 glass-panel p-8 rounded-full border border-outline-variant/10 group hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-tertiary mb-4 block" data-icon="monitoring">monitoring</span>
+<h3 class="font-headline text-lg font-bold mb-2">Observability</h3>
+<p class="text-on-surface-variant text-xs">Real-time telemetry and predictive analytics.</p>
+</div>
+<div class="md:col-span-1 glass-panel p-8 rounded-full border border-outline-variant/10 group hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="security">security</span>
+<h3 class="font-headline text-lg font-bold mb-2">SecOps</h3>
+<p class="text-on-surface-variant text-xs">Automated threat detection and containment.</p>
+</div>
+<div class="md:col-span-2 glass-panel p-8 rounded-full border border-outline-variant/10 flex items-center justify-between group hover:bg-surface-container transition-colors">
+<div class="max-w-[200px]">
+<h3 class="font-headline text-xl font-bold mb-2">Custom Tooling</h3>
+<p class="text-on-surface-variant text-sm">Proprietary CLI tools developed for rapid infrastructure orchestration.</p>
+</div>
+<span class="material-symbols-outlined text-4xl text-[#c0c1ff]/30 group-hover:text-tertiary transition-colors" data-icon="terminal">terminal</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#070d1f] w-full border-t border-[#3f4945]/15 flex flex-col md:flex-row justify-between items-center px-12 py-10 w-full mt-20">
+<div class="flex flex-col gap-2 mb-8 md:mb-0">
+<div class="text-[#4edea3] font-mono font-bold text-lg tracking-tighter">THE DIGITAL CURATOR</div>
+<div class="font-inter text-sm leading-relaxed text-[#c0c1ff]/60">© 2024 The Digital Curator. Built for precision.</div>
+</div>
+<div class="flex flex-wrap justify-center gap-12">
+<div class="flex flex-col gap-3">
+<span class="font-inter text-xs tracking-widest uppercase text-white/40">Connect</span>
+<a class="font-inter text-sm text-[#c0c1ff]/60 hover:text-[#4edea3] transition-colors hover:translate-x-1 duration-200" href="#">LinkedIn</a>
+<a class="font-inter text-sm text-[#c0c1ff]/60 hover:text-[#4edea3] transition-colors hover:translate-x-1 duration-200" href="#">GitHub</a>
+<a class="font-inter text-sm text-[#c0c1ff]/60 hover:text-[#4edea3] transition-colors hover:translate-x-1 duration-200" href="#">Twitter</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-inter text-xs tracking-widest uppercase text-white/40">Resources</span>
+<a class="font-inter text-sm text-[#c0c1ff]/60 hover:text-[#4edea3] transition-colors hover:translate-x-1 duration-200" href="#">Documentation</a>
+<a class="font-inter text-sm text-[#c0c1ff]/60 hover:text-[#4edea3] transition-colors hover:translate-x-1 duration-200" href="#">The Lab</a>
+<a class="font-inter text-sm text-[#c0c1ff]/60 hover:text-[#4edea3] transition-colors hover:translate-x-1 duration-200" href="#">Hire Me</a>
+</div>
+</div>
+</footer>
+</body></html>
