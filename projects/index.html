@@ -3,8 +3,8 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Projects | Jacob Sumsion</title>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -16,8 +16,8 @@
               brand: {
                 midnight: "#0b1326",
                 surface: "#131b2e",
-                accent: "#44d8f1", // Vibrant Teal
-                status: "#ffb4a5", // Terracotta
+                accent: "#44d8f1",
+                status: "#ffb4a5",
                 muted: "#c6c5d4"
               }
             },
@@ -35,225 +35,405 @@
 <style>
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        display: inline-block;
-        line-height: 1;
-        text-transform: none;
-        letter-spacing: normal;
-        word-wrap: normal;
-        white-space: nowrap;
-        direction: ltr;
-      }
-      .tonal-transition-no-border {
-        background: linear-gradient(to bottom, rgba(11, 19, 38, 0.8), rgba(11, 19, 38, 0.6));
+        display: inline-block; line-height: 1; text-transform: none; letter-spacing: normal; word-wrap: normal; white-space: nowrap; direction: ltr;
       }
       .glass-card {
         background: rgba(19, 27, 46, 0.7);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(68, 216, 241, 0.1);
       }
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #0b1326;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #222a3d;
-        border-radius: 10px;
-      }
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: #0b1326; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #222a3d; border-radius: 10px; }
+      .filter-btn.active { background: rgba(68, 216, 241, 0.1); color: #44d8f1; border-color: rgba(68, 216, 241, 0.2); }
+      .project-card { transition: all 0.3s ease; }
+      .project-card.hidden-by-filter { display: none; }
     </style>
 </head>
 <body class="bg-[#0b1326] text-[#c6c5d4] font-body selection:bg-[#44d8f1] selection:text-[#0b1326] custom-scrollbar">
-<!-- TopNavBar Shell -->
-<nav class="fixed top-0 w-full z-50 bg-[#0b1326]/60 backdrop-blur-xl flex justify-between items-center px-8 h-20 w-full shadow-[0_24px_48px_rgba(6,14,32,0.4)]">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0b1326]/60 backdrop-blur-xl flex justify-between items-center px-8 h-20 shadow-[0_24px_48px_rgba(6,14,32,0.4)]">
 <div class="text-xl font-bold tracking-tighter text-[#44d8f1] font-['Manrope']">Jakebuildsfunthings.com</div>
 <div class="hidden md:flex items-center gap-8 font-['Manrope'] tracking-tight">
-<a class="text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1 hover:text-[#44d8f1] transition-all duration-300" href="#">Projects</a>
-<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="#">Resume</a>
-<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="#">The Lab</a>
-<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="#">Services</a>
+<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/">Experience</a>
+<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/resume">Resume</a>
+<a class="text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/projects">Projects</a>
 </div>
-<button class="bg-[#44d8f1] text-[#0b1326] px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all duration-300 cubic-bezier(0.16,1,0.3,1)">
-            Contact
-        </button>
+<a href="mailto:jacob.sumsion@gmail.com" class="bg-[#44d8f1] text-[#0b1326] px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all duration-300">Contact</a>
 </nav>
-<!-- SideNavBar (Desktop Only) -->
-<aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex flex-col items-center py-8 gap-8 bg-[#0b1326] z-40 bg-[#131b2e]">
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex-col items-center py-8 gap-8 bg-[#131b2e] z-40">
 <div class="text-lg font-black text-[#44d8f1] font-['Manrope'] mb-8">J</div>
 <div class="flex flex-col gap-10">
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#44d8f1] font-bold" data-icon="folder_open" style="font-variation-settings: 'FILL' 1;">folder_open</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#44d8f1]">Projects</span>
-</div>
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors" data-icon="description">description</span>
+<a href="/" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">sensors</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Experience</span>
+</a>
+<a href="/resume" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">description</span>
 <span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Resume</span>
-</div>
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors" data-icon="science">science</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">The Lab</span>
-</div>
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors" data-icon="layers">layers</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Services</span>
-</div>
+</a>
+<a href="/projects" class="flex flex-col items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[#44d8f1] font-bold" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#44d8f1]">Projects</span>
+</a>
+<a href="mailto:jacob.sumsion@gmail.com" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">mail</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Contact</span>
+</a>
 </div>
 </aside>
-<!-- Main Content Canvas -->
+<!-- Main Content -->
 <main class="md:pl-20 pt-20 min-h-screen">
-<!-- Header & Filter Section -->
 <header class="max-w-7xl mx-auto px-8 py-16">
 <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
 <div class="max-w-2xl">
 <h1 class="text-5xl font-extrabold text-[#44d8f1] font-headline tracking-tighter mb-4">Project Index</h1>
 <p class="text-xl text-[#c6c5d4] leading-relaxed">
-                        A digital manifesto of experiments, failures, and resilient engineering. Every line of code is a step toward human-centric technological excellence.
+                        18 projects across AI agents, security research, full-stack applications, and published iOS apps. Every line of code is a step toward human-centric technological excellence.
                     </p>
 </div>
-<div class="flex flex-wrap gap-3">
-<span class="px-4 py-1 rounded-full bg-[#44d8f1]/10 text-[#44d8f1] text-xs font-bold uppercase tracking-widest border border-[#44d8f1]/20">All Projects</span>
-<span class="px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Artificial Intelligence</span>
-<span class="px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Data Visualization</span>
-<span class="px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Web Architecture</span>
+<div class="flex flex-wrap gap-3" id="filter-tabs">
+<button onclick="filterProjects('all')" class="filter-btn active px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-[#222a3d] transition-all cursor-pointer">All Projects</button>
+<button onclick="filterProjects('ai')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">AI &amp; Agents</button>
+<button onclick="filterProjects('security')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Security</button>
+<button onclick="filterProjects('fullstack')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Full-Stack</button>
+<button onclick="filterProjects('ios')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">iOS Apps</button>
 </div>
 </div>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<!-- Featured Project Large -->
-<div class="md:col-span-8 group relative overflow-hidden rounded-xl glass-card transition-all duration-500 hover:shadow-[0_0_50px_rgba(68,216,241,0.15)]">
-<div class="h-[400px] w-full overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" data-alt="ultra-modern dark interface showing complex data visualization with neon teal lines and holographic depth on midnight blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0ri6hcQNegZhL-F44PJJh9-GJRe88Cub-b3KXTyz_x2A46Mcna8gWCA1g9FmmkEu4dmTktiEzvW3PtS7ivXmYcDEoJysh9YJfNZAF8erC7zULJQ7fpJQZe9RS5aiJZsApFeP170MPg_pGYGZPcfjEQt8yr_-B7EApuHuDK_OYO2Yv9TlHB060VUXAw3BYuaIt0oNIFjADMbKvXGfQ56LYCBlB_5AMh69KXsZ71OaaHYu6nH1w4G_0yYeKu6EJRSFOVwa6H483Br8"/>
+
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6" id="projects-grid">
+
+<!-- FEATURED: Cog-0 -->
+<div class="md:col-span-8 project-card group relative overflow-hidden rounded-xl glass-card transition-all duration-500 hover:shadow-[0_0_50px_rgba(68,216,241,0.15)]" data-category="ai fullstack">
+<div class="h-[400px] w-full overflow-hidden bg-gradient-to-br from-[#131b2e] via-[#0b1326] to-[#131b2e] flex items-center justify-center relative">
+<div class="font-mono text-[#44d8f1]/10 text-[120px] font-black select-none leading-none">COG-0</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-transparent to-transparent"></div>
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-[#0b1326]/40 to-transparent p-8 flex flex-col justify-end">
 <div class="flex gap-3 mb-4">
-<span class="bg-[#ffb4a5] text-[#0b1326] px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-tighter">Excellence</span>
+<span class="bg-[#ffb4a5] text-[#0b1326] px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-tighter">Flagship</span>
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Next.js</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Claude Agent SDK</span>
 </div>
-<h3 class="text-3xl font-bold text-white mb-2 font-headline">Neural Ledger v2.0</h3>
-<p class="text-[#c6c5d4] max-w-lg mb-6 line-clamp-2">Autonomous financial tracking utilizing decentralized neural nodes for real-time risk assessment and liquidity forecasting.</p>
-<button class="flex items-center gap-2 text-[#44d8f1] font-bold tracking-tight group/btn">
-                            Explore Projects 
-                            <span class="material-symbols-outlined group-hover/btn:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
-</button>
+<h3 class="text-3xl font-bold text-white mb-2 font-headline">Cog-0 — Agentic Operating System</h3>
+<p class="text-[#c6c5d4] max-w-lg mb-4 line-clamp-3">An agentic OS organized around Control, Observability, and Governance. Features Carina Nova — a governed multi-agent creation pipeline where creation, verification, and governance are structurally separated across multiple models.</p>
+<div class="flex gap-2">
+<span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Convex</span>
+<span class="text-[10px] text-[#c6c5d4]/60">|</span>
+<span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">React Flow</span>
+<span class="text-[10px] text-[#c6c5d4]/60">|</span>
+<span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Multi-Model AI</span>
 </div>
 </div>
-<!-- Secondary Project -->
-<div class="md:col-span-4 group flex flex-col rounded-xl glass-card overflow-hidden">
-<div class="h-48 w-full overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="abstract geometric structures made of glass and glowing teal light, floating in a dark void with subtle particle effects" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4Fz6ziYpHuUwDbca7POD7T0sMn-rREnqawWAQeFa1kF6rTGvK0FXvsZjstCLHdyi74CVvViRL305UYgv0nq5r41fOgLi8mlS9umRc9pjgw4GjSN0fR5jXwVcurqGg2daBzyEIWPVR4I0biZJYJDzS4kB075GLAaR2pdja2qLUlLoup8WAVRYOZmmzXC7pdvMMJkoKZBeV-SYcXJn4qJwolFUxKImSgcB-ulk0lgAuvDj24u_JnC7wDWAefn3cxisYUKGq10kQGp0"/>
+</div>
+
+<!-- SECONDARY: Agentic SOC -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security ai">
+<div class="h-48 w-full overflow-hidden bg-gradient-to-br from-[#ffb4a5]/10 via-[#131b2e] to-[#44d8f1]/10 flex items-center justify-center">
+<div class="font-mono text-[#ffb4a5]/20 text-[60px] font-black select-none">SOC</div>
 </div>
 <div class="p-6 flex flex-col h-full">
 <div class="flex justify-between items-start mb-4">
-<span class="bg-[#44d8f1]/10 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold">TYPESCRIPT</span>
-<span class="material-symbols-outlined text-[#ffb4a5] text-xl" data-icon="military_tech" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="bg-[#44d8f1]/10 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold">LANGGRAPH</span>
+<span class="material-symbols-outlined text-[#ffb4a5] text-xl" style="font-variation-settings: 'FILL' 1;">military_tech</span>
 </div>
-<h4 class="text-xl font-bold text-white mb-2">SynthNodes</h4>
-<p class="text-sm text-[#c6c5d4] mb-8">A resilient distributed system for low-latency edge computing across global networks.</p>
-<div class="mt-auto">
-<button class="w-full py-3 rounded-lg border border-[#44d8f1]/30 text-[#44d8f1] font-bold text-sm hover:bg-[#44d8f1]/10 transition-colors">
-                                Explore Projects
-                            </button>
-</div>
+<h4 class="text-xl font-bold text-white mb-2">Agentic SOC Proof of Concept</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Multi-agent system simulating three-phase attack chains against GKE/ML infrastructure. Five AI agents, 47-second MTTR.</p>
+<div class="mt-auto flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#44d8f1] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#44d8f1] uppercase">Demonstrated in Interview</span>
 </div>
 </div>
-<!-- Grid Item 3 -->
-<div class="md:col-span-4 group flex flex-col rounded-xl glass-card overflow-hidden">
+</div>
+
+<!-- L1NX Forge -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai fullstack">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
-<span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">RESILIENCE</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">NEXT.JS</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
-<h4 class="text-xl font-bold text-white mb-2">Protocol Zero</h4>
-<p class="text-sm text-[#c6c5d4] mb-6">Self-healing security layer for vulnerable legacy infrastructures during migration phases.</p>
-<div class="flex items-center gap-2 mb-6">
+<h4 class="text-xl font-bold text-white mb-2">L1NX Forge — Interview Prep Engine</h4>
+<p class="text-sm text-[#c6c5d4] mb-6">Full-stack spaced-repetition app with SM-2 algorithm, four-tier progression, mock interview simulator, and AI coaching agent.</p>
+<div class="flex items-center gap-2">
 <span class="w-2 h-2 rounded-full bg-[#44d8f1] animate-pulse"></span>
-<span class="text-[10px] font-bold text-[#44d8f1] uppercase">Live Deployment</span>
-</div>
-<button class="text-sm font-bold text-[#c6c5d4] hover:text-[#44d8f1] transition-colors">Details</button>
+<span class="text-[10px] font-bold text-[#44d8f1] uppercase">Live</span>
 </div>
 </div>
-<!-- Grid Item 4 - Wide -->
-<div class="md:col-span-8 group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 flex items-center gap-8 overflow-hidden">
+</div>
+
+<!-- Life Command Center -->
+<div class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 flex items-center gap-8 overflow-hidden" data-category="ai fullstack">
 <div class="relative z-10 flex-1">
-<h4 class="text-2xl font-bold text-white mb-4">The Lab: Experimental Shaders</h4>
-<p class="text-[#c6c5d4] mb-6">Pushing the boundaries of WebGL with custom fragment shaders and reactive particle physics.</p>
-<button class="px-8 py-3 bg-[#44d8f1] text-[#0b1326] rounded-full font-bold text-sm active:scale-95 transition-all">
-                            Explore Projects
-                        </button>
+<div class="flex gap-2 mb-4">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">MULTI-LLM</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
-<div class="hidden md:block relative w-1/3 aspect-square opacity-50">
-<img class="rounded-full object-cover w-full h-full border-4 border-[#44d8f1]/20" data-alt="macro close-up of iridescent fluid ripples with tiny glowing teal specs and deep indigo shadows, 8k resolution macro photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-E0rzbPveDMkoNvcP4yEoKwDLLMLu3NVrC0Y5GuURkBriBg8pWXQ90DBQNYY_0_7BaeD4SxZQtAP3jcBZNS3vwa2NDqGy4TTXw-BAjvBMr0OZ2WF2TUtQYTEnd79Cw0OY7kFYQo-zTzLLZnoT_7CR34JesRtveUmtPWW_6rhenGtxcTe9_p-OeV2sp0VA65O0B3PWQLsu30TB9K-128uKXKgB_5jAEnu8I_zIK_dodEyXY4M1KFmrq92waR9wBElHg1xcyJSxnGI"/>
+<h4 class="text-2xl font-bold text-white mb-4">Life Command Center</h4>
+<p class="text-[#c6c5d4] mb-4">Personal operating system dashboard unifying projects, health, and AI workflows. Multi-LLM orchestration with cost tracking across providers. Houses H3iwa and Atlas AI agents.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#44d8f1] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#44d8f1] uppercase">Live — Shared Convex Deployment with L1NX Forge</span>
 </div>
-<!-- Background Decoration -->
+</div>
 <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-[#44d8f1]/5 rounded-full blur-3xl"></div>
 </div>
-<!-- Technical Specs Row -->
+
+<!-- Stats Row -->
 <div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Efficiency</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">99.8<span class="text-[#44d8f1]">%</span></div>
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Projects</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">18</div>
 </div>
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Resilience Score</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">A<span class="text-[#44d8f1]">+</span></div>
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Published iOS Apps</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">3</div>
 </div>
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Commits</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">1.2<span class="text-[#44d8f1]">k</span></div>
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Active Certifications</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">8</div>
 </div>
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Active Labs</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">04</div>
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">AI Agent Systems</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">5</div>
+</div>
+</div>
+
+<!-- AI Agent Safety Framework -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">SECURITY</span></div>
+<h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Framework</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Interactive JSX presentation covering agentic AI security. Three structural layers, nine control domains, backed by 6 security frameworks.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">React | JSX | Interactive</div>
+</div>
+</div>
+
+<!-- AI Agent Safety Checklist -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">WHITE PAPER</span></div>
+<h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Checklist</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Pre-deployment validation checklist for agentic AI. 37 checks across nine control domains and three structural layers with framework traceability.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Publishable Governance Artifact</div>
+</div>
+</div>
+
+<!-- Agentic Pipeline -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">AI PIPELINES</span></div>
+<h4 class="text-xl font-bold text-white mb-2">Agentic Pipeline Product</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Multi-step AI workflow orchestration with security controls applied at each pipeline stage. Understanding attack surfaces from the builder's perspective.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Multi-Agent Orchestration</div>
+</div>
+</div>
+
+<!-- Agentic Arbiter -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">AI GOVERNANCE</span></div>
+<h4 class="text-xl font-bold text-white mb-2">Agentic Arbiter Project</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Arbitration and oversight mechanisms for multi-agent systems. Decision validation, conflict resolution, and safety verification.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Inter-Agent Trust Boundaries</div>
+</div>
+</div>
+
+<!-- Agentic Governance -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">AI GOVERNANCE</span>
+<span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">IN PROGRESS</span>
+</div>
+<h4 class="text-xl font-bold text-white mb-2">Agentic Governance Product</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Comprehensive governance product implementing safety controls from the checklist and framework as working software.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#ffb4a5] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#ffb4a5] uppercase">In Development</span>
 </div>
 </div>
 </div>
+
+<!-- GCP Security Lab -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">TERRAFORM</span></div>
+<h4 class="text-xl font-bold text-white mb-2">GCP Security Lab</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Cost-minimal GCP lab for hands-on security testing in GKE-based ML infrastructure. 6-sprint Terraform IaC project.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GKE | GCP | Terraform</div>
+</div>
+</div>
+
+<!-- Three-Pillar Study Guide -->
+<div class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 overflow-hidden" data-category="security">
+<div class="relative z-10">
+<div class="flex gap-2 mb-4"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">RESEARCH</span></div>
+<h4 class="text-2xl font-bold text-white mb-4">Three-Pillar Study Guide Suite</h4>
+<p class="text-[#c6c5d4] mb-4">Interactive HTML study guides covering SOC/MDR, Enterprise Controls, and Product Security. Includes cross-pillar connections and CISO interview strategy.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">HTML | Interactive | 5 Interconnected Guides</div>
+</div>
+<div class="absolute -right-20 -bottom-20 w-48 h-48 bg-[#ffb4a5]/5 rounded-full blur-3xl"></div>
+</div>
+
+<!-- Alignment -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="fullstack">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">SWIFTUI</span>
+</div>
+<h4 class="text-xl font-bold text-white mb-2">Alignment — Values Discovery Tool</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Multi-platform tool (React web + SwiftUI macOS) bridging personal values to AI-readable specifications.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Cross-Platform | AI Alignment</div>
+</div>
+</div>
+
+<!-- FastingCC -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="fullstack">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">WELLNESS</span></div>
+<h4 class="text-xl font-bold text-white mb-2">FastingCC — Fasting Companion</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Fasting companion app with phase-based guidance across four dimensions: mind, body, spirit, and heart.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Product Design | Wellness</div>
+</div>
+</div>
+
+<!-- GCP Security Study Guide -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">SINGLE HTML</span></div>
+<h4 class="text-xl font-bold text-white mb-2">GCP Security Study Guide</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Self-contained GCP security certification study guide. One HTML file, zero dependencies, zero infrastructure overhead.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GCP | Portable | Zero-Dependency</div>
+</div>
+</div>
+
+<!-- Sovereign Operations -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="fullstack">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONSULTING</span></div>
+<h4 class="text-xl font-bold text-white mb-2">Sovereign Operations</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">AI automation consulting practice. Client-facing tools: Group Intake Tool (scoring/prioritization) and TrackMode (interactive service proposals).</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Business | AI Automation</div>
+</div>
+</div>
+
+<!-- iOS: Meta Server Training -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#d4bbff]/20 text-[#d4bbff] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#d4bbff]/30">SWIFT</span>
+<span class="bg-[#d4bbff]/20 text-[#d4bbff] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#d4bbff]/30">APP STORE</span>
+</div>
+<h4 class="text-xl font-bold text-white mb-2">Meta Server Training</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">iOS app for DC techs to recognize server hardware components by sight. Photo-based testing with chain-of-custody emphasis.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#d4bbff] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#d4bbff] uppercase">Published on App Store</span>
+</div>
+</div>
+</div>
+
+<!-- iOS: Value Selector -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#d4bbff]/20 text-[#d4bbff] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#d4bbff]/30">SWIFT</span>
+<span class="bg-[#d4bbff]/20 text-[#d4bbff] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#d4bbff]/30">APP STORE</span>
+</div>
+<h4 class="text-xl font-bold text-white mb-2">Value Selector</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">200+ core values as a digital card deck with guided narrowing, saved profiles, and longitudinal tracking.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#d4bbff] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#d4bbff] uppercase">Published on App Store</span>
+</div>
+</div>
+</div>
+
+<!-- iOS: Bondfires -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#d4bbff]/20 text-[#d4bbff] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#d4bbff]/30">SWIFT</span>
+<span class="bg-[#d4bbff]/20 text-[#d4bbff] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#d4bbff]/30">APP STORE</span>
+</div>
+<h4 class="text-xl font-bold text-white mb-2">Bondfires</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Video-based community app for men's support groups with configurable conversation rules, themed groups, and privacy/moderation controls.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#d4bbff] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#d4bbff] uppercase">Published on App Store</span>
+</div>
+</div>
+</div>
+
+</div><!-- end grid -->
 </header>
-<!-- Manifesto Callout Section -->
+
+<!-- Manifesto Section -->
 <section class="w-full bg-[#131b2e] py-24 relative overflow-hidden">
 <div class="max-w-4xl mx-auto px-8 text-center relative z-10">
-<span class="material-symbols-outlined text-[#ffb4a5] text-5xl mb-6" data-icon="terminal">terminal</span>
+<span class="material-symbols-outlined text-[#ffb4a5] text-5xl mb-6">terminal</span>
 <h2 class="text-3xl md:text-5xl font-black text-white font-headline tracking-tighter mb-8 leading-tight">
-                    "We don't build features, we architect <span class="text-[#ffb4a5]">resilience</span>. We don't ship products, we deliver <span class="text-[#44d8f1]">excellence</span>."
+                    "I build to <span class="text-[#ffb4a5]">understand</span>. I maintain to <span class="text-[#44d8f1]">protect</span>. The infrastructure is the <span class="text-[#d4bbff]">foundation</span> everything else depends on."
                 </h2>
 <div class="flex justify-center gap-6">
-<button class="px-8 py-4 bg-[#44d8f1] text-[#0b1326] rounded-full font-bold transition-all hover:shadow-[0_0_20px_rgba(68,216,241,0.4)]">
-                        Explore Projects
-                    </button>
-<button class="px-8 py-4 border border-[#44d8f1] text-[#44d8f1] rounded-full font-bold hover:bg-[#44d8f1]/10 transition-all">
-                        Read Manifesto
-                    </button>
+<a href="/resume" class="px-8 py-4 bg-[#44d8f1] text-[#0b1326] rounded-full font-bold transition-all hover:shadow-[0_0_20px_rgba(68,216,241,0.4)]">View Resume</a>
+<a href="mailto:jacob.sumsion@gmail.com" class="px-8 py-4 border border-[#44d8f1] text-[#44d8f1] rounded-full font-bold hover:bg-[#44d8f1]/10 transition-all">Get in Touch</a>
 </div>
 </div>
-<!-- Decorative code snippets floating -->
 <div class="absolute top-10 left-10 font-mono text-[10px] text-[#44d8f1]/20 select-none hidden lg:block">
-                const excellence = (passion, code) =&gt; passion * code.resilience;
+                const resilience = (discipline, infrastructure) =&gt; discipline * infrastructure.integrity;
             </div>
 <div class="absolute bottom-10 right-10 font-mono text-[10px] text-[#ffb4a5]/20 select-none hidden lg:block">
-                while(building) { iterate(); improve(); succeed(); }
+                while(building) { understand(); protect(); iterate(); }
             </div>
 </section>
+
 <!-- Footer -->
-<footer class="w-full py-12 px-8 bg-[#131b2e] tonal-shift-no-border">
+<footer class="w-full py-12 px-8 bg-[#131b2e]">
 <div class="flex flex-col md:flex-row justify-between items-center w-full max-w-7xl mx-auto">
 <div class="mb-6 md:mb-0">
 <span class="text-[#ffb4a5] font-medium font-brand">Jakebuildsfunthings.com</span>
-<p class="text-[10px] text-[#c6c5d4] mt-1 font-['Manrope'] uppercase tracking-widest">Architecting The Future</p>
+<p class="text-[10px] text-[#c6c5d4] mt-1 font-['Manrope'] uppercase tracking-widest">&copy; 2026 Resilience Architected</p>
 </div>
 <div class="flex gap-8 font-['Manrope'] text-sm">
-<a class="text-[#c6c5d4] hover:text-[#ffb4a5] transition-all" href="#">GitHub</a>
-<a class="text-[#c6c5d4] hover:text-[#ffb4a5] transition-all" href="#">LinkedIn</a>
-<a class="text-[#c6c5d4] hover:text-[#ffb4a5] transition-all" href="#">Twitter</a>
+<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all" href="https://www.linkedin.com/in/jacob-sumsion-tech/">LinkedIn</a>
+<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all" href="https://github.com/jakeinspiredcode">GitHub</a>
 </div>
-<div class="mt-6 md:mt-0 text-[#c6c5d4] font-['Manrope'] text-sm">
-                    © 2024 Jakebuildsfunthings.com
-                </div>
 </div>
 </footer>
 </main>
-<!-- Mobile Nav Bar (Bottom) -->
+
+<!-- Mobile Nav -->
 <nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#131b2e] flex justify-around items-center z-50">
-<span class="material-symbols-outlined text-[#44d8f1]" data-icon="folder_open" style="font-variation-settings: 'FILL' 1;">folder_open</span>
-<span class="material-symbols-outlined text-[#c6c5d4]" data-icon="description">description</span>
-<span class="material-symbols-outlined text-[#c6c5d4]" data-icon="science">science</span>
-<span class="material-symbols-outlined text-[#c6c5d4]" data-icon="layers">layers</span>
+<a href="/"><span class="material-symbols-outlined text-[#c6c5d4]">sensors</span></a>
+<a href="/resume"><span class="material-symbols-outlined text-[#c6c5d4]">description</span></a>
+<a href="/projects"><span class="material-symbols-outlined text-[#44d8f1]" style="font-variation-settings: 'FILL' 1;">folder_open</span></a>
+<a href="mailto:jacob.sumsion@gmail.com"><span class="material-symbols-outlined text-[#c6c5d4]">mail</span></a>
 </nav>
+
+<!-- Filter JS -->
+<script>
+function filterProjects(category) {
+  var cards = document.querySelectorAll('.project-card');
+  var btns = document.querySelectorAll('.filter-btn');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  cards.forEach(function(card) {
+    if (category === 'all') {
+      card.classList.remove('hidden-by-filter');
+    } else {
+      var cats = card.getAttribute('data-category') || '';
+      if (cats.indexOf(category) !== -1) {
+        card.classList.remove('hidden-by-filter');
+      } else {
+        card.classList.add('hidden-by-filter');
+      }
+    }
+  });
+}
+</script>
 </body></html>

@@ -7,7 +7,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -76,97 +75,89 @@
         body { font-family: 'Manrope', sans-serif; background-color: #0b1326; color: #dae2fd; }
         .glass-nav { background: rgba(11, 19, 38, 0.6); backdrop-filter: blur(20px); }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .text-glow { text-shadow: 0 0 15px rgba(68, 216, 241, 0.4); }
     </style>
 </head>
 <body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary">
-<!-- Top Navigation Shell -->
+<!-- Top Navigation -->
 <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-[#0b1326]/60 backdrop-blur-xl shadow-[0_24px_48px_rgba(6,14,32,0.4)]">
 <div class="text-xl font-bold tracking-tighter text-[#44d8f1]">Jakebuildsfunthings.com</div>
 <div class="hidden md:flex gap-8 items-center">
-<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="#">Projects</a>
-<a class="font-['Manrope'] tracking-tight text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="#">Resume</a>
-<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="#">The Lab</a>
-<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="#">Services</a>
-<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold hover:scale-95 transition-transform duration-300">Contact</button>
+<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/">Experience</a>
+<a class="font-['Manrope'] tracking-tight text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/resume">Resume</a>
+<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/projects">Projects</a>
+<a href="mailto:jacob.sumsion@gmail.com" class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold hover:scale-95 transition-transform duration-300">Contact</a>
 </div>
-<button class="md:hidden text-primary">
-<span class="material-symbols-outlined">menu</span>
-</button>
+<button class="md:hidden text-primary"><span class="material-symbols-outlined">menu</span></button>
 </nav>
-<!-- Side Navigation Shell (Hidden on Mobile) -->
+<!-- Side Navigation (Desktop) -->
 <aside class="h-screen w-20 fixed left-0 top-0 hidden md:flex flex-col items-center py-8 gap-8 bg-[#131b2e] z-40">
 <div class="text-lg font-black text-[#44d8f1] pt-20">J</div>
 <div class="flex flex-col gap-6 mt-12">
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">folder_open</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Projects</span>
-</div>
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
+<a href="/" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">sensors</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Experience</span>
+</a>
+<a href="/resume" class="flex flex-col items-center gap-1 cursor-pointer">
 <span class="material-symbols-outlined text-[#44d8f1]">description</span>
 <span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#44d8f1] font-bold">Resume</span>
-</div>
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">science</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">The Lab</span>
-</div>
-<div class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">layers</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Services</span>
-</div>
+</a>
+<a href="/projects" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">folder_open</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Projects</span>
+</a>
+<a href="mailto:jacob.sumsion@gmail.com" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">mail</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Contact</span>
+</a>
 </div>
 </aside>
 <main class="md:pl-20 pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
 <!-- Hero Header -->
 <header class="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
 <div class="lg:col-span-8">
-<span class="label-md uppercase tracking-[0.2em] text-primary mb-4 block font-bold">The Human Technologist</span>
+<span class="uppercase tracking-[0.2em] text-primary mb-4 block font-bold text-sm">The Human Technologist</span>
 <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-none mb-6">Jacob <br/><span class="text-on-surface-variant">Sumsion</span></h1>
 <p class="text-xl md:text-2xl text-on-surface-variant max-w-2xl leading-relaxed">
-                    Bridging the gap between tactical military precision and high-scale technical innovation. Current Software Engineer at Meta.
+                    Senior Datacenter Operations Technician. 7+ years across server hardware, networking, Linux systems, and inventory management at hyperscale facilities. Currently leading hardware maintenance for 1M+ servers including AI training and inference infrastructure.
                 </p>
 </div>
 <div class="lg:col-span-4 flex flex-col items-start lg:items-end gap-4">
 <div class="flex items-center gap-3 bg-surface-container-high px-6 py-3 rounded-full">
-<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">favorite</span>
-<span class="label-sm uppercase tracking-widest text-on-surface">Available for Collaboration</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="text-xs uppercase tracking-widest text-on-surface">Open to Opportunities</span>
 </div>
-<div class="flex gap-4">
-<button class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:scale-95 transition-all">
-<span class="material-symbols-outlined">download</span> Download PDF
-                    </button>
-</div>
+<a href="mailto:jacob.sumsion@gmail.com" class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:scale-95 transition-all">
+<span class="material-symbols-outlined">mail</span> Get in Touch
+                </a>
 </div>
 </header>
-<!-- Bento Layout Content -->
+<!-- Bento Layout -->
 <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<!-- Left Column: Professional Ethos & Skills -->
+<!-- Left Column: Ethos & Skills -->
 <div class="md:col-span-4 space-y-6">
-<!-- Ethos Card -->
 <section class="bg-surface-container-low p-8 rounded-xl">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-tertiary">psychology</span>
 <h2 class="text-sm font-bold uppercase tracking-widest text-primary">Professional Ethos</h2>
 </div>
 <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
-                        I build systems that serve humanity. My approach combines the disciplined rigor of military service with the agile, data-driven mindset of a Silicon Valley technologist.
+                        I maintain the infrastructure that powers AI. My approach combines military discipline with deep technical fluency — driving down MTTD and MTTR through systematic diagnostics and proactive lifecycle management.
                     </p>
 <div class="space-y-4">
 <div class="flex items-center gap-4">
 <div class="w-2 h-2 rounded-full bg-tertiary"></div>
-<span class="text-xs uppercase tracking-widest font-bold">Tactical Precision</span>
+<span class="text-xs uppercase tracking-widest font-bold">Operational Discipline</span>
 </div>
 <div class="flex items-center gap-4">
 <div class="w-2 h-2 rounded-full bg-secondary"></div>
-<span class="text-xs uppercase tracking-widest font-bold">Scalable Infrastructure</span>
+<span class="text-xs uppercase tracking-widest font-bold">Infrastructure Resilience</span>
 </div>
 <div class="flex items-center gap-4">
 <div class="w-2 h-2 rounded-full bg-primary"></div>
-<span class="text-xs uppercase tracking-widest font-bold">Empathetic UX</span>
+<span class="text-xs uppercase tracking-widest font-bold">Continuous Learning</span>
 </div>
 </div>
 </section>
-<!-- Technical Skills -->
 <section class="bg-surface-container-low p-8 rounded-xl">
 <div class="flex items-center gap-3 mb-8">
 <span class="material-symbols-outlined text-primary">terminal</span>
@@ -174,39 +165,40 @@
 </div>
 <div class="space-y-6">
 <div>
-<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold">
-<span>Frontend Mastery</span>
-<span class="text-primary">95%</span>
-</div>
-<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[95%]"></div>
-</div>
+<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold"><span>Linux &amp; Systems Admin</span><span class="text-primary">95%</span></div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[95%]"></div></div>
 </div>
 <div>
-<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold">
-<span>Distributed Systems</span>
-<span class="text-primary">88%</span>
-</div>
-<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[88%]"></div>
-</div>
+<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold"><span>Server Hardware &amp; GPU Infra</span><span class="text-primary">95%</span></div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[95%]"></div></div>
 </div>
 <div>
-<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold">
-<span>Cloud Architecture</span>
-<span class="text-primary">92%</span>
+<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold"><span>Networking &amp; Structured Cabling</span><span class="text-primary">90%</span></div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[90%]"></div></div>
 </div>
-<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[92%]"></div>
+<div>
+<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold"><span>Operations &amp; Fleet Mgmt</span><span class="text-primary">92%</span></div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[92%]"></div></div>
 </div>
+<div>
+<div class="flex justify-between text-[10px] uppercase tracking-widest mb-2 font-bold"><span>Cloud &amp; Security Tooling</span><span class="text-primary">85%</span></div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary/50 to-primary w-[85%]"></div></div>
 </div>
 </div>
 <div class="flex flex-wrap gap-2 mt-10">
-<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">React</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Python</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Bash</span>
 <span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">TypeScript</span>
-<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">GraphQL</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Linux</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">BMC/IPMI</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">nvidia-smi</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Docker</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Jira</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Splunk</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Rundeck</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Terraform</span>
 <span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Kubernetes</span>
-<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">Rust</span>
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">GCP</span>
 <span class="px-3 py-1 bg-surface-container-highest text-[10px] uppercase tracking-widest rounded-full">AWS</span>
 </div>
 </section>
@@ -218,116 +210,196 @@
 <span class="material-symbols-outlined text-secondary">timeline</span>
 <h2 class="text-sm font-bold uppercase tracking-widest text-secondary">The Journey</h2>
 </div>
-<!-- Timeline Item -->
+<!-- Meta -->
 <div class="relative pl-12 pb-16">
 <div class="absolute left-[7px] top-2 bottom-0 w-[2px] bg-surface-container-highest"></div>
-<div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-secondary shadow-[0_0_10px_rgba(212,187,255,0.6)]"></div>
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-primary shadow-[0_0_10px_rgba(68,216,241,0.6)]"></div>
 <div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
-<div>
-<h3 class="text-2xl font-bold tracking-tight mb-1">Senior Software Engineer</h3>
-<p class="text-secondary font-medium uppercase tracking-widest text-xs">Meta / Reality Labs</p>
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">SBF Team Lead</h3>
+<p class="text-primary font-medium uppercase tracking-widest text-xs">Meta Data Center (via Milestone Inc.) | Eagle Mountain, UT</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">Jan 2024 — PRESENT</span>
 </div>
-<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">2021 — PRESENT</span>
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Lead server break-fix team for 1M+ servers across three data centers, including GPU-accelerated AI training and inference infrastructure. Daily hands-on troubleshooting of DIMMs, PSUs, NICs, drives, and GPUs using BMC/IPMI, dmesg, nvidia-smi, and SMART diagnostics. Manage rack-and-stack operations, hardware RMA workflows, and spare parts inventory. Write bash scripts for fleet health automation. Developed weekly training sessions and mentored team members.</p>
 </div>
-<p class="text-on-surface-variant leading-relaxed max-w-3xl">
-                            Architecting the future of social connection. Leading cross-functional initiatives for high-performance rendering engines and spatial computing interfaces. Spearheading technical debt reduction across the primary product ecosystem.
-                        </p>
+<!-- Synthesis -->
+<div class="relative pl-12 pb-16">
+<div class="absolute left-[7px] top-2 bottom-0 w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-secondary shadow-[0_0_10px_rgba(212,187,255,0.4)]"></div>
+<div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">Contract Developer</h3>
+<p class="text-secondary font-medium uppercase tracking-widest text-xs">Synthesis | Remote</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">2024 — 2025</span>
 </div>
-<!-- Timeline Item -->
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Built TypeScript automations for an AI-driven education platform. Hands-on with Docker, CI/CD pipelines, and rapid iteration workflows.</p>
+</div>
+<!-- Stellar Cyber -->
 <div class="relative pl-12 pb-16">
 <div class="absolute left-[7px] top-2 bottom-0 w-[2px] bg-surface-container-highest"></div>
 <div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-primary shadow-[0_0_10px_rgba(68,216,241,0.4)]"></div>
 <div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
-<div>
-<h3 class="text-2xl font-bold tracking-tight mb-1">Software Engineer II</h3>
-<p class="text-primary font-medium uppercase tracking-widest text-xs">High-Growth Fintech Startup</p>
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">Manager, Technical Support &amp; Customer Success</h3>
+<p class="text-primary font-medium uppercase tracking-widest text-xs">Stellar Cyber, Inc. | San Jose, CA</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">Jun 2022 — Apr 2023</span>
 </div>
-<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">2018 — 2021</span>
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Operated on an Open XDR platform (NG-SIEM, SOAR, NDR): configured detection rules, automated responses, and triaged infrastructure alerts. Handled Kubernetes and Linux troubleshooting escalations; supported on-prem to cloud migration projects. Trained enterprise teams on alert tuning, incident response automation, and platform observability.</p>
 </div>
-<p class="text-on-surface-variant leading-relaxed max-w-3xl">
-                            Scaled payment processing infrastructure from 10k to 1M daily active users. Implemented robust security protocols and automated deployment pipelines that reduced release cycles by 60%.
-                        </p>
-</div>
-<!-- Timeline Item -->
+<!-- Fortanix -->
 <div class="relative pl-12 pb-16">
 <div class="absolute left-[7px] top-2 bottom-0 w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-secondary shadow-[0_0_10px_rgba(212,187,255,0.4)]"></div>
+<div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">Success Engineer, Cloud Infrastructure</h3>
+<p class="text-secondary font-medium uppercase tracking-widest text-xs">Fortanix (Contract) | Remote</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">2021 — 2022</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Guided enterprise customers through cloud infrastructure onboarding for encryption and key management across AWS, GCP, and Azure. Hands-on IAM configuration, secrets management, and production troubleshooting in cross-cloud environments.</p>
+</div>
+<!-- NICE inContact -->
+<div class="relative pl-12 pb-16">
+<div class="absolute left-[7px] top-2 bottom-0 w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-primary shadow-[0_0_10px_rgba(68,216,241,0.4)]"></div>
+<div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">Commercial Tools Engineer, NOC</h3>
+<p class="text-primary font-medium uppercase tracking-widest text-xs">NICE inContact | Draper, UT</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">Mar 2019 — May 2022</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Created the automation engineer function from scratch: built the pipeline from user story to delivery, eliminating hundreds of hours of manual operations tasks. Trained internal NOC teams on Splunk, BMC, and Rundeck for monitoring, observability, and automated incident response. Coordinated response to high-priority production outages.</p>
+</div>
+<!-- Symantec -->
+<div class="relative pl-12 pb-16">
+<div class="absolute left-[7px] top-2 bottom-0 w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-secondary shadow-[0_0_10px_rgba(212,187,255,0.4)]"></div>
+<div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">Network Protection Engineer</h3>
+<p class="text-secondary font-medium uppercase tracking-widest text-xs">Symantec (Blue Coat) | Draper, UT</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">Feb 2018 — Mar 2019</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Supported enterprise customers configuring network proxy systems, including firewall rules, packet capture analysis, and network troubleshooting.</p>
+</div>
+<!-- U.S. Army -->
+<div class="relative pl-12 pb-8">
 <div class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-surface bg-tertiary shadow-[0_0_10px_rgba(255,180,165,0.4)]"></div>
 <div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
-<div>
-<h3 class="text-2xl font-bold tracking-tight mb-1">Technical Lead / Sergeant</h3>
-<p class="text-tertiary font-medium uppercase tracking-widest text-xs">United States Military</p>
+<div><h3 class="text-2xl font-bold tracking-tight mb-1">Counterintelligence Special Agent (35L) &amp; Armored Crewman (19K)</h3>
+<p class="text-tertiary font-medium uppercase tracking-widest text-xs">United States Army | Multiple Duty Stations</p></div>
+<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">Mar 2008 — Dec 2014</span>
 </div>
-<span class="text-on-surface-variant font-mono text-sm mt-2 md:mt-0">2014 — 2018</span>
+<p class="text-on-surface-variant leading-relaxed max-w-3xl">Held TS/SCI clearance. Trained personnel on threat identification and operational security in deployed environments (Afghanistan, Iraq). Led small teams in austere conditions requiring rapid problem-solving, meticulous documentation, and clear communication under pressure. Decorated for leadership and analytical ability.</p>
 </div>
-<p class="text-on-surface-variant leading-relaxed max-w-3xl">
-                            Managed critical communications infrastructure and personnel in high-pressure environments. Received Commendation for developing field-level data management tools that improved operational efficiency by 40%.
-                        </p>
-</div>
-<!-- Certification Footer -->
-<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-<div class="bg-surface-container-highest/30 p-6 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors cursor-default">
+<!-- Certifications -->
+<div class="mt-12 mb-8">
+<div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-tertiary">verified</span>
-<div>
-<h4 class="text-xs font-bold uppercase tracking-widest text-tertiary">AWS Solutions Architect</h4>
-<p class="text-[10px] text-on-surface-variant">Professional Certification</p>
+<h2 class="text-sm font-bold uppercase tracking-widest text-tertiary">Certifications</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">CompTIA Security+</h4><p class="text-[9px] text-on-surface-variant">Jan 2019</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">CompTIA Network+</h4><p class="text-[9px] text-on-surface-variant">Mar 2019</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">AWS Solutions Architect</h4><p class="text-[9px] text-on-surface-variant">Sep 2023</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">ISC2 Certified in Cybersecurity</h4><p class="text-[9px] text-on-surface-variant">Jun 2023</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">PCEP — Python Certified</h4><p class="text-[9px] text-on-surface-variant">Mar 2021</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">Linux Essentials (LPI)</h4><p class="text-[9px] text-on-surface-variant">Jan 2022</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">Azure AZ-900 Fundamentals</h4><p class="text-[9px] text-on-surface-variant">Nov 2020</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg">verified</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">Azure DP-900 Data Fundamentals</h4><p class="text-[9px] text-on-surface-variant">Aug 2023</p></div>
+</div>
+<div class="bg-surface-container-highest/30 p-4 rounded-xl flex items-center gap-3 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<div><h4 class="text-[10px] font-bold uppercase tracking-widest text-tertiary">Decorated Veteran &amp; Honorable Discharge</h4><p class="text-[9px] text-on-surface-variant">U.S. Army Service</p></div>
 </div>
 </div>
-<div class="bg-surface-container-highest/30 p-6 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors cursor-default">
-<span class="material-symbols-outlined text-tertiary">military_tech</span>
-<div>
-<h4 class="text-xs font-bold uppercase tracking-widest text-tertiary">Honorable Discharge</h4>
-<p class="text-[10px] text-on-surface-variant">U.S. Army Service</p>
+</div>
+<!-- Education -->
+<div class="mt-8">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary">school</span>
+<h2 class="text-sm font-bold uppercase tracking-widest text-secondary">Education</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div class="bg-surface-container-highest/30 p-5 rounded-xl hover:bg-surface-container-highest transition-colors">
+<h4 class="text-sm font-bold text-on-surface mb-1">Network Systems Administration</h4>
+<p class="text-xs text-on-surface-variant">DeVry University</p>
+<p class="text-[10px] text-secondary mt-1 uppercase tracking-widest font-bold">Dean's List</p>
+</div>
+<div class="bg-surface-container-highest/30 p-5 rounded-xl hover:bg-surface-container-highest transition-colors">
+<h4 class="text-sm font-bold text-on-surface mb-1">Pre-Medicine (A.A.S.)</h4>
+<p class="text-xs text-on-surface-variant">Brigham Young University-Idaho</p>
+<p class="text-[10px] text-secondary mt-1 uppercase tracking-widest font-bold">Graduated with Honors</p>
 </div>
 </div>
 </div>
 </section>
 </div>
 </div>
-<!-- Featured Project Preview (Asymmetric) -->
+<!-- Featured Project -->
 <section class="mt-24">
 <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
 <div>
-<span class="label-md uppercase tracking-[0.2em] text-secondary mb-4 block font-bold">Currently Building</span>
-<h2 class="text-4xl md:text-5xl font-black tracking-tighter">The Human Graph Engine</h2>
+<span class="uppercase tracking-[0.2em] text-secondary mb-4 block font-bold text-sm">Featured Project</span>
+<h2 class="text-4xl md:text-5xl font-black tracking-tighter">Agentic SOC Proof of Concept</h2>
 </div>
-<a class="group flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm" href="#">
-                    View Portfolio <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+<a class="group flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm" href="/projects">
+                    View All Projects <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
 </a>
 </div>
-<div class="relative h-[400px] md:h-[600px] rounded-xl overflow-hidden group">
-<img alt="Technical Visualization" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Intricate blue and teal digital circuit board pattern with soft glowing light trails and cinematic depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuButGzrz4DrZ1xHHbrDlUESJwhQl4UbH6WK6sTexZ6r7PXeXvVdpUxJyVsFGb3hVELaOT2Cqw77LEMjh_tcvnTdBPjImMMpFaTeTkmqcxNBF8IelDvy5y8gK2o-X27MsHBquES-oyFRIXbcmy5v1HHWPRSgWhl-DNdYAVun3nuRGie-12gJXeS8PyEP9ifoX3GmKX6XpywjYRtV66otNs_XXHXlt9RgXnjXFW4OpwTHnxh0sxuDWP12akzscztKBQIISUcV2xiJfFg"/>
+<div class="relative h-[300px] md:h-[400px] rounded-xl overflow-hidden group bg-surface-container-low">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-tertiary/10"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="font-mono text-primary/15 text-[180px] font-black select-none leading-none">SOC</div>
+</div>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
 <div class="absolute bottom-12 left-12 right-12">
 <div class="bg-surface-container-high/80 backdrop-blur-xl p-8 rounded-xl max-w-xl">
-<p class="text-on-surface font-bold text-xl mb-4">A visual explorer for high-density social connections, built with Rust and WebGL for sub-10ms rendering latency.</p>
+<p class="text-on-surface font-bold text-xl mb-4">A multi-agent system simulating three-phase attack chains against GKE/ML infrastructure. Five AI agents handle detection through compliance verification. Achieved 47-second MTTR.</p>
 <div class="flex gap-4">
-<span class="text-[10px] uppercase tracking-widest text-primary font-bold">#SpatialComputing</span>
-<span class="text-[10px] uppercase tracking-widest text-secondary font-bold">#RustLang</span>
+<span class="text-[10px] uppercase tracking-widest text-primary font-bold">#LangGraph</span>
+<span class="text-[10px] uppercase tracking-widest text-secondary font-bold">#Security</span>
+<span class="text-[10px] uppercase tracking-widest text-tertiary font-bold">#AI</span>
 </div>
 </div>
 </div>
 </div>
 </section>
 </main>
-<!-- Footer Shell -->
-<footer class="w-full bg-[#131b2e] py-12 px-8 mt-24">
-<div class="flex flex-col md:flex-row justify-between items-center w-full max-w-7xl mx-auto">
-<div class="text-[#ffb4a5] font-medium mb-6 md:mb-0">© 2024 Jakebuildsfunthings.com</div>
+<!-- Footer -->
+<footer class="w-full py-12 bg-[#0b1326]">
+<div class="bg-[#131b2e] h-px w-full mb-8"></div>
+<div class="flex flex-col md:flex-row justify-between items-center px-12 max-w-7xl mx-auto">
+<div class="font-['Manrope'] text-[10px] uppercase tracking-[0.05em] text-[#c6c5d4] mb-4 md:mb-0">&copy; 2026 RESILIENCE ARCHITECTED // Jakebuildsfunthings.com</div>
 <div class="flex gap-8">
-<a class="font-['Manrope'] text-sm text-[#c6c5d4] hover:text-[#ffb4a5] transition-all" href="#">GitHub</a>
-<a class="font-['Manrope'] text-sm text-[#c6c5d4] hover:text-[#ffb4a5] transition-all" href="#">LinkedIn</a>
-<a class="font-['Manrope'] text-sm text-[#c6c5d4] hover:text-[#ffb4a5] transition-all" href="#">Twitter</a>
+<a class="font-['Manrope'] text-[10px] uppercase tracking-[0.05em] text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="https://www.linkedin.com/in/jacob-sumsion-tech/">LinkedIn</a>
+<a class="font-['Manrope'] text-[10px] uppercase tracking-[0.05em] text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="https://github.com/jakeinspiredcode">GitHub</a>
 </div>
-<div class="mt-6 md:mt-0 text-[10px] uppercase tracking-widest text-[#908f9d]">
-                Designed with precision &amp; heart
-            </div>
+<div class="mt-4 md:mt-0"><span class="text-[#ffb4a5] font-['Manrope'] text-[10px] uppercase tracking-[0.05em] font-bold">Human-Coded Verification: 0xJS-2026</span></div>
 </div>
 </footer>
-<!-- Bottom Navigation (Mobile Only) -->
+<!-- Mobile Nav -->
 <div class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0b1326]/80 backdrop-blur-lg flex justify-around items-center px-4 z-50">
-<span class="material-symbols-outlined text-[#c6c5d4]">folder_open</span>
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">description</span>
-<span class="material-symbols-outlined text-[#c6c5d4]">science</span>
-<span class="material-symbols-outlined text-[#c6c5d4]">layers</span>
+<a href="/"><span class="material-symbols-outlined text-[#c6c5d4]">sensors</span></a>
+<a href="/resume"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">description</span></a>
+<a href="/projects"><span class="material-symbols-outlined text-[#c6c5d4]">folder_open</span></a>
+<a href="mailto:jacob.sumsion@gmail.com"><span class="material-symbols-outlined text-[#c6c5d4]">mail</span></a>
 </div>
 </body></html>
