@@ -79,35 +79,34 @@
 </head>
 <body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary">
 <!-- Top Navigation -->
-<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-[#0b1326]/60 backdrop-blur-xl shadow-[0_24px_48px_rgba(6,14,32,0.4)]">
-<div class="text-xl font-bold tracking-tighter text-[#44d8f1]">Jakebuildsfunthings.com</div>
-<div class="hidden md:flex gap-8 items-center">
-<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/">Home</a>
-<a class="font-['Manrope'] tracking-tight text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/resume">Resume</a>
-<a class="font-['Manrope'] tracking-tight text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/projects">Projects</a>
-<a href="mailto:jacob.sumsion@gmail.com" class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold hover:scale-95 transition-transform duration-300">Contact</a>
+<nav class="fixed top-0 w-full z-50 bg-[#0b1326]/60 backdrop-blur-xl flex justify-between items-center px-8 h-20 shadow-[0_24px_48px_rgba(6,14,32,0.4)]">
+<div class="text-xl font-bold tracking-tighter text-[#44d8f1] font-['Manrope']">Jakebuildsfunthings.com</div>
+<div class="hidden md:flex items-center gap-8 font-['Manrope'] tracking-tight">
+<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/">Home</a>
+<a class="text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/resume">Resume</a>
+<a class="text-[#c6c5d4] hover:text-[#44d8f1] transition-all duration-300" href="/projects">Projects</a>
 </div>
-<button class="md:hidden text-primary"><span class="material-symbols-outlined">menu</span></button>
+<a href="mailto:jacob.sumsion@gmail.com" class="bg-[#44d8f1] text-[#0b1326] px-6 py-2 rounded-full font-bold text-sm active:scale-95 transition-all duration-300">Contact</a>
 </nav>
 <!-- Side Navigation (Desktop) -->
-<aside class="h-screen w-20 fixed left-0 top-0 hidden md:flex flex-col items-center py-8 gap-8 bg-[#131b2e] z-40">
-<div class="text-lg font-black text-[#44d8f1] pt-20">J</div>
-<div class="flex flex-col gap-6 mt-12">
+<aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex-col items-center py-8 gap-8 bg-[#131b2e] z-40">
+<div class="text-lg font-black text-[#44d8f1] font-['Manrope'] mb-8">J</div>
+<div class="flex flex-col gap-10">
 <a href="/" class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">sensors</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Home</span>
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">sensors</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Home</span>
 </a>
 <a href="/resume" class="flex flex-col items-center gap-1 cursor-pointer">
-<span class="material-symbols-outlined text-[#44d8f1]">description</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#44d8f1] font-bold">Resume</span>
+<span class="material-symbols-outlined text-[#44d8f1] font-bold" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#44d8f1]">Resume</span>
 </a>
 <a href="/projects" class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">folder_open</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Projects</span>
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">folder_open</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Projects</span>
 </a>
 <a href="mailto:jacob.sumsion@gmail.com" class="flex flex-col items-center gap-1 group cursor-pointer">
-<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-primary transition-colors">mail</span>
-<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4]">Contact</span>
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">mail</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Contact</span>
 </a>
 </div>
 </aside>
@@ -396,10 +395,10 @@
 </div>
 </footer>
 <!-- Mobile Nav -->
-<div class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0b1326]/80 backdrop-blur-lg flex justify-around items-center px-4 z-50">
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#131b2e] flex justify-around items-center z-50">
 <a href="/"><span class="material-symbols-outlined text-[#c6c5d4]">sensors</span></a>
-<a href="/resume"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">description</span></a>
+<a href="/resume"><span class="material-symbols-outlined text-[#44d8f1]" style="font-variation-settings: 'FILL' 1;">description</span></a>
 <a href="/projects"><span class="material-symbols-outlined text-[#c6c5d4]">folder_open</span></a>
 <a href="mailto:jacob.sumsion@gmail.com"><span class="material-symbols-outlined text-[#c6c5d4]">mail</span></a>
-</div>
+</nav>
 </body></html>
