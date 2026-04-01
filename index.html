@@ -149,11 +149,64 @@
 </div>
 </div>
 <div class="mt-auto px-4">
-<button class="w-full py-3 rounded-full border border-error/30 text-error text-[10px] uppercase font-bold tracking-widest hover:bg-error/10 transition-colors">
+<button onclick="triggerEmergency()" class="w-full py-3 rounded-full border border-error/30 text-error text-[10px] uppercase font-bold tracking-widest hover:bg-error/10 transition-colors">
         Emergency Protocol
       </button>
+<div id="emergency-panel" class="hidden mt-4 p-4 rounded-xl bg-[#060e20] border border-error/20 font-mono text-[10px] leading-relaxed max-h-48 overflow-y-auto">
+<div id="emergency-lines" class="text-error/80 space-y-1"></div>
+</div>
 </div>
 </aside>
+<script>
+function triggerEmergency() {
+  const panel = document.getElementById('emergency-panel');
+  const linesContainer = document.getElementById('emergency-lines');
+  if (!panel.classList.contains('hidden')) return;
+  linesContainer.innerHTML = '';
+  panel.classList.remove('hidden');
+  const lines = [
+    '> EMERGENCY PROTOCOL INITIATED...',
+    '> SCANNING VISITOR INTENT...',
+    '> THREAT LEVEL: NONE',
+    '> DIAGNOSIS: CURIOUS HUMAN DETECTED',
+    '> ...',
+    '> SERIOUSLY THOUGH, THANKS FOR',
+    '  CLICKING AROUND MY SITE.',
+    '> ...',
+    '> YOU\'VE BEEN HERE A WHILE.',
+    '> MAYBE IT\'S TIME TO JUST HIRE ME?',
+    '> ...',
+    '> DEPLOYING CHARM OFFENSIVE...',
+    '> STATUS: RESUME AVAILABLE ON REQUEST',
+    '> STANDING BY FOR YOUR SIGNAL.',
+    '> _'
+  ];
+  let i = 0;
+  function typeLine() {
+    if (i < lines.length) {
+      const div = document.createElement('div');
+      div.textContent = lines[i];
+      if (lines[i].includes('HIRE ME')) div.style.color = '#44d8f1';
+      if (lines[i].includes('CHARM')) div.style.color = '#ffb4a5';
+      linesContainer.appendChild(div);
+      panel.scrollTop = panel.scrollHeight;
+      i++;
+      setTimeout(typeLine, lines[i-1] === '> ...' ? 600 : 280);
+    } else {
+      setTimeout(function() {
+        panel.style.transition = 'opacity 1.5s';
+        panel.style.opacity = '0';
+        setTimeout(function() {
+          panel.classList.add('hidden');
+          panel.style.opacity = '1';
+          panel.style.transition = '';
+        }, 1500);
+      }, 4000);
+    }
+  }
+  typeLine();
+}
+</script>
 <!-- Main Content Canvas -->
 <main class="lg:ml-64 pt-24 pb-12 px-6 md:px-12">
 <!-- Hero Section -->
