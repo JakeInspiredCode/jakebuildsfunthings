@@ -207,8 +207,9 @@ function triggerEmergency() {
       linesContainer.appendChild(div);
       i++;
       setTimeout(typeLine, lines[i-1] === '> ...' ? 600 : 280);
+    } else {
+      setTimeout(dismissEmergency, 5000);
     }
-  }
   typeLine();
 }
 function dismissEmergency() {
