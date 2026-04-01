@@ -170,14 +170,17 @@ function triggerEmergency() {
     '> THREAT LEVEL: NONE',
     '> DIAGNOSIS: CURIOUS HUMAN DETECTED',
     '> ...',
-    '> SERIOUSLY THOUGH, THANKS FOR',
-    '  CLICKING AROUND MY SITE.',
+    '> LOOK, I GET IT.',
+    '> YOU HAVE A PROBLEM TO SOLVE.',
+    '> I\'D LOVE TO SOLVE IT WITH YOU.',
     '> ...',
-    '> YOU\'VE BEEN HERE A WHILE.',
-    '> MAYBE IT\'S TIME TO JUST HIRE ME?',
+    '> BUT YOU HAVE TO HIRE ME FIRST.',
     '> ...',
     '> DEPLOYING CHARM OFFENSIVE...',
-    '> STATUS: RESUME AVAILABLE ON REQUEST',
+    '> RESUME: AVAILABLE ON REQUEST',
+    '> COFFEE PREFERENCE: BLACK, NO SUGAR',
+    '> RESPONSE TIME: FASTER THAN MY MTTD',
+    '> ...',
     '> STANDING BY FOR YOUR SIGNAL.',
     '> _'
   ];
@@ -188,6 +191,7 @@ function triggerEmergency() {
       div.textContent = lines[i];
       if (lines[i].includes('HIRE ME')) div.style.color = '#44d8f1';
       if (lines[i].includes('CHARM')) div.style.color = '#ffb4a5';
+      if (lines[i].includes('FASTER THAN')) div.style.color = '#d4bbff';
       linesContainer.appendChild(div);
       panel.scrollTop = panel.scrollHeight;
       i++;
