@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv stitch/.git .)",
+      "Bash(mv stitch/.claude .)",
+      "Bash(mv stitch/* .)"
+    ]
+  }
+}

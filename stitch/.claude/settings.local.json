@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/jacobsumsion/Projects/jakebuildsfunthings status)",
+      "Bash(git -C /Users/jacobsumsion/Projects/jakebuildsfunthings diff --stat HEAD)",
+      "Bash(git -C /Users/jacobsumsion/Projects/jakebuildsfunthings ls-files)"
+    ]
+  }
+}
