@@ -86,11 +86,12 @@
 <!-- Main Content -->
 <main class="md:pl-20 pt-20 min-h-screen">
 <header class="max-w-7xl mx-auto px-8 py-16">
-<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
+<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-8">
 <div class="max-w-2xl">
 <h1 class="text-5xl font-extrabold text-[#44d8f1] font-headline tracking-tighter mb-4">Project Index</h1>
-<p class="text-xl text-[#c6c5d4] leading-relaxed">
-                        22 projects across AI agent systems, security research, automation tools, and native iOS apps. Every line of code is a step toward human-centric technological excellence.
+<p class="text-2xl text-white font-bold leading-snug mb-2">"I build to understand. I ship products that empower."</p>
+<p class="text-base text-[#c6c5d4] leading-relaxed">
+                        Every project here started with a problem I needed to solve — for myself, for a team, or for a client. The pattern is the same: learn deeply, build something useful, and make it available to others. 22 projects. 15 live demos you can try right now.
                     </p>
 </div>
 <div class="flex flex-wrap gap-3" id="filter-tabs">
@@ -99,6 +100,26 @@
 <button onclick="filterProjects('security')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Security</button>
 <button onclick="filterProjects('automation')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Automation &amp; Tools</button>
 <button onclick="filterProjects('ios')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">iOS Apps</button>
+</div>
+</div>
+
+<!-- What These Projects Prove -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+<div class="p-5 rounded-xl border border-[#222a3d] bg-[#131b2e]/50">
+<div class="text-[10px] font-bold text-[#44d8f1] uppercase mb-2 tracking-widest">Multi-Agent Systems</div>
+<p class="text-xs text-[#c6c5d4] leading-relaxed">I design, build, and govern AI agent pipelines — orchestration, cost tracking, safety controls, and audit trails across multiple LLM providers.</p>
+</div>
+<div class="p-5 rounded-xl border border-[#222a3d] bg-[#131b2e]/50">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-2 tracking-widest">AI Security &amp; Governance</div>
+<p class="text-xs text-[#c6c5d4] leading-relaxed">I build the security controls most teams skip — threat frameworks, deployment checklists, CI/CD hardening, and SOC automation for AI infrastructure.</p>
+</div>
+<div class="p-5 rounded-xl border border-[#222a3d] bg-[#131b2e]/50">
+<div class="text-[10px] font-bold text-[#44d8f1] uppercase mb-2 tracking-widest">Full-Stack Products</div>
+<p class="text-xs text-[#c6c5d4] leading-relaxed">I ship real applications — Next.js, React, Convex, Swift. Not prototypes. Products with state management, real-time sync, and polished UI.</p>
+</div>
+<div class="p-5 rounded-xl border border-[#222a3d] bg-[#131b2e]/50">
+<div class="text-[10px] font-bold text-[#d4bbff] uppercase mb-2 tracking-widest">Tools That Teach</div>
+<p class="text-xs text-[#c6c5d4] leading-relaxed">I turn complex knowledge into interactive tools — study systems, onboarding guides, discovery frameworks — that save people time and help them learn faster.</p>
 </div>
 </div>
 
@@ -120,7 +141,8 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Claude API</span>
 </div>
 <h3 class="text-3xl font-bold text-white mb-2 font-headline">Agentic SOC Proof of Concept</h3>
-<p class="text-[#c6c5d4] max-w-lg mb-4 line-clamp-3">Multi-agent system simulating three-phase attack chains against GKE/ML infrastructure. Five AI agents orchestrate triage, investigation, containment, and compliance — 47-second MTTR, zero manual intervention.</p>
+<p class="text-[#c6c5d4] max-w-lg mb-3 line-clamp-3">Multi-agent system simulating three-phase attack chains against GKE/ML infrastructure. Five AI agents orchestrate triage, investigation, containment, and compliance — 47-second MTTR, zero manual intervention.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: multi-agent orchestration · incident response automation · compliance verification</p>
 <div class="flex gap-2 items-center">
 <span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Python</span>
 <span class="text-[10px] text-[#c6c5d4]/60">|</span>
@@ -141,7 +163,8 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">L1NX Forge — Interview Prep Engine</h4>
-<p class="text-sm text-[#c6c5d4] mb-6">Full-stack spaced-repetition app with SM-2 algorithm, four-tier progression, mock interview simulator, and AI coaching agent.</p>
+<p class="text-sm text-[#c6c5d4] mb-3">Full-stack spaced-repetition app with SM-2 algorithm, four-tier progression, mock interview simulator, and AI coaching agent.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: full-stack product · AI-assisted learning · spaced repetition</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
 </a>
@@ -156,7 +179,8 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
 <h4 class="text-2xl font-bold text-white mb-4">Life Command Center</h4>
-<p class="text-[#c6c5d4] mb-4">Personal operating system dashboard unifying projects, health, and AI workflows. Multi-LLM orchestration with cost tracking across providers. Houses H3iwa and Atlas AI agents.</p>
+<p class="text-[#c6c5d4] mb-2">Personal operating system dashboard unifying projects, health, and AI workflows. Multi-LLM orchestration with cost tracking across providers. Houses H3iwa and Atlas AI agents.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: multi-LLM orchestration · real-time dashboards · agent cost management</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
 <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-[#44d8f1]/5 rounded-full blur-3xl"></div>
@@ -169,7 +193,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">SECURITY</span></div>
 <h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Framework</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Interactive JSX presentation covering agentic AI security. Three structural layers, nine control domains, backed by 6 security frameworks.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Interactive JSX presentation covering agentic AI security. Three structural layers, nine control domains, backed by 6 security frameworks.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: security framework design · interactive visualization · defense-in-depth</p>
 <div class="flex gap-4 mt-auto">
 <a href="/agent-safety-framework/" class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold hover:underline">Interactive demo →</a>
 <a href="/ai-agent-safety-framework.docx" class="text-[10px] text-[#ffb4a5] uppercase tracking-widest font-bold hover:underline">White paper ↓</a>
@@ -182,7 +207,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">SECURITY</span></div>
 <h4 class="text-xl font-bold text-white mb-2">CI/CD Pipeline Security</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Interactive 8-stage pipeline security model for GKE infrastructure. Threat mapping, security controls, and automation opportunities with Orca and ReliaQuest integration.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Interactive 8-stage pipeline security model for GKE infrastructure. Threat mapping, security controls, and automation opportunities with Orca and ReliaQuest integration.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: CI/CD security · threat modeling · infrastructure hardening</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
 </div>
 </a>
@@ -217,7 +243,8 @@
 <span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">SHOWCASE</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">Cog-0 — Interactive Showcase</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Visual walkthrough of the Cog-0 platform architecture. System map, 8 agentic skills matrix, and narrative pitch — the story behind the flagship project.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Visual walkthrough of the Cog-0 platform architecture. System map, 8 agentic skills matrix, and narrative pitch — the story behind the flagship project.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: technical storytelling · architecture communication · product vision</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Explore →</div>
 </div>
 </a>
@@ -227,7 +254,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">WHITE PAPER</span></div>
 <h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Checklist</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Pre-deployment validation checklist for agentic AI. 37 checks across nine control domains and three structural layers with framework traceability.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Pre-deployment validation checklist for agentic AI. 37 checks across nine control domains and three structural layers with framework traceability.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: governance artifacts · compliance mapping · specification engineering</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Download checklist ↓</div>
 </div>
 </a>
@@ -237,7 +265,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">TERRAFORM</span></div>
 <h4 class="text-xl font-bold text-white mb-2">GCP Security Lab</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Cost-minimal GCP lab for hands-on security testing in GKE-based ML infrastructure. 6-sprint Terraform IaC project.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Cost-minimal GCP lab for hands-on security testing in GKE-based ML infrastructure. 6-sprint Terraform IaC project.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: infrastructure-as-code · GCP/GKE · cost optimization</p>
 <div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GKE | GCP | Terraform · Infrastructure-as-code</div>
 </div>
 </div>
@@ -249,7 +278,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONSULTING</span></div>
 <h4 class="text-xl font-bold text-white mb-2">Sovereign Operations</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">AI automation consulting practice building reliable, maintainable automation systems for small and mid-sized businesses. Custom-built client-facing tools below.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">AI automation consulting practice building reliable, maintainable automation systems for small and mid-sized businesses. Custom-built client-facing tools below.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: business automation · client engagement · consulting delivery</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Visit site →</div>
 </div>
 </a>
@@ -262,7 +292,8 @@
 <span class="bg-[#44d8f1]/10 text-[#44d8f1]/60 px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/10">SOV OPS</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">Group Intake Tool</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Interactive 4-tab client discovery tool. Score pain points, drag-to-reorder priorities, auto-generate build plans, and explore system architecture — all data stays local.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Interactive 4-tab client discovery tool. Score pain points, drag-to-reorder priorities, auto-generate build plans, and explore system architecture — all data stays local.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: process automation · client tools · UX design</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
 </div>
 </a>
@@ -275,7 +306,8 @@
 <span class="bg-[#44d8f1]/10 text-[#44d8f1]/60 px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/10">SOV OPS</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">TrackMode — Interactive Proposal</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">PIN-gated interactive service proposal using a racing metaphor. 20-zone presentation covering a 4-phase automation build — delivered as a private URL instead of a PDF.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">PIN-gated interactive service proposal using a racing metaphor. 20-zone presentation covering a 4-phase automation build — delivered as a private URL instead of a PDF.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: creative delivery · client experience · interactive presentations</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
 </div>
 </a>
@@ -290,7 +322,8 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">SWIFTUI</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">Alignment — Values Discovery Tool</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Multi-platform tool (React web + SwiftUI macOS) bridging personal values to AI-readable specifications.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Multi-platform tool (React web + SwiftUI macOS) bridging personal values to AI-readable specifications.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: cross-platform development · AI alignment · self-discovery tools</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
 </div>
 </a>
@@ -300,7 +333,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">WELLNESS</span></div>
 <h4 class="text-xl font-bold text-white mb-2">FastingCC — Fasting Companion</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Fasting companion app with phase-based guidance across four dimensions: mind, body, spirit, and heart.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Fasting companion app with phase-based guidance across four dimensions: mind, body, spirit, and heart.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: wellness product design · user experience · personal tools</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
 </div>
 </a>
@@ -310,7 +344,8 @@
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">SINGLE HTML</span></div>
 <h4 class="text-xl font-bold text-white mb-2">GCP Security Study Guide</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Self-contained GCP security certification study guide. One HTML file, zero dependencies, zero infrastructure overhead.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Self-contained GCP security certification study guide. One HTML file, zero dependencies, zero infrastructure overhead.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: knowledge synthesis · cloud security · zero-dependency delivery</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">View guide →</div>
 </div>
 </a>
@@ -322,7 +357,8 @@
 <div class="relative z-10">
 <div class="flex gap-2 mb-4"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">INTERACTIVE</span></div>
 <h4 class="text-2xl font-bold text-white mb-4">Interactive Knowledge Base — Security Operations</h4>
-<p class="text-[#c6c5d4] mb-4">Turns unstructured domain knowledge into interactive, cross-referenced learning tools. Five interconnected guides covering SOC/MDR, Enterprise Controls, and Product Security — built for onboarding, training, and quick reference. Increases engagement and decreases ramp-up time.</p>
+<p class="text-[#c6c5d4] mb-2">Turns unstructured domain knowledge into interactive, cross-referenced learning tools. Five interconnected guides covering SOC/MDR, Enterprise Controls, and Product Security — built for onboarding, training, and quick reference. Increases engagement and decreases ramp-up time.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: knowledge management · onboarding automation · training tool design</p>
 <div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">HTML | Zero Dependencies | Onboarding & Training</div>
 </div>
 <div class="absolute -right-20 -bottom-20 w-48 h-48 bg-[#ffb4a5]/5 rounded-full blur-3xl"></div>
@@ -336,7 +372,8 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">MERGED</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">Agentic Governance Product</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Comprehensive governance product implementing safety controls from the checklist and framework as working software.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Comprehensive governance product implementing safety controls from the checklist and framework as working software.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: agent governance · policy enforcement · safety controls</p>
 <div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Merged with Life Command Center</div>
 </div>
 </div>
@@ -352,7 +389,8 @@
 <span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">IN PROGRESS</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">Cog-0 — Agentic Operating System</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Agentic OS with Control, Observability, and Governance pillars. Multi-agent pipeline with arbiter, behavioral memory, dispatch queue, and immutable audit trail.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Agentic OS with Control, Observability, and Governance pillars. Multi-agent pipeline with arbiter, behavioral memory, dispatch queue, and immutable audit trail.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: agentic OS architecture · multi-model AI · governance systems</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
 </a>
@@ -366,7 +404,8 @@
 <span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">IN PROGRESS</span>
 </div>
 <h4 class="text-xl font-bold text-white mb-2">Carina Nova — Creation Pipeline</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Governed multi-agent creation pipeline with infinite canvas. Creator-checker separation across multiple LLM providers with Argus oversight and audit trail.</p>
+<p class="text-sm text-[#c6c5d4] mb-2">Governed multi-agent creation pipeline with infinite canvas. Creator-checker separation across multiple LLM providers with Argus oversight and audit trail.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: pipeline orchestration · creator-checker separation · multi-provider AI</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
 </a>
@@ -429,7 +468,7 @@
 <div class="max-w-4xl mx-auto px-8 text-center relative z-10">
 <span class="material-symbols-outlined text-[#ffb4a5] text-5xl mb-6">terminal</span>
 <h2 class="text-3xl md:text-5xl font-black text-white font-headline tracking-tighter mb-8 leading-tight">
-                    "I build to <span class="text-[#ffb4a5]">understand</span>. I maintain to <span class="text-[#44d8f1]">protect</span>. The infrastructure is the <span class="text-[#d4bbff]">foundation</span> everything else depends on."
+                    "I build to <span class="text-[#ffb4a5]">understand</span>. I ship products that <span class="text-[#44d8f1]">empower</span>."
                 </h2>
 <div class="flex justify-center gap-6">
 <a href="/resume" class="px-8 py-4 bg-[#44d8f1] text-[#0b1326] rounded-full font-bold transition-all hover:shadow-[0_0_20px_rgba(68,216,241,0.4)]">View Resume</a>
