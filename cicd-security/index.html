@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI/CD Pipeline Security — GKE + Orca + ReliaQuest</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:#0a0e1a;--bg-mid:#0f1629;--bg-card:#141b2d;--bg-card-hover:#1a2340;
+  --border-subtle:rgba(255,255,255,0.06);--border-glow:rgba(255,255,255,0.12);
+  --ci:#00d4ff;--ci-glow:rgba(0,212,255,0.3);--ci-bg:rgba(0,212,255,0.06);
+  --cd:#ffb800;--cd-glow:rgba(255,184,0,0.3);--cd-bg:rgba(255,184,0,0.06);
+  --gate:#ff3366;--gate-glow:rgba(255,51,102,0.4);
+  --threat:#ff4444;--threat-bg:rgba(255,68,68,0.08);
+  --gcp:#4285f4;--gcp-bg:rgba(66,133,244,0.1);
+  --tools:#34d399;--tools-bg:rgba(52,211,153,0.1);
+  --orca:#06b6d4;--orca-bg:rgba(6,182,212,0.1);
+  --rq:#a78bfa;--rq-bg:rgba(167,139,250,0.1);
+  --text1:#e8ecf4;--text2:#8892a8;--text3:#5a6478;
+  --mono:'JetBrains Mono','Fira Code','Consolas',monospace;
+  --sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--bg-deep);color:var(--text1)}
+@media(max-width:1100px){.header{flex-wrap:wrap;height:auto;padding:12px 20px;gap:8px}.header-left h1{font-size:1.2rem}.header-left .sub{font-size:.78rem}.hbadges{gap:6px}.hb{font-size:.6rem;padding:4px 10px}}
+body::before{content:'';position:fixed;inset:0;background:linear-gradient(rgba(0,212,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 25%,rgba(255,51,102,0.03) 0%,transparent 50%),radial-gradient(ellipse at 25% 60%,rgba(0,212,255,0.03) 0%,transparent 40%),radial-gradient(ellipse at 80% 50%,rgba(255,184,0,0.03) 0%,transparent 40%);pointer-events:none;z-index:0}
+
+.header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 44px;background:linear-gradient(180deg,rgba(10,14,26,0.97),rgba(10,14,26,0.85));backdrop-filter:blur(8px);border-bottom:1px solid var(--border-subtle);height:80px}
+.header-left h1{font-family:var(--mono);font-size:1.7rem;font-weight:700;letter-spacing:.06em;background:linear-gradient(135deg,var(--ci),#fff,var(--cd));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-left .sub{font-size:.95rem;color:var(--text2);margin-top:4px}
+.hbadges{display:flex;gap:12px}
+.hb{font-family:var(--mono);font-size:.72rem;padding:6px 16px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.hb.g{background:var(--gcp-bg);color:var(--gcp);border:1px solid rgba(66,133,244,.25)}
+.hb.k{background:rgba(50,108,229,.1);color:#326ce5;border:1px solid rgba(50,108,229,.25)}
+.hb.o{background:var(--orca-bg);color:var(--orca);border:1px solid rgba(6,182,212,.25)}
+.hb.r{background:var(--rq-bg);color:var(--rq);border:1px solid rgba(167,139,250,.25)}
+
+.canvas{position:fixed;top:80px;left:0;right:0;bottom:0;overflow:hidden}
+.canvas-inner{position:absolute;width:1940px;height:1040px;transform-origin:top left;will-change:transform}
+.csvg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+
+.fl{fill:none;stroke-linecap:round;stroke-width:3;stroke-dasharray:14 10;animation:dashAnim 2s linear infinite}
+.fl-ci{stroke:#00d4ff;opacity:.7}
+.fl-cd{stroke:#ffb800;opacity:.7}
+.fl-gt{stroke:#ff3366;opacity:.75}
+.fl-fb{stroke:#ffb800;opacity:.45;stroke-dasharray:12 8;stroke-width:2.5;animation:dashAnim 3.5s linear infinite}
+@keyframes dashAnim{to{stroke-dashoffset:-72}}
+.gl{fill:none;stroke-linecap:round;stroke-width:12;filter:blur(6px);opacity:.15}
+.gl-ci{stroke:#00d4ff}.gl-cd{stroke:#ffb800}.gl-gt{stroke:#ff3366}
+
+.sc{position:absolute;width:320px;height:320px;background:var(--bg-card);border-radius:50%;padding:38px 28px 24px;cursor:pointer;transition:all .3s ease;z-index:10;opacity:0;transform:translateY(12px);animation:appear .5s ease-out forwards;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+@keyframes appear{to{opacity:1;transform:translateY(0)}}
+.sc.ci{border:2.5px solid var(--ci);box-shadow:0 0 18px rgba(0,212,255,.12),inset 0 0 30px rgba(0,212,255,.03);animation:appear .5s ease-out forwards,ciPulse 4s ease-in-out infinite}
+.sc.cd{border:2.5px solid var(--cd);box-shadow:0 0 18px rgba(255,184,0,.12),inset 0 0 30px rgba(255,184,0,.03);animation:appear .5s ease-out forwards,cdPulse 4s ease-in-out infinite}
+@keyframes ciPulse{0%,100%{box-shadow:0 0 18px rgba(0,212,255,.12),inset 0 0 30px rgba(0,212,255,.03)}50%{box-shadow:0 0 28px rgba(0,212,255,.2),inset 0 0 30px rgba(0,212,255,.05)}}
+@keyframes cdPulse{0%,100%{box-shadow:0 0 18px rgba(255,184,0,.12),inset 0 0 30px rgba(255,184,0,.03)}50%{box-shadow:0 0 28px rgba(255,184,0,.2),inset 0 0 30px rgba(255,184,0,.05)}}
+.sc::before{display:none}
+.sc:hover{background:var(--bg-card-hover);transform:translateY(-4px)!important}
+.sc.ci:hover{box-shadow:0 0 35px rgba(0,212,255,.25),inset 0 0 30px rgba(0,212,255,.05);border-color:rgba(0,212,255,.9)}
+.sc.cd:hover{box-shadow:0 0 35px rgba(255,184,0,.25),inset 0 0 30px rgba(255,184,0,.05);border-color:rgba(255,184,0,.9)}
+.snum{font-family:var(--mono);font-size:1.1rem;font-weight:700;letter-spacing:.1em;color:var(--text2);margin-bottom:3px}
+.sico{font-size:2.475rem;margin-bottom:5px;display:block;line-height:1}
+.snam{font-family:var(--mono);font-size:1.386rem;font-weight:700;letter-spacing:.04em;margin-bottom:3px}
+.sc.ci .snam{color:var(--ci)}.sc.cd .snam{color:var(--cd)}
+.ssub{font-size:1.1rem;color:var(--text2);margin-bottom:8px;line-height:1.3}
+.sthr{font-family:var(--mono);font-size:.946rem;color:var(--threat);opacity:.9;margin-bottom:0}
+.drow{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;justify-content:center}
+.dp{font-family:var(--mono);font-size:.836rem;padding:2px 8px;border-radius:3px;font-weight:500}
+.dp.gc{color:var(--gcp);background:var(--gcp-bg)}.dp.tl{color:var(--tools);background:var(--tools-bg)}.dp.oc{color:var(--orca);background:var(--orca-bg)}.dp.rq{color:var(--rq);background:var(--rq-bg)}
+.chint{display:none}
+
+.inst-note{position:absolute;z-index:8;font-family:var(--mono);font-size:1.08rem;color:var(--text2);letter-spacing:.04em;text-align:left;opacity:0;animation:appear .5s ease-out .9s forwards;pointer-events:none}
+.inst-note .inst-ico{font-size:1.3rem;margin-bottom:3px;display:inline;margin-right:6px;opacity:.7}
+.inst-note .inst-txt{background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 18px;white-space:nowrap}
+
+.tp{position:absolute;font-family:var(--mono);font-size:.75rem;color:var(--threat);background:var(--threat-bg);border:1px solid rgba(255,68,68,.18);padding:4px 12px;border-radius:3px;white-space:nowrap;z-index:9;pointer-events:none;animation:tpf 4s ease-in-out infinite}
+.tp::before{content:'\26A0 ';font-size:.65rem}
+@keyframes tpf{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:.9;transform:translateY(-2px)}}
+.tp-wrap{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;z-index:9;pointer-events:none}
+.tp-wrap .tp{position:static}
+
+.gc4{position:absolute;z-index:15;cursor:pointer;transition:all .3s ease;opacity:0;animation:appear .5s ease-out .3s forwards,gg 3s ease-in-out infinite}
+.gc4:hover{transform:scale(1.04)}
+.gc4:hover .gpil{border-color:rgba(255,51,102,.5);box-shadow:0 0 24px rgba(255,51,102,.25)}
+.gstr{display:flex;align-items:stretch;position:relative}
+.gpil{width:31px;background:linear-gradient(180deg,rgba(255,51,102,.18),rgba(255,51,102,.06));border:1px solid rgba(255,51,102,.35);border-radius:5px;position:relative;transition:all .3s}
+.gpil::before{content:'';position:absolute;top:8px;left:6px;right:6px;height:10px;background:var(--gate);border-radius:2px;opacity:.6}
+.gpil::after{content:'';position:absolute;bottom:8px;left:6px;right:6px;height:10px;background:var(--gate);border-radius:2px;opacity:.6}
+.gcb{position:absolute;top:-10px;left:-8px;right:-8px;height:20px;background:rgba(255,51,102,.15);border:1px solid rgba(255,51,102,.35);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.gcbl{font-family:var(--mono);font-size:.814rem;font-weight:700;color:var(--gate);letter-spacing:.1em;white-space:nowrap}
+.gin{width:251px;padding:34px 18px 18px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.gico{font-size:2.75rem;margin-bottom:8px}
+.gttl{font-family:var(--mono);font-size:1.463rem;font-weight:700;color:var(--gate);margin-bottom:4px}
+.gsub{font-size:1.1rem;color:var(--text2);margin-bottom:10px;line-height:1.3}
+.gln{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gate),transparent);margin:10px 0;opacity:.4}
+.gdp{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.gthr{font-family:var(--mono);font-size:.946rem;color:var(--threat);opacity:.9;margin-bottom:8px}
+@keyframes gg{0%,100%{box-shadow:0 0 15px rgba(255,51,102,.1)}50%{box-shadow:0 0 35px rgba(255,51,102,.25)}}
+
+.mo{position:fixed;inset:0;background:rgba(5,8,18,.85);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:30px;opacity:0;transition:opacity .3s ease}
+.mo.on{display:flex;opacity:1}
+.md{background:var(--bg-mid);border:1px solid var(--border-glow);border-radius:12px;max-width:1280px;width:100%;max-height:85vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform .3s ease;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.mo.on .md{transform:translateY(0)}
+.md::-webkit-scrollbar{width:6px}.md::-webkit-scrollbar-track{background:transparent}.md::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+.mh{padding:24px 28px 18px;border-bottom:1px solid var(--border-subtle);position:sticky;top:0;background:var(--bg-mid);z-index:10;display:flex;justify-content:space-between;align-items:flex-start}
+.mhl{flex:1}
+.msn{font-family:var(--mono);font-size:.78rem;font-weight:600;letter-spacing:.1em;color:var(--text3);margin-bottom:3px}
+.mtt{font-family:var(--mono);font-size:1.6rem;font-weight:700;margin-bottom:3px}
+.mtt.ci{color:var(--ci)}.mtt.cd{color:var(--cd)}.mtt.gate{color:var(--gate)}
+.mst{font-size:.92rem;color:var(--text2)}
+.mcl{background:none;border:1px solid var(--border-subtle);color:var(--text2);font-size:1.1rem;cursor:pointer;padding:6px 12px;border-radius:4px;font-family:var(--mono);transition:all .2s}
+.mcl:hover{background:rgba(255,255,255,.05);color:var(--text1)}
+.mb{padding:20px 28px 28px}
+.mdesc{font-size:.95rem;color:var(--text2);line-height:1.65;margin-bottom:24px;padding:14px;background:rgba(255,255,255,.02);border-radius:6px;border-left:3px solid var(--text3)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.msec{background:rgba(255,255,255,.02);border:1px solid var(--border-subtle);border-radius:8px;padding:16px}
+.msec.threats{border-color:rgba(255,68,68,.2)}.msec.gcp{border-color:rgba(66,133,244,.2)}.msec.tools{border-color:rgba(52,211,153,.2)}.msec.orca{border-color:rgba(6,182,212,.2)}.msec.rq{border-color:rgba(167,139,250,.2)}
+.stit{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.stit .dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.stit.threats{color:var(--threat)}.stit.threats .dot{background:var(--threat)}
+.stit.gcp{color:var(--gcp)}.stit.gcp .dot{background:var(--gcp)}
+.stit.tools{color:var(--tools)}.stit.tools .dot{background:var(--tools)}
+.stit.orca{color:var(--orca)}.stit.orca .dot{background:var(--orca)}
+.stit.rq{color:var(--rq)}.stit.rq .dot{background:var(--rq)}
+.di{margin-bottom:10px}.di:last-child{margin-bottom:0}
+.dn{font-family:var(--mono);font-size:.78rem;font-weight:600;margin-bottom:2px}
+.threats .dn{color:var(--threat)}.gcp .dn{color:var(--gcp)}.tools .dn{color:var(--tools)}.orca .dn{color:var(--orca)}.rq .dn{color:var(--rq)}
+.dd{font-size:.78rem;color:var(--text2);line-height:1.45}
+.nat{font-family:var(--mono);font-size:.72rem;color:var(--text3);font-style:italic}
+.mincident{margin-top:20px;background:linear-gradient(135deg,rgba(255,184,0,0.04),rgba(255,51,102,0.04));border:1px solid rgba(255,184,0,0.2);border-radius:8px;padding:18px 20px;position:relative;overflow:hidden}
+.mincident::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cd),var(--gate));opacity:.6}
+.mincident-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.mincident-ico{font-size:1.1rem}
+.mincident-label{font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.1em;color:var(--cd);text-transform:uppercase}
+.mincident-year{font-family:var(--mono);font-size:.72rem;color:var(--text3);margin-left:auto;background:rgba(255,184,0,0.1);padding:3px 10px;border-radius:3px}
+.mincident-name{font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--text1);margin-bottom:8px}
+.mincident-body{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px}
+.mincident-lesson{font-size:.86rem;color:var(--cd);line-height:1.5;padding:10px 14px;background:rgba(255,184,0,0.06);border-radius:5px;border-left:3px solid var(--cd)}
+.sc[data-stage="1"]{animation-delay:.05s,.05s}.sc[data-stage="2"]{animation-delay:.15s,.15s}.sc[data-stage="3"]{animation-delay:.25s,.25s}.sc[data-stage="5"]{animation-delay:.45s,.45s}.sc[data-stage="6"]{animation-delay:.55s,.55s}.sc[data-stage="7"]{animation-delay:.65s,.65s}.sc[data-stage="8"]{animation-delay:.75s,.75s}
+
+/* === AUTOMATE BUTTON === */
+.abtn{position:absolute;top:14px;right:auto;left:50%;transform:translateX(-50%);z-index:12;display:flex;align-items:center;gap:6px;padding:4px 14px 4px 10px;border-radius:20px;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.1);cursor:pointer;transition:all .25s ease;font-family:var(--mono);font-size:.864rem;font-weight:600;letter-spacing:.06em;color:#10b981;text-transform:uppercase;white-space:nowrap;backdrop-filter:blur(4px)}
+.abtn:hover{background:rgba(16,185,129,.22);border-color:rgba(16,185,129,.6);box-shadow:0 0 14px rgba(16,185,129,.25);transform:translateX(-50%) scale(1.05)}
+.abtn:active{transform:translateX(-50%) scale(.97)}
+.abtn .abico{font-size:1.008rem;line-height:1;display:flex;align-items:center}
+.abtn .abpulse{width:9px;height:9px;border-radius:50%;background:#10b981;animation:abp 2s ease-in-out infinite;flex-shrink:0}
+@keyframes abp{0%,100%{opacity:.4;box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{opacity:1;box-shadow:0 0 0 4px rgba(16,185,129,0)}}
+
+/* Gate card automate button override */
+.gc4 .abtn{top:16px;bottom:auto;left:50%;right:auto;transform:translateX(-50%)}
+.gc4 .abtn:hover{transform:translateX(-50%) scale(1.05)}
+.gc4 .abtn:active{transform:translateX(-50%) scale(.97)}
+
+/* === AUTOMATION MODAL === */
+.amo{position:fixed;inset:0;background:rgba(5,8,18,.88);backdrop-filter:blur(10px);z-index:1001;display:none;align-items:center;justify-content:center;padding:30px;opacity:0;transition:opacity .3s ease}
+.amo.on{display:flex;opacity:1}
+.amd{background:var(--bg-mid);border:1px solid rgba(16,185,129,.25);border-radius:14px;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform .3s ease;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.amo.on .amd{transform:translateY(0)}
+.amd::-webkit-scrollbar{width:6px}.amd::-webkit-scrollbar-track{background:transparent}.amd::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+.amd::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#10b981,#34d399,#10b981);box-shadow:0 0 16px rgba(16,185,129,.4)}
+.amh{padding:24px 28px 18px;border-bottom:1px solid var(--border-subtle);position:sticky;top:0;background:var(--bg-mid);z-index:10;display:flex;justify-content:space-between;align-items:flex-start;border-radius:14px 14px 0 0}
+.amhl{flex:1}
+.amsn{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.1em;color:#10b981;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.amsn::before{content:'';width:7px;height:7px;border-radius:50%;background:#10b981;animation:abp 2s ease-in-out infinite}
+.amtt{font-family:var(--mono);font-size:1.4rem;font-weight:700;color:#34d399;margin-bottom:3px}
+.amst{font-size:.82rem;color:var(--text2)}
+.amcl{background:none;border:1px solid var(--border-subtle);color:var(--text2);font-size:1.1rem;cursor:pointer;padding:6px 12px;border-radius:4px;font-family:var(--mono);transition:all .2s}
+.amcl:hover{background:rgba(255,255,255,.05);color:var(--text1)}
+.amb{padding:20px 28px 28px}
+
+.amchallenge{font-size:.88rem;color:var(--text2);line-height:1.65;margin-bottom:24px;padding:16px;background:rgba(255,68,68,.04);border-radius:8px;border-left:3px solid var(--threat)}
+.amchallenge .amcl-title{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--threat);margin-bottom:8px;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.amchallenge .amcl-title::before{content:'\26A0';font-size:.65rem}
+
+.amlist{display:flex;flex-direction:column;gap:14px}
+.amai{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.15);border-radius:8px;padding:16px;transition:all .2s ease}
+.amai:hover{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.07)}
+.amai-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.amai-ico{width:28px;height:28px;border-radius:6px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.amai-n{font-family:var(--mono);font-size:.82rem;font-weight:700;color:#34d399}
+.amai-tag{font-family:var(--mono);font-size:.55rem;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.06em;margin-left:auto;flex-shrink:0}
+.amai-tag.agent{background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25)}
+.amai-tag.auto{background:rgba(16,185,129,.12);color:#10b981;border:1px solid rgba(16,185,129,.25)}
+.amai-tag.ml{background:rgba(0,212,255,.12);color:#00d4ff;border:1px solid rgba(0,212,255,.25)}
+.amai-d{font-size:.8rem;color:var(--text2);line-height:1.55}
+.amai-tools{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
+.amai-tool{font-family:var(--mono);font-size:.58rem;padding:2px 8px;border-radius:3px;background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border-subtle)}
+
+/* === SCORING TABLE === */
+.score-tbl{width:100%;border-collapse:separate;border-spacing:0;margin-bottom:24px;border-radius:8px;overflow:hidden;border:1px solid var(--border-subtle)}
+.score-tbl thead th{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 8px;background:rgba(255,255,255,.03);color:var(--text2);border-bottom:1px solid var(--border-subtle);text-align:center;white-space:nowrap}
+.score-tbl thead th:first-child{text-align:left;padding-left:14px;min-width:180px}
+.score-tbl tbody tr{transition:background .15s}
+.score-tbl tbody tr:hover{background:rgba(255,255,255,.02)}
+.score-tbl tbody td{padding:10px 8px;font-size:.76rem;color:var(--text2);border-bottom:1px solid var(--border-subtle);text-align:center;vertical-align:middle}
+.score-tbl tbody td:first-child{text-align:left;padding-left:14px;font-family:var(--mono);font-weight:600;color:var(--text1);font-size:.72rem}
+.score-tbl tbody tr:last-child td{border-bottom:none}
+
+/* Priority badges */
+.pri{font-family:var(--mono);font-size:.6rem;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:.06em;white-space:nowrap;display:inline-block}
+.pri-1{background:rgba(16,185,129,.18);color:#34d399;border:1px solid rgba(16,185,129,.35);box-shadow:0 0 8px rgba(16,185,129,.15)}
+.pri-2{background:rgba(0,212,255,.12);color:#00d4ff;border:1px solid rgba(0,212,255,.25)}
+.pri-3{background:rgba(255,184,0,.1);color:#ffb800;border:1px solid rgba(255,184,0,.25)}
+.pri-4{background:rgba(255,68,68,.1);color:#ff6666;border:1px solid rgba(255,68,68,.2)}
+
+/* Score pills */
+.spill{font-family:var(--mono);font-size:.58rem;font-weight:600;padding:2px 8px;border-radius:3px;white-space:nowrap;display:inline-block}
+.sp-safe-low{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.sp-safe-med{background:rgba(255,184,0,.1);color:#ffb800;border:1px solid rgba(255,184,0,.2)}
+.sp-safe-hi{background:rgba(255,68,68,.1);color:#ff6666;border:1px solid rgba(255,68,68,.2)}
+.sp-mat-now{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.sp-mat-emerging{background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.2)}
+.sp-mat-experimental{background:rgba(255,68,68,.1);color:#ff6666;border:1px solid rgba(255,68,68,.2)}
+.sp-ease-easy{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.sp-ease-moderate{background:rgba(0,212,255,.1);color:#00d4ff;border:1px solid rgba(0,212,255,.2)}
+.sp-ease-hard{background:rgba(255,184,0,.1);color:#ffb800;border:1px solid rgba(255,184,0,.2)}
+.sp-ease-vhard{background:rgba(255,68,68,.1);color:#ff6666;border:1px solid rgba(255,68,68,.2)}
+.sp-imp-crit{background:rgba(255,51,102,.12);color:#ff3366;border:1px solid rgba(255,51,102,.25);font-weight:700}
+.sp-imp-high{background:rgba(255,184,0,.1);color:#ffb800;border:1px solid rgba(255,184,0,.2)}
+.sp-imp-med{background:rgba(0,212,255,.08);color:#66d9ff;border:1px solid rgba(0,212,255,.15)}
+
+/* Scoring row inside amai card */
+.amai-scores{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle)}
+.amai-score-item{display:flex;align-items:center;gap:4px}
+.amai-score-label{font-family:var(--mono);font-size:.52rem;color:var(--text3);letter-spacing:.04em;text-transform:uppercase}
+
+/* Priority header in table */
+.pri-rank{font-family:var(--mono);font-size:.68rem;font-weight:700;color:var(--text3);margin-right:6px}
+
+/* Section divider between table and cards */
+.am-section-title{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.1em;color:var(--text2);margin:20px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border-subtle);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.am-section-title::before{content:'';width:12px;height:2px;background:#10b981;border-radius:1px}
+
+/* === THREAT-CENTRIC MODAL LAYOUT === */
+.m-layout{display:flex;gap:20px;min-height:420px}
+.m-threats-col{width:38%;flex-shrink:0;display:flex;flex-direction:column;gap:8px}
+.m-controls-col{width:62%;position:sticky;top:0;align-self:flex-start}
+
+/* Threat cards */
+.m-tcard{cursor:pointer;padding:14px 16px;border-radius:8px;border:1px solid rgba(255,68,68,.12);background:rgba(255,68,68,.03);transition:all .3s ease;position:relative}
+.m-tcard:hover{border-color:rgba(255,68,68,.3);background:rgba(255,68,68,.06)}
+.m-tcard.active{border-color:rgba(255,68,68,.5);background:rgba(255,68,68,.1);box-shadow:0 0 16px rgba(255,68,68,.12)}
+.m-tcard-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.m-tcard .sev{font-family:var(--mono);font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:.06em;flex-shrink:0}
+.sev-critical{background:rgba(255,51,102,.18);color:#ff3366;border:1px solid rgba(255,51,102,.35);animation:sevPulse 3s ease-in-out infinite}
+.sev-high{background:rgba(255,184,0,.12);color:#ffb800;border:1px solid rgba(255,184,0,.3)}
+.sev-medium{background:rgba(0,212,255,.1);color:#66d9ff;border:1px solid rgba(0,212,255,.2)}
+.sev-low{background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.2)}
+@keyframes sevPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,51,102,0)}50%{box-shadow:0 0 8px 2px rgba(255,51,102,.15)}}
+.m-tcard .tname{font-family:var(--mono);font-size:.88rem;font-weight:700;color:var(--text1)}
+.m-tcard .tscore{font-family:var(--mono);font-size:.65rem;color:var(--text3);margin-left:auto;white-space:nowrap}
+.m-tcard .tdesc{font-size:.86rem;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.m-tcard .tresidual{font-size:.82rem;color:var(--text3);line-height:1.45;padding:8px 12px;background:rgba(255,255,255,.02);border-radius:4px;border-left:2px solid rgba(255,68,68,.25);display:none}
+.m-tcard.active .tresidual{display:block}
+.m-tcard .trole-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;display:none}
+.m-tcard.active .trole-tags{display:flex}
+.trole{font-family:var(--mono);font-size:.62rem;padding:3px 8px;border-radius:3px;font-weight:600;letter-spacing:.05em}
+.trole-prevent{background:rgba(52,211,153,.1);color:#34d399;border:1px solid rgba(52,211,153,.2)}
+.trole-detect{background:rgba(0,212,255,.1);color:#00d4ff;border:1px solid rgba(0,212,255,.2)}
+.trole-respond{background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.2)}
+.m-tcard .tclick-hint{font-family:var(--mono);font-size:.6rem;color:var(--text3);position:absolute;bottom:4px;right:8px;opacity:.5;transition:opacity .2s}
+.m-tcard:hover .tclick-hint{opacity:.8}
+.m-tcard.active .tclick-hint{display:none}
+
+/* Impact/Likelihood meter */
+.m-tcard .tmeter{display:flex;align-items:center;gap:10px;margin-top:4px;margin-bottom:4px}
+.tmeter-item{display:flex;align-items:center;gap:4px}
+.tmeter-label{font-family:var(--mono);font-size:.6rem;color:var(--text3);letter-spacing:.04em;text-transform:uppercase}
+.tmeter-dots{display:flex;gap:2px}
+.tmeter-dot{width:8px;height:8px;border-radius:2px;background:rgba(255,255,255,.08);transition:background .3s}
+.tmeter-dot.on{background:var(--threat)}
+.tmeter-dot.on.t4,.tmeter-dot.on.t5{background:#ff3366}
+
+/* Controls column */
+.m-ctrl-group{margin-bottom:14px}
+.m-ctrl-group-title{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.m-ctrl-group-title .gdot{width:6px;height:6px;border-radius:2px;flex-shrink:0}
+.m-ctrl-group.gcp .m-ctrl-group-title{color:var(--gcp)}.m-ctrl-group.gcp .gdot{background:var(--gcp)}
+.m-ctrl-group.tools .m-ctrl-group-title{color:var(--tools)}.m-ctrl-group.tools .gdot{background:var(--tools)}
+.m-ctrl-group.orca .m-ctrl-group-title{color:var(--orca)}.m-ctrl-group.orca .gdot{background:var(--orca)}
+.m-ctrl-group.rq .m-ctrl-group-title{color:var(--rq)}.m-ctrl-group.rq .gdot{background:var(--rq)}
+.m-ctrl-item{padding:10px 14px;border-radius:6px;border:1px solid var(--border-subtle);margin-bottom:6px;transition:all .4s ease;background:rgba(255,255,255,.015)}
+.m-ctrl-item.dimmed{opacity:.12;transform:scale(.98)}
+.m-ctrl-item.hl-gcp{border-color:rgba(66,133,244,.4);background:rgba(66,133,244,.08);box-shadow:0 0 10px rgba(66,133,244,.08)}
+.m-ctrl-item.hl-tools{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08);box-shadow:0 0 10px rgba(52,211,153,.08)}
+.m-ctrl-item.hl-orca{border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.08);box-shadow:0 0 10px rgba(6,182,212,.08)}
+.m-ctrl-item.hl-rq{border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.08);box-shadow:0 0 10px rgba(167,139,250,.08)}
+.m-ctrl-item .ctrl-name{font-family:var(--mono);font-size:.82rem;font-weight:600;margin-bottom:2px}
+.m-ctrl-group.gcp .ctrl-name{color:var(--gcp)}.m-ctrl-group.tools .ctrl-name{color:var(--tools)}.m-ctrl-group.orca .ctrl-name{color:var(--orca)}.m-ctrl-group.rq .ctrl-name{color:var(--rq)}
+.m-ctrl-item .ctrl-desc{font-size:.82rem;color:var(--text2);line-height:1.45}
+.m-ctrl-item .ctrl-role-badge{display:none;margin-top:4px}
+.m-ctrl-item.hl-gcp .ctrl-role-badge,.m-ctrl-item.hl-tools .ctrl-role-badge,.m-ctrl-item.hl-orca .ctrl-role-badge,.m-ctrl-item.hl-rq .ctrl-role-badge{display:inline-block}
+
+/* Column header labels */
+.m-col-label{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:6px}
+.m-col-label.threats-label{color:var(--threat)}.m-col-label.ctrl-label{color:var(--text2)}
+.m-col-label::before{content:'';width:10px;height:2px;border-radius:1px}
+.m-col-label.threats-label::before{background:var(--threat)}.m-col-label.ctrl-label::before{background:var(--text3)}
+
+/* Coverage indicator on threat card when active */
+.m-tcard .tcoverage{display:none;margin-top:6px;font-family:var(--mono);font-size:.65rem;color:var(--text3)}
+.m-tcard.active .tcoverage{display:flex;gap:10px;flex-wrap:wrap}
+.tcov-item{display:flex;align-items:center;gap:3px}
+.tcov-dot{width:5px;height:5px;border-radius:50%}
+.tcov-dot.gcp{background:var(--gcp)}.tcov-dot.tools{background:var(--tools)}.tcov-dot.orca{background:var(--orca)}.tcov-dot.rq{background:var(--rq)}
+
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-left">
+    <h1>CI/CD PIPELINE SECURITY</h1>
+    <div class="sub">Securing Containerized Workloads on GKE &mdash; Defense-in-Depth Architecture</div>
+  </div>
+  <div class="hbadges">
+    <span class="hb g">GCP SERVICES</span>
+    <span class="hb k">GKE / KUBERNETES</span>
+    <span class="hb o">ORCA SECURITY (CNAPP)</span>
+    <span class="hb r">RELIAQUEST (MDR)</span>
+  </div>
+</header>
+<div class="canvas" id="cv">
+  <div class="canvas-inner" id="cvi">
+    <svg class="csvg" id="svg" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="aci" viewBox="0 0 14 10" refX="12" refY="5" markerWidth="12" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L14 5L0 10z" fill="#00d4ff" opacity=".8"/></marker>
+      <marker id="acd" viewBox="0 0 14 10" refX="12" refY="5" markerWidth="12" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L14 5L0 10z" fill="#ffb800" opacity=".8"/></marker>
+      <marker id="agt" viewBox="0 0 14 10" refX="12" refY="5" markerWidth="12" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L14 5L0 10z" fill="#ff3366" opacity=".85"/></marker>
+      <marker id="afb" viewBox="0 0 14 10" refX="12" refY="5" markerWidth="12" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L14 5L0 10z" fill="#ffb800" opacity=".55"/></marker>
+    </defs>
+  </svg>
+  </div>
+</div>
+<div class="mo" id="mo">
+  <div class="md" id="md">
+    <div class="mh"><div class="mhl"><div class="msn" id="msn"></div><h2 class="mtt" id="mtt"></h2><div class="mst" id="mst"></div></div><button class="mcl" id="mcl">&#10005; ESC</button></div>
+    <div class="mb" id="mb"></div>
+  </div>
+</div>
+<div class="amo" id="amo">
+  <div class="amd" id="amd">
+    <div class="amh"><div class="amhl"><div class="amsn" id="amsn"></div><h2 class="amtt" id="amtt"></h2><div class="amst" id="amst"></div></div><button class="amcl" id="amcl">&#10005; ESC</button></div>
+    <div class="amb" id="amb"></div>
+  </div>
+</div>
+<script>
+var S=[
+{id:1,n:"SOURCE CODE",st:"Version Control, Secrets & SAST Gate",ic:"\u{1F4DD}",lp:"CI PIPELINE",t:"ci",desc:"Where all code, IaC templates (Terraform, Helm), and Kubernetes manifests originate. The first attack surface \u2014 if source is compromised, everything downstream inherits the risk. SAST runs here as a PR gate: webhooks trigger automated scans on every pull request, blocking merge on critical findings before the developer has moved on.",th:[{n:"Credential Leakage",d:"API keys, service account JSON, and secrets hardcoded or committed to repos"},{n:"Undetected Code Vulns (pre-build)",d:"SQL injection, XSS, SSRF, and deserialization flaws catchable at source \u2014 the cheapest point to fix. SAST as a PR gate blocks these before they ever reach the build stage"},{n:"Dependency Confusion",d:"Attackers publish malicious packages with names matching internal dependencies"},{n:"Malicious Commits",d:"Compromised developer accounts pushing backdoored code or IaC changes"},{n:"Unsigned Commits",d:"No cryptographic proof of commit authorship enables impersonation"},{n:"Typosquatting",d:"Near-identical package names in npm/PyPI registries delivering malware"}],gcp:[{n:"Secret Manager",d:"Centralized secret storage with automatic rotation, IAM-bound access, and audit logging"},{n:"Secure Source Manager",d:"Regionally deployed, single-tenant managed Git hosting with IAM integration, VPC Service Controls support, and Artifact Registry integration"},{n:"Cloud KMS",d:"Managed keys for GPG commit signing and secret envelope encryption"},{n:"VPC Service Controls",d:"Prevent secret exfiltration by restricting API access to trusted perimeters"}],tl:[{n:"Semgrep (PR Gate SAST)",d:"Webhook-triggered on every pull request. Scans source code for injection flaws, auth issues, and custom security patterns. Posts findings as PR comments and can block merge on critical severity. Developer gets feedback while the code is still fresh \u2014 the optimal fix window."},{n:"SonarQube (PR Gate SAST)",d:"Comprehensive code quality and security analysis triggered on PR open/update via webhook. Quality gate enforcement: PRs failing security thresholds are blocked from merging. Covers OWASP Top 10, CWE Top 25, and custom organizational rulesets."},{n:"CodeQL / GitHub Advanced Security",d:"GitHub's semantic code analysis engine. Runs as a PR check, tracing data flows through the entire application to find vulnerabilities SAST tools miss. Also monitors the build process tree during compilation \u2014 essential for catching vulnerabilities in compiled languages that source-only SAST misses."},{n:"Pre-commit Hooks",d:"gitleaks, truffleHog: scan for secrets before code reaches the remote. Note: high maintenance burden in practice \u2014 valuable but not a substitute for PR-gate scanning."},{n:"Branch Protection",d:"Require PR reviews, passing SAST status checks, and signed commits on main/release branches. The enforcement mechanism that makes PR-gate SAST blocking rather than advisory."},{n:"Dependency Pinning",d:"Lock files with hash verification (package-lock.json, go.sum)"},{n:"Renovate / Dependabot",d:"Automated dependency updates with vulnerability alerting"},{n:"CODEOWNERS",d:"Enforce review requirements from specific teams for sensitive paths"},{n:"Threat Modeling (STRIDE/PASTA)",d:"Structured threat identification during design and code review. STRIDE for spoofing/tampering/repudiation/info-disclosure/DoS/elevation-of-privilege analysis. Attack trees for complex threat scenarios. Feeds threat intelligence into security requirements before code is written"}],orca:null,rq:null,incident:{year:"2024",name:"XZ Utils Backdoor (CVE-2024-3094)",summary:"A threat actor using the alias 'Jia Tan' spent nearly 3 years building trust as a contributor to the XZ Utils open-source project. After gaining maintainer access through social engineering (including sock puppet accounts pressuring the original maintainer), they injected a sophisticated backdoor into liblzma that would have enabled unauthenticated remote code execution on any Linux system running SSH with systemd. The backdoor was only caught by chance when a Microsoft engineer noticed a 500ms SSH latency regression. CVSS 10.0.",lesson:"Commit signing, CODEOWNERS review requirements, and maintainer identity verification are not optional. This attack would have been mitigated by enforcing GPG-signed commits and requiring multi-party review on all changes to build infrastructure files. The 'benevolent stranger' attack pattern \u2014 where an attacker slowly builds trust over years \u2014 is now a proven nation-state technique."}},
+{id:2,n:"BUILD",st:"Container Image Construction",ic:"\u{1F3D7}\uFE0F",lp:"CI PIPELINE",t:"ci",desc:"Container images are assembled from base images, application code, and dependencies. Build environments are high-value targets \u2014 a compromised build produces trusted-looking malicious artifacts at scale.",th:[{n:"Poisoned Base Images",d:"Compromised or outdated base images propagate vulnerabilities to every downstream image"},{n:"Build Env Tampering",d:"Persistent build workers with writable caches enable supply-chain injection"},{n:"Dependency Hijacking",d:"Compromised upstream libraries injected during build resolution"},{n:"Build Secret Leakage",d:"Secrets used during build baked into image layers"},{n:"Lack of Provenance",d:"No cryptographic attestation of what was built, by whom, from which source"}],gcp:[{n:"Cloud Build",d:"Serverless, ephemeral build workers with no persistent state between builds"},{n:"Artifact Registry",d:"Managed base image hosting with vulnerability scanning and lifecycle policies"},{n:"Cloud KMS + SLSA",d:"Generate SLSA Level 3 provenance attestations signed with Cloud KMS keys"},{n:"Workload Identity Federation",d:"Keyless authentication from external CI systems (GitHub Actions, GitLab CI, Jenkins, Harness) into GCP — no long-lived service account keys. Critical for multi-platform CI environments where not all builds run on Cloud Build"}],tl:[{n:"Distroless Images",d:"Google\u2019s distroless bases: no shell, no package manager, minimal CVE surface"},{n:"Multi-stage Builds",d:"Separate build-time deps from runtime image"},{n:"Kaniko / ko",d:"Daemonless, rootless container builds without Docker socket exposure"},{n:"Hermetic Builds",d:"All inputs declared and pinned; builds reproducible regardless of environment"},{n:"BuildKit Secrets",d:"Mount secrets during build without persisting in image layers"}],orca:null,rq:null,incident:{year:"2021",name:"Codecov Bash Uploader Compromise",summary:"Attackers exploited a flaw in Codecov\u2019s Docker image creation process to extract credentials, then modified the Bash Uploader script. For 2+ months (Jan\u2013Apr 2021), the tampered script silently exfiltrated CI environment variables from every customer\u2019s build environment. Hundreds of downstream networks were breached including HashiCorp (GPG signing key exposed). FBI investigated. 29,000+ customers affected.",lesson:"Build environments are treasure troves of secrets. Ephemeral, stateless build workers (like Cloud Build) eliminate persistent compromise risk. Cryptographic verification of all build tooling (checksum validation) would have detected the modified uploader. Never store production credentials in CI environment variables."}},
+{id:3,n:"SCA & IaC",st:"Artifact Composition & Config Gate",ic:"\u{1F9EA}",lp:"CI PIPELINE",t:"ci",desc:"Source SAST already ran at Stage 1 as a PR gate. This stage handles what can only be verified post-build: Software Composition Analysis on the assembled artifact (dependency tree as actually resolved, not just declared), IaC security scanning, and CodeQL\u2019s build-time monitoring for compiled languages. Compiled code can no longer be read statically by most SAST tools \u2014 these checks fill the gaps.",th:[{n:"IaC Misconfigurations",d:"Overly permissive GKE RBAC, missing NetworkPolicies, or public-facing LoadBalancers in Terraform \u2014 only detectable by scanning the rendered manifests, not source"},{n:"Dependency Resolution Drift",d:"Package manager resolves a different version than declared in lockfiles due to range specifiers or upstream changes \u2014 only visible in the built artifact"},{n:"Compiler-Induced Vulnerabilities",d:"Vulnerabilities introduced during compilation that are invisible in source: statically linked libraries, vendored deps, or build-injected configurations"},{n:"Build Secret Baking",d:"Secrets injected during build that end up baked into the artifact despite BuildKit secrets mounts"},{n:"License Violations",d:"Copyleft or restricted licenses in dependencies creating legal/compliance exposure \u2014 resolved at build time, not always visible in lockfiles"}],gcp:[{n:"Cloud Build Steps",d:"Integrate SCA and IaC scanners as native build steps with pass/fail gates after the build completes"},{n:"On-Demand Scanning",d:"API-driven container analysis callable mid-pipeline before registry push"}],tl:[{n:"SCA (Snyk / Socket.dev)",d:"Software Composition Analysis on the built artifact: dependency vulnerability scanning against the actual resolved tree, license compliance, and behavioral signals for malicious packages (new maintainers, typosquatting). Runs post-build because the resolved dependency graph only exists after build."},{n:"Checkov / tfsec",d:"IaC scanners for Terraform, Helm, and K8s manifests against CIS benchmarks. Catches misconfigurations in rendered infrastructure declarations that SAST wouldn\u2019t catch."},{n:"CodeQL (build-time mode)",d:"For compiled languages (Java, Go, C++), CodeQL can monitor the build process tree \u2014 comparing compiler output to source. Catches vulnerabilities that only become visible during compilation. Complements the PR-gate CodeQL scan at Stage 1."},{n:"Unit Security Tests",d:"Developer-written tests validating auth boundaries, input sanitization, and crypto usage \u2014 run as part of the test suite post-build"}],orca:[{n:"Shift-Left IaC Scanning",d:"Scans Terraform, Helm, CloudFormation, and K8s manifests for 1,600+ misconfiguration rules. Contextual risk scoring based on internet exposure and data sensitivity."}],rq:null,incident:{year:"2021",name:"ua-parser-js npm Hijacking",summary:"Attackers compromised the npm account of the maintainer of ua-parser-js (8M+ weekly downloads) and published three malicious versions that installed cryptominers on Linux/Windows and a password-stealing trojan. The malicious packages were live for ~4 hours before detection. Because dependency resolution happens at build time, any CI pipeline that ran npm install during that window pulled compromised code into production artifacts.",lesson:"SCA scanning on the built artifact (not just lockfiles) catches malicious packages that passed through during resolution. Dependency pinning with integrity hashes (package-lock.json with shasum) would have rejected the tampered package. Build-time behavioral analysis tools like Socket.dev detect suspicious post-install scripts before they execute."}},
+{id:4,n:"SCAN & SIGN",st:"Binary Authorization Gate",ic:"\u{1F510}",lp:"CI \u2192 CD SECURITY GATE",t:"gate",desc:"THE CRITICAL GATE between CI and CD. Every container image must be scanned for vulnerabilities, signed with cryptographic attestations, and generate an SBOM before deployment. Binary Authorization enforces this \u2014 unsigned images are rejected at admission.",th:[{n:"Vulnerable Images",d:"Known CVEs (Critical/High) in OS packages, language runtimes, or app dependencies"},{n:"Image Tampering",d:"Man-in-the-middle modification of images between registry and deployment"},{n:"Registry Compromise",d:"Unauthorized push of malicious images to trusted registry paths"},{n:"Missing SBOMs",d:"No software bill of materials makes incident response impossibly slow"},{n:"Tag Mutability",d:"Mutable tags (e.g., :latest) allow silent replacement of known-good images"}],gcp:[{n:"Artifact Registry",d:"Immutable image storage with vulnerability scanning, tag immutability, and cleanup policies"},{n:"Container Analysis",d:"Automated CVE scanning on push using the OSV vulnerability database"},{n:"Binary Authorization",d:"Admission controller requiring signed attestations before GKE schedules a pod"},{n:"Cloud KMS (Signing)",d:"HSM-backed asymmetric keys for image signing; private keys never leave Google\u2019s infra"}],tl:[{n:"Cosign (Sigstore)",d:"Keyless container image signing and verification with transparency log (Rekor)"},{n:"Trivy / Grype (SCA)",d:"Fast, comprehensive CVE and SCA scanning: OS packages, language dependencies, and SBOM-aware recursive scanning"},{n:"Syft",d:"SBOM generator producing SPDX and CycloneDX formats"},{n:"in-toto",d:"Supply chain attestation framework with cryptographic proof of each pipeline step"},{n:"Digest Pinning",d:"Reference images by SHA256 digest, not mutable tags"}],orca:[{n:"Agentless Image Scanning",d:"Scans container images without agents or registry access. Context-aware vulnerability prioritization: a Critical CVE in an internet-facing workload ranks higher than the same CVE in an internal batch job."}],rq:null,incident:{year:"2024",name:"Docker Hub Poisoned Images (5M+ Pulls)",summary:"Researchers at JFrog discovered thousands of malicious container images on Docker Hub, including typosquatted versions of popular images. Some had accumulated over 5 million pulls. The images contained cryptominers, credential stealers, and reverse shells. Many passed basic vulnerability scans because the malicious payloads were in custom application layers, not in known CVE-affected OS packages.",lesson:"Binary Authorization and image signing are the definitive controls. If your cluster only admits images with valid attestations from your own pipeline, poisoned public images are rejected at admission regardless of how convincing they look. Digest pinning (not tag-based references) prevents silent image replacement."}},
+{id:5,n:"DEPLOY",st:"GKE Admission & GitOps",ic:"\u{1F4E6}",lp:"CD PIPELINE",t:"cd",desc:"Workloads deployed to GKE through GitOps or CI-driven pipelines. Admission controllers enforce policy at the cluster gate \u2014 rejecting misconfigured, unsigned, or overly-privileged pod specs before they run.",th:[{n:"Misconfigured Clusters",d:"Public API servers, legacy ABAC, disabled audit logging, overly permissive default SAs"},{n:"RBAC Over-Privilege",d:"Cluster-admin bindings to service accounts, wildcard verbs, namespace-crossing roles"},{n:"Insecure Pod Specs",d:"privileged: true, hostPID, hostNetwork, writable hostPath mounts, SYS_ADMIN capabilities"},{n:"Unauthorized Images",d:"Deploying images that bypassed the scanning/signing gate"},{n:"Missing Network Policies",d:"Default-allow east-west traffic enabling lateral movement"},{n:"Unprotected API Endpoints",d:"APIs exposed without rate limiting, authentication enforcement, or WAF protection. GKE microservices often expose internal APIs via Ingress without Cloud Armor policies"}],gcp:[{n:"GKE Autopilot",d:"Google-managed hardened nodes: no SSH, no privileged containers, mandatory resource limits"},{n:"Binary Authorization",d:"Cluster-level admission: only images with valid attestations are schedulable"},{n:"Policy Controller",d:"OPA Gatekeeper managed by Google for PodSecurity Standards, image allowlists, label requirements"},{n:"Config Sync",d:"GitOps for GKE: cluster state declared in Git, automatically reconciled, with drift detection"},{n:"Workload Identity",d:"Map K8s ServiceAccounts to GCP IAM; pods get scoped credentials without key files"},{n:"Cloud Armor (WAF)",d:"L7 DDoS protection, pre-configured WAF rules (OWASP Top 10, SQLi, XSS), bot management, and adaptive protection for GKE Ingress and Gateway API endpoints"}],tl:[{n:"ArgoCD / Flux",d:"GitOps controllers reconciling desired state from Git; all deployments auditable and reversible"},{n:"Kyverno / Gatekeeper",d:"Policy engines for K8s admission: pod security, resource quotas, label standards"},{n:"Namespace Isolation",d:"Tenant separation with ResourceQuotas, LimitRanges, and NetworkPolicies per namespace"},{n:"Istio Service Mesh (Zero-Trust)",d:"Implements zero-trust network architecture: mTLS between all pods (no implicit trust), fine-grained AuthorizationPolicies per service, and full traffic observability via Kiali and Jaeger"},{n:"OWASP ZAP (DAST)",d:"Dynamic Application Security Testing against deployed staging/canary environments. Requires a running target — probes live HTTP endpoints for injection, auth bypass, and misconfig. Run post-deploy against ephemeral staging before production promotion"},{n:"Threat Modeling",d:"Structured risk assessment (STRIDE, PASTA, attack trees) during deployment planning. Identifies architecture-level threats that static tools cannot detect: trust boundary violations, data flow risks, and privilege escalation paths"}],orca:[{n:"KSPM (K8s Security Posture)",d:"Continuous assessment of GKE cluster configurations against CIS Kubernetes Benchmarks. Detects RBAC drift, missing network policies, and overly permissive pod specs without agents."}],rq:null,incident:{year:"2022",name:"Autopilot Vulnerability \u2014 GKE Privilege Escalation (CVE-2022-0811)",summary:"Security researchers demonstrated \u201Ccr8escape\u201D \u2014 a vulnerability in CRI-O (the container runtime) that allowed any user who could deploy a pod to escape the container and gain root on the host node. In GKE Standard clusters, this gave full node access. The attack exploited kernel parameters that could be set via pod annotations, bypassing all container isolation. Google patched GKE within days of disclosure.",lesson:"GKE Autopilot\u2019s locked-down node configuration blocks this entire attack class by preventing custom pod annotations, disabling SSH, and enforcing mandatory security contexts. Admission controllers (Policy Controller, Kyverno) should deny pods requesting dangerous kernel parameters, hostPID, or hostNetwork. Defense-in-depth means assuming container escape is possible and limiting blast radius."}},
+{id:6,n:"RUNTIME",st:"Workload Protection in GKE",ic:"\u26A1",lp:"CD PIPELINE",t:"cd",desc:"Containers running in production. Runtime is the highest-stakes phase \u2014 this is where attackers actually operate. Defense-in-depth layers: sandboxing, identity, network segmentation, and behavioral monitoring must all be active simultaneously.",th:[{n:"Container Escape",d:"Kernel exploits or misconfigured capabilities allowing breakout to host"},{n:"Privilege Escalation",d:"Exploiting writable ServiceAccount tokens, node metadata endpoints, or RBAC misconfig"},{n:"Cryptomining",d:"Compromised pods mining cryptocurrency, often the first indicator of a broader breach"},{n:"Lateral Movement",d:"Pivoting from a compromised pod to adjacent services via exposed APIs or shared secrets"},{n:"Data Exfiltration",d:"Staging and exfiltrating data through DNS tunneling, steganography, or authorized egress"},{n:"Zero-Day Exploitation",d:"Runtime attacks exploiting unknown vulnerabilities in application code or dependencies"}],gcp:[{n:"GKE Sandbox (gVisor)",d:"User-space kernel intercepting all syscalls; container escape requires defeating both gVisor and host kernel"},{n:"Shielded GKE Nodes",d:"Secure Boot + vTPM + integrity monitoring prevents rootkits"},{n:"Confidential GKE Nodes",d:"AMD SEV memory encryption; data encrypted in memory"},{n:"VPC Service Controls",d:"Security perimeters around GCP services preventing data exfiltration"},{n:"Container Threat Detection",d:"Detects reverse shells, crypto miners, malicious binaries, suspicious library loads"},{n:"Cloud Armor (Runtime WAF)",d:"Adaptive protection: ML-based L7 DDoS detection, rate limiting, geo-blocking, and custom WAF rules active on all internet-facing GKE services via Ingress/Gateway"},{n:"Workload Identity",d:"Short-lived, auto-rotated tokens; no key files"}],tl:[{n:"Falco",d:"Runtime syscall monitoring using eBPF for anomalous behavior detection"},{n:"Seccomp Profiles",d:"Restrict syscalls per container to a minimal allowlist"},{n:"AppArmor/SELinux",d:"Mandatory access control limiting file, network, and capability access per pod"},{n:"Read-only Root FS",d:"readOnlyRootFilesystem: true forces attackers to use tmpfs"},{n:"Non-root Containers",d:"runAsNonRoot: true eliminates trivial privilege escalation"},{n:"EDR Agent (CrowdStrike/SentinelOne)",d:"Endpoint Detection & Response on GKE nodes: kernel-level behavioral monitoring, fileless malware detection, and automated host isolation. Complements container-level Falco with host-level visibility across the node OS"}],orca:[{n:"Agentless Runtime Protection",d:"Detects runtime vulnerabilities and malware without sidecars or DaemonSets. SideScanning\u2122 reads workload runtime block storage out-of-band via the cloud control plane."}],rq:[{n:"Runtime Alert Ingestion",d:"GreyMatter ingests GKE runtime alerts (Container Threat Detection, Falco) and correlates with broader environment signals."}],incident:{year:"2023",name:"Scarleteel \u2014 Container-to-Cloud Attack Chain",summary:"Sysdig\u2019s Threat Research Team documented the Scarleteel operation: attackers exploited a vulnerable public-facing container to gain initial access, escaped the container, used IMDS to steal cloud credentials from the node\u2019s metadata service, then pivoted to AWS services (Lambda, S3, CloudTrail) to disable logging, steal data, and deploy cryptominers across the account. The entire kill chain \u2014 from container compromise to cloud account takeover \u2014 took minutes.",lesson:"Runtime defense must include IMDS restriction (Workload Identity replaces node metadata access), network egress controls (deny all, then allowlist), and behavioral monitoring (Falco detecting credential access patterns). gVisor sandboxing prevents the container escape that initiates this entire attack chain."}},
+{id:7,n:"MONITOR & DETECT",st:"Continuous Threat Detection",ic:"\u{1F4E1}",lp:"CD PIPELINE",t:"cd",desc:"Continuous monitoring correlating signals across the pipeline and infrastructure. This is where threats that bypassed preventive controls are detected \u2014 through behavioral anomalies, drift detection, or threat intelligence matching.",th:[{n:"Undetected Breaches",d:"Average breach lifecycle (identification + containment) is 241 days per IBM 2025 Cost of a Data Breach Report, the lowest in nine years; median dwell time per Mandiant M-Trends 2025 is 11 days (up from 10 in 2023), but many non-ransomware intrusions persist far longer"},{n:"Configuration Drift",d:"Manual kubectl changes bypass GitOps, creating undocumented cluster state"},{n:"Compliance Violations",d:"Workloads drifting out of CIS, SOC 2, PCI-DSS, ISO 27001, or HIPAA compliance"},{n:"Insider Threats",d:"Authorized users exfiltrating data or planting backdoors"},{n:"Alert Fatigue",d:"High false-positive rates causing analysts to ignore critical alerts"}],gcp:[{n:"Security Command Center",d:"Unified dashboard: vulnerability findings, threat detections, compliance status, attack path analysis"},{n:"Google SecOps (Chronicle SIEM)",d:"Petabyte-scale telemetry retention with sub-second search and YARA-L detection rules. Formerly Chronicle SIEM, now unified under Google SecOps with integrated SOAR and threat intelligence"},{n:"Event Threat Detection",d:"Detects brute force, crypto mining, IAM anomalies, data exfil from Cloud Audit Logs"},{n:"Cloud Logging + Log Analytics",d:"Centralized GKE audit logs, container stdout/stderr, VPC Flow Logs with BigQuery analytics"},{n:"Cloud Monitoring",d:"Metrics, uptime checks, alerting policies for GKE health"}],tl:[{n:"Threat Intelligence Feeds",d:"IOC matching against known malicious IPs, domains, file hashes"},{n:"Anomaly Detection (ML)",d:"Baseline normal behavior, alert on statistical deviations"},{n:"GKE Audit Logging",d:"Admin Activity and Data Access logs for every K8s API call"}],orca:[{n:"CNAPP Unified Dashboard",d:"Single pane correlating vulnerabilities, misconfigurations, lateral movement risks, and compliance across GKE, GCE, and Cloud Run. Attack path analysis for multi-step exploitation chains."},{n:"Compliance Frameworks",d:"Continuous assessment against CIS GKE Benchmarks, SOC 2, PCI-DSS, HIPAA, ISO 27001, NIST 800-53 with automated evidence collection and audit-ready reporting."}],rq:[{n:"GreyMatter MDR Platform",d:"24/7 SOC monitoring GCP and GKE. Correlates alerts from SCC, Google SecOps (Chronicle), Falco, and Orca. Per ReliaQuest, reduces MTTD by 60% through cross-platform correlation."},{n:"Threat Intelligence",d:"Proprietary feed integrated with Google SecOps (Chronicle) for IOC matching, campaign tracking, adversary TTP mapping."},{n:"Alert Triage & Enrichment",d:"Automated enrichment with asset context, user behavior, and threat intel. Human validation before escalation."}],incident:{year:"2020\u20132021",name:"SolarWinds Sunburst \u2014 18,000 Organizations Compromised",summary:"Russian SVR operatives (APT29/Cozy Bear) compromised SolarWinds\u2019 Orion build system and injected a backdoor (SUNBURST) into legitimate software updates. 18,000+ organizations \u2014 including US Treasury, DHS, DOJ, and Fortune 500 companies \u2014 installed the trojanized update. The attackers remained undetected for 9+ months, exfiltrating sensitive data through DNS beaconing that mimicked legitimate Orion traffic. Detection finally came from FireEye\u2019s own breach investigation.",lesson:"This is the definitive case for continuous monitoring with behavioral analytics. Signature-based detection was useless because the malware was signed with legitimate SolarWinds certificates. Detection required anomaly-based approaches: unusual DNS patterns, unexpected outbound connections, and threat intel correlation. YARA-L rules and cross-platform correlation (Google SecOps) are designed to catch exactly this pattern."}},
+{id:8,n:"RESPOND",st:"Incident Response & Remediation",ic:"\u{1F6E1}\uFE0F",lp:"FEEDS BACK \u2192 CI",t:"cd",desc:"When threats are detected, automated and human-driven response kicks in. Speed is everything \u2014 automated playbooks contain threats in seconds while human analysts investigate root cause. Findings feed back into CI as new security requirements.",th:[{n:"Slow Response (MTTR)",d:"Manual processes delay containment"},{n:"Incomplete Remediation",d:"Patching symptom without fixing root cause"},{n:"Evidence Destruction",d:"Pod restarts and autoscaling destroy forensic evidence"},{n:"Blast Radius Spread",d:"Failure to isolate compromised workloads"},{n:"Recurrence",d:"No post-incident learnings fed back into pipeline"}],gcp:[{n:"Google SecOps SOAR",d:"Automated response playbooks: isolate pods, revoke tokens, snapshot nodes, notify teams. Unified under Google SecOps with Chronicle for detection-to-response in a single platform"},{n:"Cloud Functions",d:"Event-driven automation: auto-quarantine on SCC finding, auto-patch on CVE alert"},{n:"GKE Node Auto-Repair",d:"Automatic replacement of unhealthy nodes"},{n:"Pub/Sub Event Bus",d:"Decouple detection from response: SCC findings \u2192 Pub/Sub \u2192 multiple response handlers"}],tl:[{n:"GitOps Rollback",d:"git revert \u2192 ArgoCD auto-syncs \u2192 production rolled back in seconds"},{n:"Pod/Namespace Isolation",d:"kubectl cordon + NetworkPolicy deny-all for immediate containment"},{n:"Forensic Capture",d:"Snapshot node disk, export container filesystem, capture logs before termination"},{n:"Post-Incident Review",d:"Blameless retrospectives generating new detection rules and hardened policies"},{n:"Automated CVE Patching",d:"Detection triggers automated rebuild of affected images"}],orca:[{n:"Remediation Guidance",d:"Context-aware remediation steps with auto-generated Terraform/kubectl commands. Risk-based prioritization."}],rq:[{n:"MDR Incident Response",d:"24/7 hands-on-keyboard response: containment, forensic investigation, recovery. Per ReliaQuest, MTTR under 5 minutes for Critical severity through agentic AI automation."},{n:"Threat Hunting",d:"Proactive hypothesis-driven hunts finding threats automated detection missed. Findings become Google SecOps YARA-L detection rules."},{n:"Containment Actions",d:"Remote response: isolate GKE nodes, kill pods, revoke tokens, block IOCs at perimeter."}],incident:{year:"2025",name:"M&S / Co-op / Harrods \u2014 Scattered Spider Retail Attacks",summary:"In April\u2013May 2025, the Scattered Spider group (UNC3944) hit multiple major UK retailers in rapid succession. Marks & Spencer was breached via a phishing attack that tricked IT helpdesk staff into resetting admin credentials at a third-party vendor. The attackers deployed DragonForce ransomware, taking M&S\u2019s online ordering system offline for weeks. Estimated damages exceeded \u00A3300M in lost sales and recovery costs. Co-op proactively shut systems to contain spread.",lesson:"Incident response speed is everything. Co-op\u2019s decision to proactively shut systems, while costly, likely prevented a full-scale breach. Automated playbooks (Google SecOps SOAR) that can isolate systems within seconds of confirmed compromise dramatically reduce blast radius. The feedback loop matters: phishing training, vendor credential management, and helpdesk verification procedures all feed back to Stage 1 as hardened processes."}}
+];
+var W=320;
+var L={
+  2:{left:40, top:170},
+  1:{left:40, top:630},
+  3:{left:440,top:400},
+  4:{left:858,top:160},
+  8:{left:840,top:640},
+  5:{left:1220,top:400},
+  6:{left:1560,top:170},
+  7:{left:1560,top:630}
+};
+var hm={};
+var AU={
+1:{challenge:"With thousands of developers committing across hundreds of repos around the clock, a small security team cannot manually review every PR for secrets, vulnerabilities, or malicious commits. SAST must run automatically as a PR gate \u2014 blocking merge on critical findings \u2014 so developers get immediate feedback while the code is still fresh. A single leaked service account key or SQL injection that slips past the PR stage propagates through the entire pipeline.",
+items:[
+{n:"PR-Gate SAST Orchestration",tag:"AUTOMATION",tc:"auto",ico:"\u{1F6A7}",d:"Webhook-driven: every PR open or update triggers parallel Semgrep and SonarQube scans automatically. Results post as PR comments within minutes. Critical findings block merge via branch protection status checks \u2014 the developer cannot merge until resolved. The entire feedback loop happens while they're still in context on that code. Same pattern as Meta Conveyer/Citadel and Synthesis: 'done' means all scans pass.",tools:["Semgrep","SonarQube","GitHub Advanced Security","Branch Protection"]},
+{n:"Context-Aware Secret Detection",tag:"AI AGENT",tc:"agent",ico:"\u{1F9E0}",d:"Beyond regex pattern matching \u2014 AI classifiers trained to evaluate high-entropy strings in context, distinguishing real API keys from test fixtures, base64 config blobs, and documentation examples. Significantly reduces false positives over pure regex tools like gitleaks while catching obfuscated credentials.",tools:["gitleaks","truffleHog","Custom ML Model"]},
+{n:"Dependency Risk Scoring Agent",tag:"AUTOMATION",tc:"auto",ico:"\u{1F4E6}",d:"Continuously monitors every go.sum, package-lock.json, and requirements.txt across all repos. Cross-references against OSV, GitHub Advisory DB, and behavioral signals: new maintainer on a critical package, sudden spike in published versions (indicators of dependency confusion/hijacking). Auto-creates PRs to pin or replace risky deps.",tools:["Socket.dev","Renovate","OSV API"]},
+{n:"Commit Anomaly Detection",tag:"ML MODEL",tc:"ml",ico:"\u{1F4CA}",d:"ML model trained on each developer\u2019s commit patterns (file types touched, commit frequency, typical paths). Flags statistical outliers: a frontend developer suddenly modifying Helm charts at 3 AM, or a batch of commits bypassing the normal PR flow. Catches compromised accounts before code reaches build.",tools:["Google SecOps (Chronicle)","Cloud Audit Logs"]},
+{n:"AI-Assisted PR Security Triage",tag:"AI AGENT",tc:"agent",ico:"\u{1F50D}",d:"An LLM agent performs first-pass review of every PR touching IaC, K8s manifests, or security-sensitive paths (identified via CODEOWNERS). Checks for overly permissive IAM bindings, public ingress definitions, missing encryption-at-rest configs. Triages so the security team only reviews PRs that actually need human eyes.",tools:["Semgrep","Custom LLM","CODEOWNERS"]},
+{n:"Self-Healing Secret Rotation",tag:"AUTOMATION",tc:"auto",ico:"\u{1F504}",d:"When a secret is detected in a commit (even in git history), an automated pipeline immediately rotates the credential via Secret Manager API, invalidating the leaked value before an attacker can use it, and opens an incident ticket with full context.",tools:["Secret Manager API","Cloud Functions","PagerDuty"]}
+]},
+2:{challenge:"Thousands of container images built daily across multiple teams, each pulling from different base images and dependency trees. The security team cannot audit every Dockerfile or validate every base image. A single compromised build cache or poisoned base image can propagate malicious code into hundreds of production services silently.",
+items:[
+{n:"Golden Base Image Curation Pipeline",tag:"AUTOMATION",tc:"auto",ico:"\u{1F3E0}",d:"An automated pipeline that maintains a curated base image registry. Continuously rebuilds distroless and approved base images on a schedule, runs CVE scans, signs them, and publishes to Artifact Registry. Any team image not derived from the golden set is flagged and blocked at build time. Zero human intervention for the 95% path.",tools:["Cloud Build","Artifact Registry","Cosign"]},
+{n:"SLSA Provenance Verification Agent",tag:"AUTOMATION",tc:"auto",ico:"\u{1F50F}",d:"Automatically generates and verifies SLSA Level 3 attestations for every build. Validates the full chain: source commit \u2192 build config \u2192 artifact digest. Any break in provenance triggers an automatic hold and alert. The only scalable way to guarantee supply chain integrity across thousands of daily builds.",tools:["Cloud KMS","in-toto","SLSA Framework"]},
+{n:"AI-Enhanced Dockerfile Linter",tag:"AI AGENT",tc:"agent",ico:"\u{1F9EA}",d:"Beyond static rules \u2014 an LLM-based agent analyzes Dockerfiles for anti-patterns that tools miss: multi-stage builds that inadvertently leak build args, COPY . . patterns that pull in .env files, or build commands that fetch unverified external resources. Suggests fixes inline in the PR.",tools:["Hadolint","Custom LLM","Cloud Build"]},
+{n:"Ephemeral Build Enforcement",tag:"AUTOMATION",tc:"auto",ico:"\u{1F6E1}\uFE0F",d:"Verifies every Cloud Build execution ran on a fresh, ephemeral worker with no cache carryover. If any build attempts to use persistent storage or mount external volumes, it is terminated and flagged. Critical at scale where teams may try to speed up builds by sharing caches \u2014 which enables supply-chain injection.",tools:["Cloud Build","Policy Controller","Cloud Audit Logs"]},
+{n:"Automated Image Slimming",tag:"AUTOMATION",tc:"auto",ico:"\u2702\uFE0F",d:"Analyzes built images, identifies unnecessary packages and layers, and auto-generates optimized multi-stage Dockerfiles. Reduces CVE surface across the fleet without requiring each team to become a container optimization expert. A slimmed image with 40 fewer packages is 40 fewer things to patch.",tools:["Slim (formerly DockerSlim)","Syft","Artifact Registry"]}
+]},
+3:{challenge:"Source SAST ran at Stage 1 as a PR gate — but post-build introduces a new problem: SCA on the actual resolved dependency tree, IaC scanning on rendered manifests, and CodeQL build-time monitoring for compiled languages. Running these checks across hundreds of repos and thousands of builds daily generates an avalanche of findings across two different stages. The risk: teams treat Stage 3 as redundant with Stage 1 and start skipping it, leaving compiler-induced vulnerabilities and IaC misconfigurations undetected.",
+items:[
+{n:"AI-Powered SCA Finding Triage",tag:"AI AGENT",tc:"agent",ico:"\u{1F3AF}",d:"Ingests all SCA and IaC findings post-build and applies contextual risk scoring. A vulnerable dependency in an internet-facing payment service gets Critical priority; the same CVE in an internal batch job with no network access gets Low. Deduplicates across Snyk, Socket.dev, and Checkov. Prevents the 'alert fatigue' failure mode where teams ignore Stage 3 because it feels redundant with Stage 1 SAST.",tools:["Snyk","Socket.dev","Orca Security","Checkov"]},
+{n:"LLM-Generated Fix Suggestions",tag:"AI AGENT",tc:"agent",ico:"\u{1F4DD}",d:"When a scanner finding is confirmed, an AI agent generates a specific code fix in the developer\u2019s language and framework, opens a PR with the fix, and includes an explanation of the vulnerability. This pattern is proven \u2014 GitHub Copilot Autofix uses the same approach. Developers get a ready-to-merge fix instead of cryptic scanner output.",tools:["GitHub Copilot Autofix","Custom LLM","Semgrep"]},
+{n:"Automated IaC Policy Enforcement",tag:"AUTOMATION",tc:"auto",ico:"\u{1F6A7}",d:"Runs Checkov/tfsec against every Terraform plan (not just the code) and compares against a policy-as-code baseline. If a change would create a public GKE API server or remove a NetworkPolicy, the plan is blocked automatically with a clear explanation \u2014 no security team review needed for known-bad patterns.",tools:["Checkov","tfsec","OPA","Cloud Build"]},
+{n:"Dynamic Test Orchestration",tag:"AUTOMATION",tc:"auto",ico:"\u{1F3AD}",d:"Decides which scanners to run based on what changed. A PR that only modifies CSS skips deep SCA scans. A PR changing authentication logic gets Semgrep with auth-specific rulesets + full dependency tree analysis. A PR modifying Terraform gets Checkov with GKE-specific policies. Optimizes pipeline time (critical when running thousands of builds/day) while maintaining coverage where it matters.",tools:["Cloud Build","Semgrep","Checkov","Socket.dev"]},
+{n:"Continuous Benchmark Compliance",tag:"AUTOMATION",tc:"auto",ico:"\u2705",d:"Continuously validates all Helm charts and K8s manifests against CIS Kubernetes Benchmarks and organizational policies. Non-compliant configs are auto-blocked from merging with specific remediation guidance, removing the security team from the loop for routine policy violations.",tools:["Checkov","Orca Shift-Left","Policy Controller"]}
+]},
+4:{challenge:"Every image destined for production must be scanned, signed, and have an SBOM generated. With thousands of images and frequent rebuilds, this gate becomes a bottleneck if any step requires manual approval. But making it too loose defeats its purpose \u2014 this is the hard cryptographic boundary between CI and CD.",
+items:[
+{n:"Risk-Based Auto-Signing Policy Engine",tag:"AUTOMATION",tc:"auto",ico:"\u2705",d:"Automatically signs images meeting all policy criteria: zero Critical CVEs, valid SLSA provenance, SBOM generated, from approved base image. Images that almost pass (e.g., one High CVE with a known mitigating control) are routed for expedited human review with full context. Only truly exceptional cases reach the security team.",tools:["Binary Authorization","Cosign","Cloud KMS"]},
+{n:"Automated CVE Impact Analysis",tag:"AI AGENT",tc:"agent",ico:"\u{1F4A5}",d:"When a new Critical CVE is published, instantly cross-references against every SBOM in the registry and identifies exactly which production images are affected, which GKE clusters they run in, and whether the vulnerable code path is reachable. Turns a \u201Ccheck 3,000 images\u201D panic into \u201Cthese 12 services need patching, prioritized by exposure.\u201D",tools:["Syft","Container Analysis","Orca Agentless"]},
+{n:"SBOM Lifecycle Agent",tag:"AUTOMATION",tc:"auto",ico:"\u{1F4CB}",d:"Continuously maintains and updates SBOMs for every image in the registry. When a dependency is later found vulnerable (post-push), the agent retroactively flags all images containing it, triggers re-scans, and can automatically initiate rebuilds of affected images without human intervention.",tools:["Syft","Artifact Registry","Cloud Build"]},
+{n:"Tag Immutability Enforcement",tag:"AUTOMATION",tc:"auto",ico:"\u{1F512}",d:"Rejects any deployment manifest referencing a mutable tag (:latest, :stable). Auto-rewrites manifests to use SHA256 digests before they enter the CD pipeline, and maintains a mapping of human-readable tags to digests for developer convenience. Eliminates silent image replacement attacks.",tools:["Policy Controller","Kyverno","Artifact Registry"]},
+{n:"Attestation Chain Validator",tag:"AUTOMATION",tc:"auto",ico:"\u{1F517}",d:"Verifies the complete attestation chain for every image: source provenance \u2192 build attestation \u2192 scan results \u2192 signing attestation. Any gap in the chain blocks deployment. At scale with thousands of images, this is the only way to maintain supply chain integrity without manual auditing.",tools:["in-toto","Binary Authorization","Cosign"]}
+]},
+5:{challenge:"Thousands of deployments daily across dozens of GKE clusters spanning multiple regions. Each deployment involves admission control, RBAC validation, network policy enforcement, and GitOps reconciliation. A small security team cannot review every deployment, but a single misconfigured pod spec (privileged: true, hostNetwork) can compromise an entire node.",
+items:[
+{n:"Context-Aware Admission Control",tag:"AI AGENT",tc:"agent",ico:"\u{1F6E1}\uFE0F",d:"Beyond static OPA/Gatekeeper policies \u2014 an enhanced admission controller that differentiates between a legitimate need for elevated privileges (a CNI plugin DaemonSet) and a developer accidentally copying privileged: true from a Stack Overflow example. Context-aware exceptions with automatic time-bound expiration.",tools:["Policy Controller","Gatekeeper","Kyverno"]},
+{n:"Automated RBAC Right-Sizing",tag:"AUTOMATION",tc:"auto",ico:"\u{1F4CF}",d:"Monitors actual K8s API calls per ServiceAccount and compares against granted RBAC permissions. Generates minimal-privilege Role/ClusterRole recommendations and auto-creates PRs to tighten permissions. Critical at scale where RBAC sprawl is inevitable and cluster-admin bindings accumulate.",tools:["KubeAudit","rbac-tool","Config Sync"]},
+{n:"GitOps Drift Auto-Remediation",tag:"AUTOMATION",tc:"auto",ico:"\u{1F504}",d:"Monitors all GKE clusters for drift from declared GitOps state. When someone runs kubectl apply directly (bypassing Git), detects the drift within seconds, alerts the team, and optionally auto-reverts to the Git-declared state. Eliminates shadow configuration that bypasses the entire CI/CD security pipeline.",tools:["Config Sync","ArgoCD","Cloud Audit Logs"]},
+{n:"Automated NetworkPolicy Generation",tag:"ML MODEL",tc:"ml",ico:"\u{1F310}",d:"Observes actual pod-to-pod traffic patterns via Istio telemetry or VPC Flow Logs and generates least-privilege NetworkPolicies. Starts in audit mode (log violations, don\u2019t block), then graduates to enforcement after a learning period. Practically impossible to do manually with thousands of services.",tools:["Istio","Cilium Hubble","VPC Flow Logs"]},
+{n:"Dependency Graph Blast Radius Assessment",tag:"AI AGENT",tc:"agent",ico:"\u{1F4A3}",d:"Before any deployment rolls out, analyzes the service dependency graph: what services depend on this workload, what\u2019s the failure domain, what\u2019s the rollback path. High-risk deployments (touching payment services, auth, or data stores) get automatic canary deployment enforcement based on Istio service mesh topology.",tools:["Istio","ArgoCD Rollouts","Cloud Monitoring"]}
+]},
+6:{challenge:"Thousands of pods running 24/7 across global clusters, each generating syscall telemetry, network connections, and log data. Container escapes, lateral movement, and cryptomining can occur in minutes, but human response operates in hours. This is the stage where the gap between attacker speed and defender speed is most dangerous.",
+items:[
+{n:"Autonomous Threat Containment",tag:"AI AGENT",tc:"agent",ico:"\u26A1",d:"Takes immediate containment actions when high-confidence threats are detected: isolate a pod\u2019s network (apply deny-all NetworkPolicy), kill a suspected cryptomining process, or cordon a node showing escape indicators. Operates within pre-approved playbooks \u2014 no human in the loop for initial containment, but immediate escalation for investigation. At scale, this is the difference between 30-second and 30-minute containment.",tools:["Google SecOps SOAR","Falco","Container Threat Detection"]},
+{n:"Per-Workload Behavioral Baselines",tag:"ML MODEL",tc:"ml",ico:"\u{1F4CA}",d:"ML models trained per workload type that learn \u201Cnormal\u201D: which syscalls a payment service makes, which DNS names it resolves, which network endpoints it communicates with. Anomalies trigger immediate investigation. Catches zero-days and novel attacks that signature-based detection misses entirely.",tools:["Falco","Google SecOps (Chronicle)","Cloud Monitoring"]},
+{n:"Auto-Generated Seccomp & AppArmor Profiles",tag:"AUTOMATION",tc:"auto",ico:"\u{1F510}",d:"Observes workloads in staging using Security Profiles Operator and Inspektor Gadget, records all syscalls made, and auto-generates minimal Seccomp profiles and AppArmor policies enforced in production. Without this automation, most teams leave profiles at default (unrestricted) because generating them for thousands of workloads is impractical.",tools:["Security Profiles Operator","Inspektor Gadget","Seccomp"]},
+{n:"Continuous Runtime CVE Re-Assessment",tag:"AUTOMATION",tc:"auto",ico:"\u{1F50D}",d:"Re-scans running workloads against the latest CVE databases continuously (not just at build time). When a new Critical CVE is published that affects a running pod, immediately assesses exploitability in context (is the code path reachable? is the pod internet-facing?) and triggers automated patching workflows for confirmed risks.",tools:["Orca SideScanning","Container Analysis","Cloud Build"]},
+{n:"Automated Forensic Snapshot",tag:"AUTOMATION",tc:"auto",ico:"\u{1F4F8}",d:"The moment a threat is detected, automatically captures a forensic snapshot: node disk image, container filesystem export, full log bundle, and network connection state. Preserves evidence that would otherwise be destroyed by pod restarts and autoscaling \u2014 a constant problem at scale where ephemeral infrastructure fights against forensic needs.",tools:["Cloud Functions","Persistent Disk Snapshots","Cloud Logging"]}
+]},
+7:{challenge:"The monitoring stack generates terabytes of telemetry daily: Cloud Audit Logs, VPC Flow Logs, container stdout/stderr, Falco alerts, SCC findings, Google SecOps events, Orca findings. A small SOC team faces thousands of alerts per day. Alert fatigue is the #1 operational risk \u2014 the critical signal indicating a real breach gets buried in noise.",
+items:[
+{n:"Cross-Platform Alert Correlation",tag:"AI AGENT",tc:"agent",ico:"\u{1F9E9}",d:"Ingests alerts from all sources (SCC, Google SecOps, Falco, Orca, ReliaQuest) and correlates them into incidents, not individual alerts. Fifty related alerts about unusual pod behavior, API call spikes, and network anomalies become one incident with a narrative: \u201CPossible lateral movement from compromised pod X in namespace Y.\u201D Single highest-value automation for a small team.",tools:["Google SecOps (Chronicle)","ReliaQuest GreyMatter","Orca CNAPP"]},
+{n:"Autonomous Compliance Monitoring",tag:"AUTOMATION",tc:"auto",ico:"\u{1F4DC}",d:"Continuously maps all workloads against CIS, SOC 2, PCI-DSS, HIPAA, and NIST 800-53 requirements, auto-generates evidence artifacts, and produces audit-ready reports on demand. Eliminates weeks of manual compliance preparation that would otherwise consume the small team before every audit cycle.",tools:["Orca Compliance","SCC","Google SecOps"]},
+{n:"Pattern-Based Drift Alerting",tag:"AUTOMATION",tc:"auto",ico:"\u{1F4C8}",d:"Tracks configuration change patterns across clusters and escalates monitoring on high-risk targets: a namespace with frequent manual kubectl changes, a developer who previously bypassed GitOps, or a cluster where drift was recently remediated. Focuses limited monitoring resources where violations are most likely to recur.",tools:["Config Sync","Cloud Audit Logs","Google SecOps"]},
+{n:"Automated Threat Hunt Scheduling",tag:"AI AGENT",tc:"agent",ico:"\u{1F3AF}",d:"Analyzes current threat intelligence, recent CVE disclosures, and the organization\u2019s specific attack surface to generate and schedule targeted threat hunts in Google SecOps. \u201CNew Linux kernel escalation CVE published \u2192 auto-run hunt across all GKE nodes for exploitation indicators.\u201D Scales the threat hunting function without scaling the team.",tools:["Google SecOps (Chronicle)","ReliaQuest Threat Intel","YARA-L"]},
+{n:"Natural Language Incident Briefings",tag:"AI AGENT",tc:"agent",ico:"\u{1F4AC}",d:"LLM agent that generates real-time, human-readable incident briefings from raw telemetry. Instead of an analyst spending 20 minutes parsing JSON logs and cross-referencing alerts, they get: \u201CAt 14:32 UTC, pod api-gateway-7b4f in cluster prod-us-east began making unusual DNS queries to known C2 domains.\u201D Accelerates analyst decision-making.",tools:["Google SecOps (Chronicle)","Custom LLM","Cloud Logging"]}
+]},
+8:{challenge:"When an incident hits, the small security team must contain, investigate, remediate, and do a post-incident review \u2014 across a global fleet that never sleeps. Every minute of delay in containment is a minute of active attacker operations. Manual runbooks do not scale when managing thousands of pods across multiple clusters in multiple regions.",
+items:[
+{n:"Automated Playbook Execution",tag:"AUTOMATION",tc:"auto",ico:"\u{1F3AC}",d:"Pre-built Google SecOps SOAR playbooks that execute automatically based on incident classification. Container escape \u2192 cordon node, snapshot disk, isolate network, kill pod, alert on-call. Cryptomining \u2192 kill pod, block egress to mining pool IPs, scan all pods from same image. Credential compromise \u2192 rotate via Secret Manager, revoke sessions, audit all API calls. Runs in seconds.",tools:["Google SecOps SOAR","Cloud Functions","Pub/Sub"]},
+{n:"AI-Powered Root Cause Analysis",tag:"AI AGENT",tc:"agent",ico:"\u{1F50E}",d:"LLM agent that traces an incident backward through the entire pipeline: which image was the compromised pod running? What\u2019s in its SBOM? When was it last scanned? What changed in the last deployment? Was there a recent PR that modified relevant code? This analysis \u2014 which takes a human analyst hours \u2014 is generated in seconds with source links.",tools:["Google SecOps (Chronicle)","Artifact Registry","Cloud Audit Logs"]},
+{n:"Automated Remediation PR Generation",tag:"AI AGENT",tc:"agent",ico:"\u{1F4DD}",d:"When root cause is identified (a vulnerable dependency, a misconfigured Helm chart, an overly permissive RBAC role), an AI agent auto-generates a fix PR, references the incident ticket, and routes it for expedited review. Closes the feedback loop from Stage 8 back to Stage 1 automatically \u2014 the continuous improvement cycle becomes literal.",tools:["Custom LLM","GitHub API","ArgoCD"]},
+{n:"Blast Radius Mapping Agent",tag:"AI AGENT",tc:"agent",ico:"\u{1F4A3}",d:"The moment an incident is confirmed, maps the full blast radius: what other services share the same image, the same vulnerable dependency, the same network segment, the same ServiceAccount credentials? Prevents the common failure mode of fixing one compromised pod while identical compromises persist undetected elsewhere in the fleet.",tools:["Orca Attack Path","Istio","Container Analysis"]},
+{n:"Auto-Generated Detection Rules",tag:"AI AGENT",tc:"agent",ico:"\u{1F9EC}",d:"After every incident, analyzes the detection gap (how was this missed initially?) and auto-generates new detection rules: Google SecOps YARA-L rules, Falco rules, OPA policies, or Semgrep patterns. Submitted as PRs to the security-as-code repo, creating a genuine continuous improvement loop that gets smarter after every incident.",tools:["Google SecOps YARA-L","Falco Rules","Semgrep"]}
+]}
+};
+
+/* === SCORING DATA === */
+/* safety: LOW/MED/HIGH (risk of automation itself causing harm)
+   maturity: NOW/EMERGING/EXPERIMENTAL
+   ease: EASY/MODERATE/HARD/VERY HARD
+   impact: CRITICAL/HIGH/MEDIUM
+   priority: P1/P2/P3/P4 (computed from above) */
+var SC={
+1:[
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"CRITICAL",priority:"P1",rationale:"Webhook + branch protection — no custom code. Immediate ROI blocking vulns pre-merge."},
+{safety:"LOW",maturity:"EMERGING",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"AI classifiers reduce false positives over regex, but require training data and tuning."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"OSV + Socket.dev APIs exist today. Integration effort is the main cost."},
+{safety:"MED",maturity:"EMERGING",ease:"HARD",impact:"MEDIUM",priority:"P3",rationale:"Needs substantial training data per-developer. False positives block legitimate work."},
+{safety:"MED",maturity:"EMERGING",ease:"HARD",impact:"MEDIUM",priority:"P3",rationale:"LLM triage is promising but hallucination risk means human review still needed."},
+{safety:"HIGH",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P2",rationale:"Auto-rotation can break dependent services. Needs dependency mapping first, but leaked creds demand speed."}
+],
+2:[
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"Cloud Build + Cosign are production-ready. Foundation for all downstream signing."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P1",rationale:"SLSA framework and tooling are GA. Essential for supply chain integrity."},
+{safety:"LOW",maturity:"EMERGING",ease:"MODERATE",impact:"MEDIUM",priority:"P3",rationale:"LLM Dockerfile analysis is novel — catches real issues but not battle-tested at scale."},
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"HIGH",priority:"P1",rationale:"Cloud Build is ephemeral by default. Policy enforcement is configuration, not code."},
+{safety:"MED",maturity:"NOW",ease:"MODERATE",impact:"MEDIUM",priority:"P2",rationale:"Slim works but aggressive slimming can break apps. Needs per-image testing."}
+],
+3:[
+{safety:"LOW",maturity:"EMERGING",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"Context-aware triage directly combats alert fatigue — the #1 reason Stage 3 gets skipped."},
+{safety:"MED",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"GitHub Copilot Autofix proves the pattern. Risk: bad fixes merged without review."},
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"CRITICAL",priority:"P1",rationale:"Checkov + OPA are mature. Policy-as-code blocks known-bad patterns with zero human cost."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"Change-based test selection saves pipeline time. Needs good file-to-scanner mapping."},
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"HIGH",priority:"P1",rationale:"CIS benchmark scanning is turnkey with Checkov/Orca. Continuous enforcement is config."}
+],
+4:[
+{safety:"MED",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"Binary Auth + Cosign are GA. Medium safety: auto-sign policy must be carefully tuned."},
+{safety:"LOW",maturity:"EMERGING",ease:"HARD",impact:"CRITICAL",priority:"P1",rationale:"SBOM cross-referencing exists but fleet-wide reachability analysis is cutting-edge."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"Syft + Artifact Registry webhooks — straightforward automation with clear value."},
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"HIGH",priority:"P1",rationale:"Kyverno/Policy Controller digest rewriting is a simple, high-impact policy."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"in-toto + Binary Auth chain validation is the core supply chain guarantee."}
+],
+5:[
+{safety:"MED",maturity:"EMERGING",ease:"HARD",impact:"HIGH",priority:"P2",rationale:"Context-aware exceptions are powerful but complex. Risk of overly permissive exceptions."},
+{safety:"MED",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"RBAC audit tools exist. Auto-tightening needs careful rollout to avoid breaking services."},
+{safety:"MED",maturity:"NOW",ease:"EASY",impact:"CRITICAL",priority:"P1",rationale:"Config Sync drift detection is built-in. Auto-revert needs guardrails but is high-value."},
+{safety:"HIGH",maturity:"EMERGING",ease:"HARD",impact:"HIGH",priority:"P3",rationale:"Auto-generated NetworkPolicies can block legitimate traffic. Long learning period required."},
+{safety:"LOW",maturity:"EMERGING",ease:"HARD",impact:"MEDIUM",priority:"P3",rationale:"Service graph analysis is valuable but requires mature observability stack."}
+],
+6:[
+{safety:"HIGH",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P2",rationale:"SOAR playbooks are GA but auto-killing pods risks outages. Pre-approved scope is essential."},
+{safety:"LOW",maturity:"EMERGING",ease:"HARD",impact:"HIGH",priority:"P3",rationale:"Per-workload ML baselines need months of training data and ongoing tuning."},
+{safety:"MED",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P1",rationale:"Security Profiles Operator is production-ready. Staging observation → prod enforcement is proven."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"Orca SideScanning + Container Analysis provide continuous re-assessment today."},
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"HIGH",priority:"P1",rationale:"Cloud Functions + PD snapshots — straightforward event-driven automation."}
+],
+7:[
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"Google SecOps + ReliaQuest correlation is the single highest-value SOC automation."},
+{safety:"LOW",maturity:"NOW",ease:"MODERATE",impact:"HIGH",priority:"P1",rationale:"Orca + SCC compliance mapping is production-ready. Eliminates weeks of audit prep."},
+{safety:"LOW",maturity:"NOW",ease:"EASY",impact:"HIGH",priority:"P1",rationale:"Config Sync + audit log monitoring is low-effort, high-signal drift detection."},
+{safety:"LOW",maturity:"EMERGING",ease:"HARD",impact:"HIGH",priority:"P2",rationale:"Automated hunt scheduling is powerful but needs mature threat intel integration."},
+{safety:"LOW",maturity:"EMERGING",ease:"MODERATE",impact:"MEDIUM",priority:"P3",rationale:"LLM briefings are promising but accuracy must be validated before analyst trust builds."}
+],
+8:[
+{safety:"HIGH",maturity:"NOW",ease:"MODERATE",impact:"CRITICAL",priority:"P1",rationale:"SOAR playbooks are essential at scale. High safety risk demands careful playbook scoping."},
+{safety:"LOW",maturity:"EMERGING",ease:"HARD",impact:"HIGH",priority:"P2",rationale:"LLM root cause analysis is transformative but needs pipeline integration and validation."},
+{safety:"MED",maturity:"EMERGING",ease:"MODERATE",impact:"HIGH",priority:"P2",rationale:"Auto-generated fix PRs close the feedback loop. Risk: incorrect fixes need human review."},
+{safety:"LOW",maturity:"EMERGING",ease:"HARD",impact:"CRITICAL",priority:"P2",rationale:"Blast radius mapping is critical for containment but requires full service graph."},
+{safety:"MED",maturity:"EMERGING",ease:"HARD",impact:"HIGH",priority:"P3",rationale:"Auto-generated detection rules are powerful but bad rules create noise. Needs human review gate."}
+]
+};
+function ct(id){if(id===4)return{x:L[4].left+142,y:L[4].top+177};return{x:L[id].left+W/2,y:L[id].top+W/2}}
+function ep(id,tx,ty){var c=ct(id);if(id===4){var hw=142,hh=177,dx=tx-c.x,dy=ty-c.y,a=Math.atan2(dy,dx),ta=Math.abs(Math.tan(a)),ex,ey;if(ta*hw<=hh){ex=dx>0?c.x+hw:c.x-hw;ey=c.y+(dx>0?1:-1)*hw*Math.tan(a)}else{ey=dy>0?c.y+hh:c.y-hh;ex=c.x+(dy>0?1:-1)*hh/Math.tan(a)}return{x:ex,y:ey}}var r=W/2,dx=tx-c.x,dy=ty-c.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist===0)return{x:c.x+r,y:c.y};return{x:c.x+(dx/dist)*r,y:c.y+(dy/dist)*r}}
+
+function scaleCanvas(){
+var cv=document.getElementById('cv'),cvi=document.getElementById('cvi');
+var header=document.querySelector('.header');
+var hh=header.offsetHeight;
+cv.style.top=hh+'px';
+var vw=cv.offsetWidth,vh=window.innerHeight-hh;
+var dw=1940,dh=1040;
+var s=Math.min(vw/dw,vh/dh);
+cvi.style.transform='scale('+s+')';
+cvi.style.transformOrigin='top left';
+/* center if there's leftover space */
+var sw=dw*s,sh=dh*s;
+var ox=Math.max(0,(vw-sw)/2),oy=Math.max(0,(vh-sh)/2);
+cvi.style.left=ox+'px';cvi.style.top=oy+'px';
+}
+
+function render(){
+var cv=document.getElementById('cvi'),svg=document.getElementById('svg');
+S.forEach(function(s){
+if(s.id===4)return;
+var p=L[s.id],dp=[];
+if(s.gcp.length)dp.push('<span class="dp gc">\u{1F6E1} '+s.gcp.length+' GCP</span>');
+if(s.tl.length)dp.push('<span class="dp tl">\u{1F527} '+s.tl.length+' Tools</span>');
+if(s.orca&&s.orca.length)dp.push('<span class="dp oc">ORCA</span>');
+if(s.rq&&s.rq.length)dp.push('<span class="dp rq">RELIAQUEST</span>');
+cv.insertAdjacentHTML('beforeend','<div class="sc '+s.t+'" data-stage="'+s.id+'" style="left:'+p.left+'px;top:'+p.top+'px;width:'+W+'px;height:'+W+'px" onclick="om('+s.id+')" tabindex="0" role="button"><div class="abtn" onclick="event.stopPropagation();oam('+s.id+')"><span class="abpulse"></span><span class="abico">\u26A1</span>AUTOMATE</div><div class="snum">STAGE '+s.id+'</div><span class="sico">'+s.ic+'</span><div class="snam">'+s.n+'</div><div class="ssub">'+s.st+'</div><div class="drow">'+dp.join('')+'</div><div class="sthr">\u26A0 '+s.th.length+' THREATS</div></div>')});
+var g=S[3],gp=L[4];
+var gdp='<span class="dp gc">\u{1F6E1} '+g.gcp.length+' GCP</span><span class="dp tl">\u{1F527} '+g.tl.length+' Tools</span>';
+if(g.orca&&g.orca.length)gdp+='<span class="dp oc">ORCA</span>';
+if(g.rq&&g.rq.length)gdp+='<span class="dp rq">RELIAQUEST</span>';
+cv.insertAdjacentHTML('beforeend','<div class="gc4" style="left:'+gp.left+'px;top:'+gp.top+'px" onclick="om(4)" tabindex="0" role="button"><div class="abtn" onclick="event.stopPropagation();oam(4)"><span class="abpulse"></span><span class="abico">\u26A1</span>AUTOMATE</div><div class="gstr"><div class="gpil"></div><div class="gin"><div class="gcb"><span class="gcbl">BINARY AUTHORIZATION</span></div><div class="gico">'+g.ic+'</div><div style="font-family:var(--mono);font-size:1rem;color:var(--text2);letter-spacing:.1em;margin-bottom:3px;font-weight:700">STAGE 4</div><div class="gttl">'+g.n+'</div><div class="gsub">'+g.st+'</div><div class="gln"></div><div class="gdp">'+gdp+'</div><div class="gthr">\u26A0 '+g.th.length+' THREAT VECTORS</div></div><div class="gpil"></div></div></div>');
+document.querySelectorAll('.sc').forEach(function(el){hm[parseInt(el.getAttribute('data-stage'))]=W});
+var ge=document.querySelector('.gc4');if(ge)hm[4]=ge.offsetHeight;
+
+// Threat pips: centered ABOVE their respective cards
+S.forEach(function(s){
+var p=L[s.id];
+var cardW=(s.id===4)?284:W;
+var cx=p.left+cardW/2;
+var py=p.top-10;
+var pips='';
+s.th.slice(0,3).forEach(function(t,i){
+var dl=(s.id*0.25+i*0.7).toFixed(1);
+pips+='<div class="tp" style="animation-delay:'+dl+'s">'+t.n+'</div>'});
+cv.insertAdjacentHTML('beforeend','<div class="tp-wrap" style="left:'+cx+'px;top:'+py+'px;transform:translate(-50%,-100%)">'+pips+'</div>')});
+
+// Instruction notes below, to the right of stages 1 and 8
+var sharedNoteY=L[1].top+W-10;
+var n3x=L[1].left+W+20;
+cv.insertAdjacentHTML('beforeend','<div class="inst-note" style="left:'+n3x+'px;top:'+sharedNoteY+'px"><span class="inst-ico">👆</span><span class="inst-txt">Click any stage for full details</span></div>');
+var n5x=L[8].left+240;
+cv.insertAdjacentHTML('beforeend','<div class="inst-note" style="left:'+n5x+'px;top:'+sharedNoteY+'px"><span class="inst-ico">⚡</span><span class="inst-txt">Click <span style="color:#10b981;font-weight:700">AUTOMATE</span> to explore AI-driven security</span></div>');
+
+drawC(svg);
+}
+
+function drawC(svg){
+function qp(a,c,b,cls,mk){return '<path d="M'+a.x.toFixed(1)+','+a.y.toFixed(1)+' Q'+c.x.toFixed(1)+','+c.y.toFixed(1)+' '+b.x.toFixed(1)+','+b.y.toFixed(1)+'" class="'+cls+'" marker-end="url(#'+mk+')"/>'}
+function lp(a,b,cls,mk){return '<line x1="'+a.x.toFixed(1)+'" y1="'+a.y.toFixed(1)+'" x2="'+b.x.toFixed(1)+'" y2="'+b.y.toFixed(1)+'" class="'+cls+'" marker-end="url(#'+mk+')"/>'}
+function e(a,b){return ep(a,ct(b).x,ct(b).y)}
+var p='';
+// 1->2 curve left to avoid text between circles
+var c1=ct(1),c2=ct(2),r12=W/2,ang1=-Math.PI*0.65,ang2=Math.PI*0.65;
+var a={x:c1.x+Math.cos(ang1)*r12,y:c1.y+Math.sin(ang1)*r12};
+var b={x:c2.x+Math.cos(ang2)*r12,y:c2.y+Math.sin(ang2)*r12};
+var cp12={x:Math.min(a.x,b.x)-100,y:(a.y+b.y)/2};
+p+=qp(a,cp12,b,'fl fl-ci','aci');p+=qp(a,cp12,b,'gl gl-ci','');
+// 2->3 right
+a=e(2,3);b=e(3,2);p+=qp(a,{x:(a.x+b.x)/2,y:Math.min(a.y,b.y)-30},b,'fl fl-ci','aci');p+=qp(a,{x:(a.x+b.x)/2,y:Math.min(a.y,b.y)-30},b,'gl gl-ci','');
+// 3->4 right-up to gate
+a=e(3,4);b=e(4,3);p+=qp(a,{x:(a.x+b.x)/2,y:(a.y+b.y)/2-20},b,'fl fl-gt','agt');p+=qp(a,{x:(a.x+b.x)/2,y:(a.y+b.y)/2-20},b,'gl gl-gt','');
+// 4->5 right-down from gate
+a=e(4,5);b=e(5,4);p+=qp(a,{x:(a.x+b.x)/2,y:(a.y+b.y)/2+20},b,'fl fl-gt','agt');p+=qp(a,{x:(a.x+b.x)/2,y:(a.y+b.y)/2+20},b,'gl gl-gt','');
+// 5->6 right-up
+a=e(5,6);b=e(6,5);p+=qp(a,{x:a.x+60,y:(a.y+b.y)/2-15},b,'fl fl-cd','acd');p+=qp(a,{x:a.x+60,y:(a.y+b.y)/2-15},b,'gl gl-cd','');
+// 6->7 curve right to avoid threat pips above stage 7
+var c6=ct(6),c7=ct(7),r=W/2,ang6=Math.PI*0.35,ang7=-Math.PI*0.35;
+a={x:c6.x+Math.cos(ang6)*r,y:c6.y+Math.sin(ang6)*r};
+b={x:c7.x+Math.cos(ang7)*r,y:c7.y+Math.sin(ang7)*r};
+var cp67={x:Math.max(a.x,b.x)+100,y:(a.y+b.y)/2};
+p+=qp(a,cp67,b,'fl fl-cd','acd');p+=qp(a,cp67,b,'gl gl-cd','');
+// 7->8 left
+a=e(7,8);b=e(8,7);p+=qp(a,{x:(a.x+b.x)/2,y:Math.max(a.y,b.y)+50},b,'fl fl-cd','acd');p+=qp(a,{x:(a.x+b.x)/2,y:Math.max(a.y,b.y)+50},b,'gl gl-cd','');
+// 8->1 feedback dashed
+a=e(8,1);b=e(1,8);p+=qp(a,{x:(a.x+b.x)/2,y:Math.max(a.y,b.y)+60},b,'fl fl-fb','afb');
+
+// Replace SVG content, preserving defs
+var defs=svg.querySelector('defs').outerHTML;
+svg.innerHTML=defs+p;
+}
+
+
+/* === THREAT-CONTROL MAPPINGS === */
+var TM={
+1:[
+{impact:5,likelihood:4,controls:[{ref:"Secret Manager",role:"PREVENT"},{ref:"Cloud KMS",role:"PREVENT"},{ref:"VPC Service Controls",role:"PREVENT"},{ref:"Pre-commit Hooks",role:"DETECT"},{ref:"Semgrep (PR Gate SAST)",role:"DETECT"},{ref:"SonarQube (PR Gate SAST)",role:"DETECT"}],residual:"Secrets already in git history require history rewriting and credential rotation. Encrypted secrets still at risk if KMS keys are compromised."},
+{impact:4,likelihood:4,controls:[{ref:"Semgrep (PR Gate SAST)",role:"PREVENT"},{ref:"SonarQube (PR Gate SAST)",role:"PREVENT"},{ref:"CodeQL / GitHub Advanced Security",role:"PREVENT"},{ref:"Branch Protection",role:"PREVENT"},{ref:"Threat Modeling (STRIDE/PASTA)",role:"PREVENT"}],residual:"Logic flaws and business logic errors that automated SAST cannot reliably detect. Custom rulesets require ongoing investment."},
+{impact:4,likelihood:3,controls:[{ref:"Dependency Pinning",role:"PREVENT"},{ref:"Renovate / Dependabot",role:"DETECT"},{ref:"Secure Source Manager",role:"PREVENT"}],residual:"Novel package name collisions not yet in threat databases. Private registry scoping requires strict governance."},
+{impact:5,likelihood:2,controls:[{ref:"Branch Protection",role:"PREVENT"},{ref:"CODEOWNERS",role:"PREVENT"},{ref:"Cloud KMS",role:"PREVENT"},{ref:"Secure Source Manager",role:"PREVENT"},{ref:"CodeQL / GitHub Advanced Security",role:"DETECT"}],residual:"Compromised accounts with legitimate signing keys. Long-term social engineering (XZ Utils pattern) bypasses technical controls."},
+{impact:3,likelihood:3,controls:[{ref:"Cloud KMS",role:"PREVENT"},{ref:"Branch Protection",role:"PREVENT"}],residual:"Developer adoption friction for commit signing. Key management complexity at scale across distributed teams."},
+{impact:3,likelihood:3,controls:[{ref:"Dependency Pinning",role:"PREVENT"},{ref:"Renovate / Dependabot",role:"DETECT"},{ref:"Semgrep (PR Gate SAST)",role:"DETECT"}],residual:"Zero-day typosquats not yet in any database. Visual similarity attacks on package names evade automated detection."}
+],
+2:[
+{impact:5,likelihood:3,controls:[{ref:"Artifact Registry",role:"PREVENT"},{ref:"Distroless Images",role:"PREVENT"},{ref:"Multi-stage Builds",role:"PREVENT"},{ref:"Cloud Build",role:"DETECT"}],residual:"Zero-day vulnerabilities in even minimal base images. Trusted base images can be compromised at their source."},
+{impact:5,likelihood:2,controls:[{ref:"Cloud Build",role:"PREVENT"},{ref:"Kaniko / ko",role:"PREVENT"},{ref:"Hermetic Builds",role:"PREVENT"}],residual:"Supply chain attacks on build tools themselves (Codecov pattern). CI service provider compromise."},
+{impact:4,likelihood:3,controls:[{ref:"Hermetic Builds",role:"PREVENT"},{ref:"Artifact Registry",role:"PREVENT"},{ref:"Cloud Build",role:"DETECT"}],residual:"Compromised upstream packages with valid signatures. Time-of-check vs time-of-use gaps during build resolution."},
+{impact:4,likelihood:3,controls:[{ref:"BuildKit Secrets",role:"PREVENT"},{ref:"Multi-stage Builds",role:"PREVENT"},{ref:"Workload Identity Federation",role:"PREVENT"}],residual:"Accidental logging of secrets in build output. Environment variable exposure in CI systems."},
+{impact:3,likelihood:4,controls:[{ref:"Cloud KMS + SLSA",role:"PREVENT"},{ref:"Hermetic Builds",role:"PREVENT"},{ref:"Cloud Build",role:"PREVENT"}],residual:"Provenance attestation only as trustworthy as the build system generating it. SLSA adoption still maturing."}
+],
+3:[
+{impact:4,likelihood:4,controls:[{ref:"Checkov / tfsec",role:"PREVENT"},{ref:"Cloud Build Steps",role:"PREVENT"},{ref:"Shift-Left IaC Scanning",role:"DETECT"}],residual:"Custom resource types and CRDs not covered by standard rulesets. Organization-specific policies need manual rule authoring."},
+{impact:4,likelihood:3,controls:[{ref:"SCA (Snyk / Socket.dev)",role:"DETECT"},{ref:"On-Demand Scanning",role:"DETECT"}],residual:"Transitive dependencies resolved differently across environments. Lock file integrity can be compromised."},
+{impact:4,likelihood:2,controls:[{ref:"CodeQL (build-time mode)",role:"DETECT"}],residual:"Languages and compilers not supported by CodeQL. Novel compilation-path vulnerabilities in emerging toolchains."},
+{impact:4,likelihood:2,controls:[{ref:"On-Demand Scanning",role:"DETECT"},{ref:"SCA (Snyk / Socket.dev)",role:"DETECT"}],residual:"Secrets in non-standard locations within image layers. Build args persisted through misconfigured multi-stage builds."},
+{impact:2,likelihood:3,controls:[{ref:"SCA (Snyk / Socket.dev)",role:"DETECT"}],residual:"License terms interpreted differently across jurisdictions. Dual-licensed packages with unclear usage obligations."}
+],
+4:[
+{impact:5,likelihood:4,controls:[{ref:"Container Analysis",role:"DETECT"},{ref:"Trivy / Grype (SCA)",role:"DETECT"},{ref:"Agentless Image Scanning",role:"DETECT"},{ref:"Binary Authorization",role:"PREVENT"},{ref:"Artifact Registry",role:"PREVENT"}],residual:"Zero-day CVEs not yet in scanning databases. Reachability analysis gaps \u2014 not all detected CVEs are exploitable in context."},
+{impact:5,likelihood:2,controls:[{ref:"Cosign (Sigstore)",role:"PREVENT"},{ref:"Binary Authorization",role:"PREVENT"},{ref:"Cloud KMS (Signing)",role:"PREVENT"},{ref:"Digest Pinning",role:"PREVENT"},{ref:"in-toto",role:"PREVENT"}],residual:"Compromise of signing keys. Attacks on the transparency log infrastructure itself."},
+{impact:5,likelihood:2,controls:[{ref:"Artifact Registry",role:"PREVENT"},{ref:"Binary Authorization",role:"PREVENT"},{ref:"Container Analysis",role:"DETECT"}],residual:"Insider threat with legitimate registry write access. IAM misconfiguration granting unintended push permissions."},
+{impact:3,likelihood:4,controls:[{ref:"Syft",role:"PREVENT"},{ref:"in-toto",role:"PREVENT"}],residual:"SBOMs for dynamically-linked or JIT-compiled components may be incomplete. SBOM standards still evolving."},
+{impact:4,likelihood:3,controls:[{ref:"Digest Pinning",role:"PREVENT"},{ref:"Artifact Registry",role:"PREVENT"}],residual:"Developer workflow friction from digest-only references. Tooling and Helm charts that don\u2019t natively support digests."}
+],
+5:[
+{impact:5,likelihood:3,controls:[{ref:"GKE Autopilot",role:"PREVENT"},{ref:"Policy Controller",role:"PREVENT"},{ref:"Config Sync",role:"PREVENT"},{ref:"OWASP ZAP (DAST)",role:"DETECT"}],residual:"Custom configurations required for specific workloads that deviate from hardened defaults. Legacy workload migration."},
+{impact:4,likelihood:4,controls:[{ref:"Policy Controller",role:"PREVENT"},{ref:"Kyverno / Gatekeeper",role:"PREVENT"},{ref:"Namespace Isolation",role:"PREVENT"},{ref:"Config Sync",role:"DETECT"}],residual:"Emergency break-glass access patterns that create persistent over-privilege. RBAC sprawl across long-lived clusters."},
+{impact:5,likelihood:4,controls:[{ref:"GKE Autopilot",role:"PREVENT"},{ref:"Policy Controller",role:"PREVENT"},{ref:"Kyverno / Gatekeeper",role:"PREVENT"},{ref:"Config Sync",role:"DETECT"},{ref:"KSPM (K8s Security Posture)",role:"DETECT"}],residual:"Legitimate workloads requiring elevated privileges (CNI plugins, monitoring DaemonSets, GPU workloads)."},
+{impact:5,likelihood:2,controls:[{ref:"Binary Authorization",role:"PREVENT"},{ref:"Policy Controller",role:"PREVENT"}],residual:"Emergency bypass procedures that weaken the gate. Break-glass image allowlists that persist."},
+{impact:4,likelihood:4,controls:[{ref:"Namespace Isolation",role:"PREVENT"},{ref:"Istio Service Mesh (Zero-Trust)",role:"PREVENT"},{ref:"Config Sync",role:"DETECT"},{ref:"KSPM (K8s Security Posture)",role:"DETECT"}],residual:"Complex microservice topologies where policy completeness is hard to verify. Dynamic service discovery gaps."},
+{impact:4,likelihood:3,controls:[{ref:"Cloud Armor (WAF)",role:"PREVENT"},{ref:"Istio Service Mesh (Zero-Trust)",role:"PREVENT"},{ref:"OWASP ZAP (DAST)",role:"DETECT"},{ref:"Threat Modeling",role:"PREVENT"}],residual:"Internal APIs exposed via misconfigured Ingress rules. API versioning and deprecation creating coverage gaps."}
+],
+6:[
+{impact:5,likelihood:3,controls:[{ref:"GKE Sandbox (gVisor)",role:"PREVENT"},{ref:"Seccomp Profiles",role:"PREVENT"},{ref:"AppArmor/SELinux",role:"PREVENT"},{ref:"Non-root Containers",role:"PREVENT"},{ref:"Read-only Root FS",role:"PREVENT"},{ref:"Falco",role:"DETECT"},{ref:"Container Threat Detection",role:"DETECT"},{ref:"EDR Agent (CrowdStrike/SentinelOne)",role:"DETECT"},{ref:"Agentless Runtime Protection",role:"DETECT"}],residual:"Novel kernel vulnerabilities bypassing gVisor. Escape techniques not covered by current Seccomp profiles."},
+{impact:4,likelihood:4,controls:[{ref:"Workload Identity",role:"PREVENT"},{ref:"Non-root Containers",role:"PREVENT"},{ref:"Seccomp Profiles",role:"PREVENT"},{ref:"Falco",role:"DETECT"},{ref:"Container Threat Detection",role:"DETECT"},{ref:"EDR Agent (CrowdStrike/SentinelOne)",role:"DETECT"},{ref:"Runtime Alert Ingestion",role:"DETECT"}],residual:"Zero-day privilege escalation in container runtime (CRI-O, containerd). Metadata service exposure on non-Autopilot clusters."},
+{impact:2,likelihood:4,controls:[{ref:"Container Threat Detection",role:"DETECT"},{ref:"Falco",role:"DETECT"},{ref:"EDR Agent (CrowdStrike/SentinelOne)",role:"DETECT"},{ref:"Agentless Runtime Protection",role:"DETECT"},{ref:"Runtime Alert Ingestion",role:"DETECT"}],residual:"Low-resource mining that stays below detection thresholds. Legitimate compute-heavy workloads masking mining activity."},
+{impact:5,likelihood:3,controls:[{ref:"VPC Service Controls",role:"PREVENT"},{ref:"Cloud Armor (Runtime WAF)",role:"PREVENT"},{ref:"Falco",role:"DETECT"},{ref:"Container Threat Detection",role:"DETECT"},{ref:"Agentless Runtime Protection",role:"DETECT"},{ref:"Runtime Alert Ingestion",role:"DETECT"}],residual:"Legitimate service-to-service communication patterns masking lateral movement. Shared secrets across namespaces."},
+{impact:5,likelihood:3,controls:[{ref:"VPC Service Controls",role:"PREVENT"},{ref:"Falco",role:"DETECT"},{ref:"Container Threat Detection",role:"DETECT"},{ref:"Runtime Alert Ingestion",role:"DETECT"}],residual:"Exfiltration via authorized egress channels. DNS tunneling at low bandwidth. Steganography in legitimate traffic."},
+{impact:5,likelihood:2,controls:[{ref:"GKE Sandbox (gVisor)",role:"PREVENT"},{ref:"Shielded GKE Nodes",role:"PREVENT"},{ref:"Confidential GKE Nodes",role:"PREVENT"},{ref:"Read-only Root FS",role:"PREVENT"},{ref:"Falco",role:"DETECT"},{ref:"EDR Agent (CrowdStrike/SentinelOne)",role:"DETECT"},{ref:"Agentless Runtime Protection",role:"DETECT"}],residual:"By definition, zero-days evade known signatures. Behavioral detection is probabilistic and requires tuned baselines."}
+],
+7:[
+{impact:5,likelihood:4,controls:[{ref:"Google SecOps (Chronicle SIEM)",role:"DETECT"},{ref:"Event Threat Detection",role:"DETECT"},{ref:"Security Command Center",role:"DETECT"},{ref:"Anomaly Detection (ML)",role:"DETECT"},{ref:"GreyMatter MDR Platform",role:"DETECT"},{ref:"Threat Intelligence Feeds",role:"DETECT"},{ref:"CNAPP Unified Dashboard",role:"DETECT"}],residual:"Novel attack techniques not matching known behavioral patterns. Encrypted C2 channels evading network analysis."},
+{impact:3,likelihood:4,controls:[{ref:"Security Command Center",role:"DETECT"},{ref:"GKE Audit Logging",role:"DETECT"},{ref:"Cloud Logging + Log Analytics",role:"DETECT"},{ref:"CNAPP Unified Dashboard",role:"DETECT"}],residual:"Authorized changes through break-glass procedures that create intentional drift. GitOps adoption gaps."},
+{impact:4,likelihood:3,controls:[{ref:"Security Command Center",role:"DETECT"},{ref:"Compliance Frameworks",role:"DETECT"},{ref:"Cloud Monitoring",role:"DETECT"}],residual:"Compliance frameworks lagging behind new service configurations. Custom workloads without benchmark coverage."},
+{impact:5,likelihood:2,controls:[{ref:"Event Threat Detection",role:"DETECT"},{ref:"GKE Audit Logging",role:"DETECT"},{ref:"Anomaly Detection (ML)",role:"DETECT"},{ref:"GreyMatter MDR Platform",role:"DETECT"},{ref:"Alert Triage & Enrichment",role:"DETECT"}],residual:"Insiders operating within authorized access patterns. Slow exfiltration below anomaly detection thresholds."},
+{impact:4,likelihood:5,controls:[{ref:"Alert Triage & Enrichment",role:"PREVENT"},{ref:"GreyMatter MDR Platform",role:"PREVENT"},{ref:"Anomaly Detection (ML)",role:"DETECT"},{ref:"Google SecOps (Chronicle SIEM)",role:"DETECT"}],residual:"Tuning detection rules is an ongoing arms race. New data sources generate new noise. Correlation rules require continuous refinement."}
+],
+8:[
+{impact:5,likelihood:4,controls:[{ref:"Google SecOps SOAR",role:"RESPOND"},{ref:"Cloud Functions",role:"RESPOND"},{ref:"Pub/Sub Event Bus",role:"RESPOND"},{ref:"MDR Incident Response",role:"RESPOND"},{ref:"Containment Actions",role:"RESPOND"}],residual:"Novel incident types without pre-built playbooks. Cross-cloud incidents requiring multi-provider coordination."},
+{impact:4,likelihood:3,controls:[{ref:"Post-Incident Review",role:"RESPOND"},{ref:"Automated CVE Patching",role:"RESPOND"},{ref:"Remediation Guidance",role:"RESPOND"}],residual:"Root causes spanning multiple teams or systems. Organizational resistance to deep architectural fixes."},
+{impact:4,likelihood:4,controls:[{ref:"Forensic Capture",role:"RESPOND"},{ref:"Cloud Functions",role:"RESPOND"}],residual:"Ephemeral container state lost before capture triggers. Log pipeline latency causing evidence gaps. Autoscaler destroying compromised nodes."},
+{impact:5,likelihood:3,controls:[{ref:"Pod/Namespace Isolation",role:"RESPOND"},{ref:"Containment Actions",role:"RESPOND"},{ref:"Google SecOps SOAR",role:"RESPOND"},{ref:"Remediation Guidance",role:"DETECT"}],residual:"Shared dependencies and service mesh routing creating non-obvious blast radius. Multi-region propagation delays."},
+{impact:3,likelihood:4,controls:[{ref:"Post-Incident Review",role:"RESPOND"},{ref:"GitOps Rollback",role:"RESPOND"},{ref:"Automated CVE Patching",role:"RESPOND"},{ref:"Threat Hunting",role:"DETECT"}],residual:"Organizational memory loss from team turnover. Incomplete knowledge transfer from incident responders to pipeline teams."}
+]
+};
+
+function sevLabel(score){if(score>=20)return'CRITICAL';if(score>=12)return'HIGH';if(score>=8)return'MEDIUM';return'LOW'}
+function sevClass(score){if(score>=20)return'sev-critical';if(score>=12)return'sev-high';if(score>=8)return'sev-medium';return'sev-low'}
+function meterHtml(val,max){var h='<div class="tmeter-dots">';for(var i=1;i<=max;i++){h+='<div class="tmeter-dot'+(i<=val?' on t'+val:'')+'"></div>'}return h+'</div>'}
+function roleClass(r){return r==='PREVENT'?'trole-prevent':r==='DETECT'?'trole-detect':'trole-respond'}
+
+function buildCtrlLookup(s){
+/* Build a map: control_name -> {category, desc, ref} */
+var lookup={};
+s.gcp.forEach(function(c){lookup[c.n]={cat:'gcp',desc:c.d}});
+s.tl.forEach(function(c){lookup[c.n]={cat:'tools',desc:c.d}});
+if(s.orca)s.orca.forEach(function(c){lookup[c.n]={cat:'orca',desc:c.d}});
+if(s.rq)s.rq.forEach(function(c){lookup[c.n]={cat:'rq',desc:c.d}});
+return lookup;
+}
+
+function om(id){
+var s=S.find(function(x){return x.id===id});if(!s)return;
+var tm=TM[id]||[];
+var o=document.getElementById('mo'),tt=document.getElementById('mtt'),sn=document.getElementById('msn'),st=document.getElementById('mst'),bd=document.getElementById('mb');
+var tc=s.t==='gate'?'gate':s.t;
+sn.textContent='STAGE '+s.id+' \u00B7 '+s.lp;tt.textContent=s.n;tt.className='mtt '+tc;st.textContent=s.st;
+
+/* Sort threats by score descending */
+var threats=s.th.map(function(t,i){
+var m=tm[i]||{impact:3,likelihood:3,controls:[],residual:''};
+return{n:t.n,d:t.d,impact:m.impact,likelihood:m.likelihood,score:m.impact*m.likelihood,controls:m.controls,residual:m.residual,idx:i};
+}).sort(function(a,b){return b.score-a.score});
+
+var lookup=buildCtrlLookup(s);
+
+/* Build controls list: collect all unique controls with their category */
+var allCtrls=[];var seen={};
+function addCtrls(arr,cat){if(!arr)return;arr.forEach(function(c){if(!seen[c.n]){seen[c.n]=true;allCtrls.push({n:c.n,d:c.d,cat:cat})}})}
+addCtrls(s.gcp,'gcp');addCtrls(s.tl,'tools');addCtrls(s.orca,'orca');addCtrls(s.rq,'rq');
+
+/* Build the modal HTML */
+var h='<div class="mdesc">'+s.desc+'</div>';
+h+='<div class="m-layout">';
+
+/* LEFT: Threats column */
+h+='<div class="m-threats-col">';
+h+='<div class="m-col-label threats-label">THREAT VECTORS \u2014 RANKED BY RISK ('+threats.length+')</div>';
+threats.forEach(function(t,i){
+var sev=sevLabel(t.score);
+/* Count controls by role */
+var pCnt=0,dCnt=0,rCnt=0;
+t.controls.forEach(function(c){if(c.role==='PREVENT')pCnt++;else if(c.role==='DETECT')dCnt++;else rCnt++});
+
+h+='<div class="m-tcard" data-tidx="'+i+'" onclick="toggleThreat(this,'+id+','+i+')">';
+h+='<div class="m-tcard-head"><span class="sev '+sevClass(t.score)+'">'+sev+'</span><span class="tname">'+t.n+'</span><span class="tscore">'+t.impact+'\u00D7'+t.likelihood+'='+t.score+'</span></div>';
+h+='<div class="tmeter"><div class="tmeter-item"><span class="tmeter-label">IMP</span>'+meterHtml(t.impact,5)+'</div><div class="tmeter-item"><span class="tmeter-label">LKH</span>'+meterHtml(t.likelihood,5)+'</div></div>';
+h+='<div class="tdesc">'+t.d+'</div>';
+/* Role tags showing coverage summary */
+h+='<div class="trole-tags">';
+if(pCnt)h+='<span class="trole trole-prevent">\u{1F6E1} '+pCnt+' PREVENT</span>';
+if(dCnt)h+='<span class="trole trole-detect">\u{1F50D} '+dCnt+' DETECT</span>';
+if(rCnt)h+='<span class="trole trole-respond">\u26A1 '+rCnt+' RESPOND</span>';
+h+='</div>';
+/* Residual risk */
+if(t.residual)h+='<div class="tresidual">\u26A0 <strong>Residual Risk:</strong> '+t.residual+'</div>';
+h+='<span class="tclick-hint">CLICK TO MAP</span>';
+h+='</div>';
+});
+h+='</div>';
+
+/* RIGHT: Controls column */
+h+='<div class="m-controls-col">';
+h+='<div class="m-col-label ctrl-label">DEFENSIVE CONTROLS ('+allCtrls.length+') \u2014 click a threat to highlight</div>';
+
+/* Group controls by category */
+var groups=[{key:'gcp',label:'GCP SECURITY SERVICES'},{key:'tools',label:'TOOLS & PROCESSES'},{key:'orca',label:'ORCA SECURITY'},{key:'rq',label:'RELIAQUEST'}];
+groups.forEach(function(g){
+var items=allCtrls.filter(function(c){return c.cat===g.key});
+if(items.length===0)return;
+h+='<div class="m-ctrl-group '+g.key+'">';
+h+='<div class="m-ctrl-group-title"><span class="gdot"></span>'+g.label+' ('+items.length+')</div>';
+items.forEach(function(c){
+h+='<div class="m-ctrl-item" data-ctrl="'+c.n.replace(/"/g,'&quot;')+'" data-cat="'+g.key+'">';
+h+='<div class="ctrl-name">'+c.n+'</div>';
+h+='<div class="ctrl-desc">'+c.d+'</div>';
+h+='<span class="ctrl-role-badge trole" style="display:none"></span>';
+h+='</div>';
+});
+h+='</div>';
+});
+h+='</div>'; /* end controls col */
+h+='</div>'; /* end m-layout */
+
+/* Incident card — full width below */
+if(s.incident){h+='<div class="mincident"><div class="mincident-hdr"><span class="mincident-ico">\u{1F6A8}</span><span class="mincident-label">REAL-WORLD INCIDENT</span><span class="mincident-year">'+s.incident.year+'</span></div><div class="mincident-name">'+s.incident.name+'</div><div class="mincident-body">'+s.incident.summary+'</div><div class="mincident-lesson"><strong>Lesson for this stage:</strong> '+s.incident.lesson+'</div></div>'}
+
+bd.innerHTML=h;o.classList.add('on');
+/* Auto-activate the highest threat */
+var firstThreat=bd.querySelector('.m-tcard');
+if(firstThreat)firstThreat.click();
+}
+
+/* Threat highlight/dim interaction */
+function toggleThreat(el,stageId,threatVisIdx){
+var s=S.find(function(x){return x.id===stageId});if(!s)return;
+var tm=TM[stageId]||[];
+/* Sort threats same way as in om() to get correct mapping */
+var threats=s.th.map(function(t,i){
+var m=tm[i]||{impact:3,likelihood:3,controls:[],residual:''};
+return{n:t.n,d:t.d,impact:m.impact,likelihood:m.likelihood,score:m.impact*m.likelihood,controls:m.controls,residual:m.residual,idx:i};
+}).sort(function(a,b){return b.score-a.score});
+var threat=threats[threatVisIdx];if(!threat)return;
+
+var wasActive=el.classList.contains('active');
+/* Deactivate all threats */
+document.querySelectorAll('.m-tcard').forEach(function(c){c.classList.remove('active')});
+/* Reset all controls */
+document.querySelectorAll('.m-ctrl-item').forEach(function(c){
+c.classList.remove('dimmed','hl-gcp','hl-tools','hl-orca','hl-rq');
+var badge=c.querySelector('.ctrl-role-badge');if(badge){badge.style.display='none';badge.textContent='';badge.className='ctrl-role-badge trole'}
+});
+
+if(wasActive)return; /* toggle off — show all controls neutral */
+
+/* Activate this threat */
+el.classList.add('active');
+
+/* Build set of control names this threat maps to */
+var mapped={};
+threat.controls.forEach(function(c){mapped[c.ref]=c.role});
+
+/* Highlight/dim controls */
+document.querySelectorAll('.m-ctrl-item').forEach(function(ctrl){
+var name=ctrl.getAttribute('data-ctrl');
+var cat=ctrl.getAttribute('data-cat');
+if(mapped[name]){
+ctrl.classList.add('hl-'+cat);
+var badge=ctrl.querySelector('.ctrl-role-badge');
+if(badge){
+var role=mapped[name];
+badge.textContent=role;
+badge.className='ctrl-role-badge trole '+roleClass(role);
+badge.style.display='inline-block';
+}
+}else{
+ctrl.classList.add('dimmed');
+}
+});
+}
+
+function cm(){document.getElementById('mo').classList.remove('on')}
+function oam(id){
+var a=AU[id];if(!a)return;
+var scores=SC[id]||[];
+var s=S.find(function(x){return x.id===id});if(!s)return;
+var o=document.getElementById('amo'),tt=document.getElementById('amtt'),sn=document.getElementById('amsn'),st=document.getElementById('amst'),bd=document.getElementById('amb');
+sn.textContent='STAGE '+id+' \u00B7 AUTOMATION & AI AGENTS';
+tt.textContent=s.n+' \u2014 AT SCALE';
+st.textContent=s.st;
+
+// Build indexed items with scores for sorting
+var items=a.items.map(function(it,i){return{item:it,score:scores[i]||{},idx:i}});
+// Sort by priority: P1 first, then P2, etc.
+var priOrder={P1:1,P2:2,P3:3,P4:4};
+items.sort(function(a,b){return (priOrder[a.score.priority]||9)-(priOrder[b.score.priority]||9)});
+
+function safetyPill(v){
+var cls=v==='LOW'?'sp-safe-low':v==='MED'?'sp-safe-med':'sp-safe-hi';
+var lbl=v==='LOW'?'Low':v==='MED'?'Med':'High';
+return '<span class="spill '+cls+'">'+lbl+'</span>'}
+function matPill(v){
+var cls=v==='NOW'?'sp-mat-now':v==='EMERGING'?'sp-mat-emerging':'sp-mat-experimental';
+var lbl=v==='NOW'?'Deployable Now':v==='EMERGING'?'Emerging':'Experimental';
+return '<span class="spill '+cls+'">'+lbl+'</span>'}
+function easePill(v){
+var cls=v==='EASY'?'sp-ease-easy':v==='MODERATE'?'sp-ease-moderate':v==='HARD'?'sp-ease-hard':'sp-ease-vhard';
+return '<span class="spill '+cls+'">'+v.charAt(0)+v.slice(1).toLowerCase()+'</span>'}
+function impPill(v){
+var cls=v==='CRITICAL'?'sp-imp-crit':v==='HIGH'?'sp-imp-high':'sp-imp-med';
+return '<span class="spill '+cls+'">'+v.charAt(0)+v.slice(1).toLowerCase()+'</span>'}
+function priPill(v){
+var n=parseInt(v.replace('P',''));
+return '<span class="pri pri-'+n+'">'+v+'</span>'}
+
+var h='<div class="amchallenge"><div class="amcl-title">THE SCALE CHALLENGE</div>'+a.challenge+'</div>';
+
+// Priority summary table — column order: Priority > Impact > Maturity > Ease > Safety Risk
+h+='<div class="am-section-title">Priority Assessment</div>';
+h+='<table class="score-tbl"><thead><tr><th>Recommendation</th><th>Priority</th><th>Impact</th><th>Maturity</th><th>Ease</th><th>Safety Risk</th></tr></thead><tbody>';
+items.forEach(function(obj){
+var it=obj.item,sc=obj.score;
+h+='<tr><td>'+it.n+'</td>';
+h+='<td>'+priPill(sc.priority||'P4')+'</td>';
+h+='<td>'+impPill(sc.impact||'MEDIUM')+'</td>';
+h+='<td>'+matPill(sc.maturity||'EMERGING')+'</td>';
+h+='<td>'+easePill(sc.ease||'MODERATE')+'</td>';
+h+='<td>'+safetyPill(sc.safety||'MED')+'</td>';
+h+='</tr>'});
+h+='</tbody></table>';
+
+// Detailed cards (sorted by priority)
+h+='<div class="am-section-title">Detailed Recommendations</div>';
+h+='<div class="amlist">';
+items.forEach(function(obj){
+var it=obj.item,sc=obj.score;
+h+='<div class="amai"><div class="amai-h"><div class="amai-ico">'+it.ico+'</div><div class="amai-n">'+priPill(sc.priority||'P4')+' '+it.n+'</div><span class="amai-tag '+it.tc+'">'+it.tag+'</span></div><div class="amai-d">'+it.d+'</div>';
+// Scoring row — same column order as table
+h+='<div class="amai-scores">';
+h+='<div class="amai-score-item"><span class="amai-score-label">Impact:</span>'+impPill(sc.impact||'MEDIUM')+'</div>';
+h+='<div class="amai-score-item"><span class="amai-score-label">Maturity:</span>'+matPill(sc.maturity||'EMERGING')+'</div>';
+h+='<div class="amai-score-item"><span class="amai-score-label">Ease:</span>'+easePill(sc.ease||'MODERATE')+'</div>';
+h+='<div class="amai-score-item"><span class="amai-score-label">Safety:</span>'+safetyPill(sc.safety||'MED')+'</div>';
+h+='</div>';
+// Rationale
+if(sc.rationale){h+='<div style="margin-top:8px;font-size:.72rem;color:var(--text3);font-style:italic;line-height:1.4">'+sc.rationale+'</div>'}
+if(it.tools&&it.tools.length){h+='<div class="amai-tools">';it.tools.forEach(function(t){h+='<span class="amai-tool">'+t+'</span>'});h+='</div>'}
+h+='</div>'});
+h+='</div>';
+bd.innerHTML=h;o.classList.add('on')}
+function cam(){document.getElementById('amo').classList.remove('on')}
+document.getElementById('mcl').addEventListener('click',cm);
+document.getElementById('amcl').addEventListener('click',cam);
+document.getElementById('mo').addEventListener('click',function(e){if(e.target===e.currentTarget)cm()});
+document.getElementById('amo').addEventListener('click',function(e){if(e.target===e.currentTarget)cam()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){cam();cm()}if(e.key==='Enter'&&(e.target.classList.contains('sc')||e.target.classList.contains('gc4')))e.target.click()});
+render();
+scaleCanvas();
+window.addEventListener('resize',scaleCanvas);
+</script>
+</body>
+</html>
