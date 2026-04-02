@@ -90,14 +90,14 @@
 <div class="max-w-2xl">
 <h1 class="text-5xl font-extrabold text-[#44d8f1] font-headline tracking-tighter mb-4">Project Index</h1>
 <p class="text-xl text-[#c6c5d4] leading-relaxed">
-                        21 projects across AI agents, security research, full-stack applications, and pending-publish iOS apps. Every line of code is a step toward human-centric technological excellence.
+                        22 projects across AI agent systems, security research, automation tools, and native iOS apps. Every line of code is a step toward human-centric technological excellence.
                     </p>
 </div>
 <div class="flex flex-wrap gap-3" id="filter-tabs">
 <button onclick="filterProjects('all')" class="filter-btn active px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-[#222a3d] transition-all cursor-pointer">All Projects</button>
 <button onclick="filterProjects('ai')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">AI &amp; Agents</button>
 <button onclick="filterProjects('security')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Security</button>
-<button onclick="filterProjects('fullstack')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Full-Stack</button>
+<button onclick="filterProjects('automation')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Automation &amp; Tools</button>
 <button onclick="filterProjects('ios')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">iOS Apps</button>
 </div>
 </div>
@@ -105,8 +105,10 @@
 <!-- Bento Grid -->
 <div class="grid grid-cols-1 md:grid-cols-12 gap-6" id="projects-grid">
 
+<!-- ═══ ROW 1: Flagships ═══ -->
+
 <!-- FEATURED: Cog-0 -->
-<a href="/cog0/" class="md:col-span-8 project-card group relative overflow-hidden rounded-xl glass-card transition-all duration-500 hover:shadow-[0_0_50px_rgba(68,216,241,0.15)]" data-category="ai fullstack">
+<a href="/cog0/" class="md:col-span-8 project-card group relative overflow-hidden rounded-xl glass-card transition-all duration-500 hover:shadow-[0_0_50px_rgba(68,216,241,0.15)]" data-category="ai">
 <div class="h-[400px] w-full overflow-hidden bg-gradient-to-br from-[#131b2e] via-[#0b1326] to-[#131b2e] flex items-center justify-center relative">
 <div class="font-mono text-[#44d8f1]/10 text-[120px] font-black select-none leading-none">COG-0</div>
 <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-transparent to-transparent"></div>
@@ -118,7 +120,7 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Claude Agent SDK</span>
 </div>
 <h3 class="text-3xl font-bold text-white mb-2 font-headline">Cog-0 — Agentic Operating System</h3>
-<p class="text-[#c6c5d4] max-w-lg mb-4 line-clamp-3">An agentic OS organized around Control, Observability, and Governance. Features Carina Nova — a governed multi-agent creation pipeline where creation, verification, and governance are structurally separated across multiple models.</p>
+<p class="text-[#c6c5d4] max-w-lg mb-4 line-clamp-3">An agentic OS organized around Control, Observability, and Governance. Multi-agent pipeline with arbiter, behavioral memory, dispatch queue, and immutable audit trail.</p>
 <div class="flex gap-2 items-center">
 <span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Convex</span>
 <span class="text-[10px] text-[#c6c5d4]/60">|</span>
@@ -131,7 +133,7 @@
 </div>
 </a>
 
-<!-- SECONDARY: Agentic SOC -->
+<!-- Agentic SOC -->
 <a href="https://agentic-soc-poc.streamlit.app/" target="_blank" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="security ai">
 <div class="h-48 w-full overflow-hidden bg-gradient-to-br from-[#ffb4a5]/10 via-[#131b2e] to-[#44d8f1]/10 flex items-center justify-center">
 <div class="font-mono text-[#ffb4a5]/20 text-[60px] font-black select-none">SOC</div>
@@ -147,21 +149,23 @@
 </div>
 </a>
 
-<!-- L1NX Forge -->
-<a href="/l1nx/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai fullstack">
+<!-- ═══ ROW 2: Core AI Apps ═══ -->
+
+<!-- Carina Nova -->
+<a href="/carina-nova/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">NEXT.JS</span>
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT FLOW</span>
 </div>
-<h4 class="text-xl font-bold text-white mb-2">L1NX Forge — Interview Prep Engine</h4>
-<p class="text-sm text-[#c6c5d4] mb-6">Full-stack spaced-repetition app with SM-2 algorithm, four-tier progression, mock interview simulator, and AI coaching agent.</p>
+<h4 class="text-xl font-bold text-white mb-2">Carina Nova — Creation Pipeline</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Governed multi-agent creation pipeline with infinite canvas. Creator-checker separation across multiple LLM providers with Argus oversight and audit trail.</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
 </a>
 
 <!-- Life Command Center -->
-<a href="/life-command-center/" class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 flex items-center gap-8 overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai fullstack">
+<a href="/life-command-center/" class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 flex items-center gap-8 overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai automation">
 <div class="relative z-10 flex-1">
 <div class="flex gap-2 mb-4">
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">MULTI-LLM</span>
@@ -174,28 +178,23 @@
 <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-[#44d8f1]/5 rounded-full blur-3xl"></div>
 </a>
 
-<!-- Stats Row -->
-<div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Projects</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">21</div>
+<!-- ═══ ROW 3: AI + Security Crossover ═══ -->
+
+<!-- L1NX Forge -->
+<a href="/l1nx/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai automation">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">NEXT.JS</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Pending-publish iOS Apps</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">2</div>
+<h4 class="text-xl font-bold text-white mb-2">L1NX Forge — Interview Prep Engine</h4>
+<p class="text-sm text-[#c6c5d4] mb-6">Full-stack spaced-repetition app with SM-2 algorithm, four-tier progression, mock interview simulator, and AI coaching agent.</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Active Certifications</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">8</div>
-</div>
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">AI Agent Systems</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">5</div>
-</div>
-</div>
+</a>
 
 <!-- AI Agent Safety Framework -->
-<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security ai">
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">SECURITY</span></div>
 <h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Framework</h4>
@@ -207,29 +206,6 @@
 </div>
 </div>
 
-<!-- AI Agent Safety Checklist -->
-<a href="/ai-agent-safety-checklist.docx" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="security">
-<div class="p-6">
-<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">WHITE PAPER</span></div>
-<h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Checklist</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Pre-deployment validation checklist for agentic AI. 37 checks across nine control domains and three structural layers with framework traceability.</p>
-<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Download checklist ↓</div>
-</div>
-</a>
-
-<!-- Carina Nova -->
-<a href="/carina-nova/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai fullstack">
-<div class="p-6">
-<div class="flex gap-2 mb-6">
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">NEXT.JS</span>
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT FLOW</span>
-</div>
-<h4 class="text-xl font-bold text-white mb-2">Carina Nova — Creation Pipeline</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Governed multi-agent creation pipeline with infinite canvas. Creator-checker separation across multiple LLM providers with Argus oversight and audit trail.</p>
-<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
-</div>
-</a>
-
 <!-- CI/CD Pipeline Security -->
 <a href="/cicd-security/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="security">
 <div class="p-6">
@@ -240,31 +216,50 @@
 </div>
 </a>
 
-<!-- Agentic Arbiter -->
-<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai">
-<div class="p-6">
-<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">AI GOVERNANCE</span></div>
-<h4 class="text-xl font-bold text-white mb-2">Agentic Arbiter Project</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Arbitration and oversight mechanisms for multi-agent systems. Decision validation, conflict resolution, and safety verification.</p>
-<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Inter-Agent Trust Boundaries · Integrated into Cog-0</div>
+<!-- ═══ STATS ROW ═══ -->
+<div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Live Demos</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">15</div>
+</div>
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">AI Agent Systems</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">5</div>
+</div>
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Security Research</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">6</div>
+</div>
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Total Projects</div>
+<div class="text-3xl font-black text-white font-headline tracking-tighter">22</div>
 </div>
 </div>
 
-<!-- Agentic Governance -->
-<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai">
+<!-- ═══ ROW 4: Security Research & Governance ═══ -->
+
+<!-- Cog-0 Showcase -->
+<a href="/cog0-showcase/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">AI GOVERNANCE</span>
-<span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">IN PROGRESS</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT</span>
+<span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">SHOWCASE</span>
 </div>
-<h4 class="text-xl font-bold text-white mb-2">Agentic Governance Product</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Comprehensive governance product implementing safety controls from the checklist and framework as working software.</p>
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-[#ffb4a5] animate-pulse"></span>
-<span class="text-[10px] font-bold text-[#ffb4a5] uppercase">In Development</span>
+<h4 class="text-xl font-bold text-white mb-2">Cog-0 — Interactive Showcase</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Visual walkthrough of the Cog-0 platform architecture. System map, 8 agentic skills matrix, and narrative pitch — the story behind the flagship project.</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Explore →</div>
 </div>
+</a>
+
+<!-- AI Agent Safety Checklist -->
+<a href="/ai-agent-safety-checklist.docx" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="security ai">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">WHITE PAPER</span></div>
+<h4 class="text-xl font-bold text-white mb-2">AI Agent Safety Checklist</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Pre-deployment validation checklist for agentic AI. 37 checks across nine control domains and three structural layers with framework traceability.</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Download checklist ↓</div>
 </div>
-</div>
+</a>
 
 <!-- GCP Security Lab -->
 <div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
@@ -272,23 +267,52 @@
 <div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">TERRAFORM</span></div>
 <h4 class="text-xl font-bold text-white mb-2">GCP Security Lab</h4>
 <p class="text-sm text-[#c6c5d4] mb-4">Cost-minimal GCP lab for hands-on security testing in GKE-based ML infrastructure. 6-sprint Terraform IaC project.</p>
-<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GKE | GCP | Terraform · Infrastructure-as-code — no visual demo</div>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GKE | GCP | Terraform · Infrastructure-as-code</div>
 </div>
 </div>
 
-<!-- Three-Pillar Study Guide -->
-<div class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 overflow-hidden" data-category="security">
-<div class="relative z-10">
-<div class="flex gap-2 mb-4"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">RESEARCH</span></div>
-<h4 class="text-2xl font-bold text-white mb-4">Three-Pillar Study Guide Suite</h4>
-<p class="text-[#c6c5d4] mb-4">Interactive HTML study guides covering SOC/MDR, Enterprise Controls, and Product Security. Includes cross-pillar connections and CISO interview strategy.</p>
-<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">HTML | Interactive | 5 Interconnected Guides</div>
+<!-- ═══ ROW 5: Automation & Business ═══ -->
+
+<!-- Sovereign Operations -->
+<a href="/sovereign-operations/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONSULTING</span></div>
+<h4 class="text-xl font-bold text-white mb-2">Sovereign Operations</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">AI automation consulting practice building reliable, maintainable automation systems for small and mid-sized businesses. Custom-built client-facing tools below.</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Visit site →</div>
 </div>
-<div class="absolute -right-20 -bottom-20 w-48 h-48 bg-[#ffb4a5]/5 rounded-full blur-3xl"></div>
+</a>
+
+<!-- Group Intake Tool -->
+<a href="/group-intake-tool/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT</span>
+<span class="bg-[#44d8f1]/10 text-[#44d8f1]/60 px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/10">SOV OPS</span>
 </div>
+<h4 class="text-xl font-bold text-white mb-2">Group Intake Tool</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Interactive 4-tab client discovery tool. Score pain points, drag-to-reorder priorities, auto-generate build plans, and explore system architecture — all data stays local.</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
+</div>
+</a>
+
+<!-- TrackMode Proposal -->
+<a href="/trackmode-proposal/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation">
+<div class="p-6">
+<div class="flex gap-2 mb-6">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT + VITE</span>
+<span class="bg-[#44d8f1]/10 text-[#44d8f1]/60 px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/10">SOV OPS</span>
+</div>
+<h4 class="text-xl font-bold text-white mb-2">TrackMode — Interactive Proposal</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">PIN-gated interactive service proposal using a racing metaphor. 20-zone presentation covering a 4-phase automation build — delivered as a private URL instead of a PDF.</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
+</div>
+</a>
+
+<!-- ═══ ROW 6: Personal Tools & Study ═══ -->
 
 <!-- Alignment -->
-<a href="/alignment/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="fullstack">
+<a href="/alignment/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation ai">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT</span>
@@ -301,7 +325,7 @@
 </a>
 
 <!-- FastingCC -->
-<a href="/fastingcc/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="fullstack">
+<a href="/fastingcc/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation">
 <div class="p-6">
 <div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">WELLNESS</span></div>
 <h4 class="text-xl font-bold text-white mb-2">FastingCC — Fasting Companion</h4>
@@ -320,43 +344,38 @@
 </div>
 </a>
 
-<!-- Sovereign Operations -->
-<a href="/sovereign-operations/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="fullstack">
-<div class="p-6">
-<div class="flex gap-2 mb-6"><span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONSULTING</span></div>
-<h4 class="text-xl font-bold text-white mb-2">Sovereign Operations</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">AI automation consulting practice building reliable, maintainable automation systems for small and mid-sized businesses. Custom-built client-facing tools below.</p>
-<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Visit site →</div>
-</div>
-</a>
+<!-- ═══ ROW 7: Study Guides & Research ═══ -->
 
-<!-- Sovereign Ops: Group Intake Tool -->
-<a href="/group-intake-tool/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="fullstack">
-<div class="p-6">
-<div class="flex gap-2 mb-6">
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT</span>
-<span class="bg-[#44d8f1]/10 text-[#44d8f1]/60 px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/10">SOV OPS</span>
+<!-- Three-Pillar Study Guide -->
+<div class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 overflow-hidden" data-category="security">
+<div class="relative z-10">
+<div class="flex gap-2 mb-4"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">RESEARCH</span></div>
+<h4 class="text-2xl font-bold text-white mb-4">Three-Pillar Study Guide Suite</h4>
+<p class="text-[#c6c5d4] mb-4">Interactive HTML study guides covering SOC/MDR, Enterprise Controls, and Product Security. Includes cross-pillar connections and CISO interview strategy.</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">HTML | Interactive | 5 Interconnected Guides</div>
 </div>
-<h4 class="text-xl font-bold text-white mb-2">Group Intake Tool</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">Interactive 4-tab client discovery tool. Score pain points, drag-to-reorder priorities, auto-generate build plans, and explore system architecture — all data stays local.</p>
-<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
+<div class="absolute -right-20 -bottom-20 w-48 h-48 bg-[#ffb4a5]/5 rounded-full blur-3xl"></div>
 </div>
-</a>
 
-<!-- Sovereign Ops: TrackMode Proposal -->
-<a href="/trackmode-proposal/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="fullstack">
+<!-- Agentic Governance -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ai security">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">REACT + VITE</span>
-<span class="bg-[#44d8f1]/10 text-[#44d8f1]/60 px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/10">SOV OPS</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">AI GOVERNANCE</span>
+<span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#ffb4a5]/30">IN PROGRESS</span>
 </div>
-<h4 class="text-xl font-bold text-white mb-2">TrackMode — Interactive Proposal</h4>
-<p class="text-sm text-[#c6c5d4] mb-4">PIN-gated interactive service proposal using a racing metaphor. 20-zone presentation covering a 4-phase automation build — delivered as a private URL instead of a PDF.</p>
-<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try it →</div>
+<h4 class="text-xl font-bold text-white mb-2">Agentic Governance Product</h4>
+<p class="text-sm text-[#c6c5d4] mb-4">Comprehensive governance product implementing safety controls from the checklist and framework as working software.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#ffb4a5] animate-pulse"></span>
+<span class="text-[10px] font-bold text-[#ffb4a5] uppercase">In Development</span>
 </div>
-</a>
+</div>
+</div>
 
-<!-- iOS: Meta Server Training -->
+<!-- ═══ ROW 8: iOS Apps ═══ -->
+
+<!-- Meta Server Training -->
 <div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
@@ -372,7 +391,7 @@
 </div>
 </div>
 
-<!-- iOS: Value Selector -->
+<!-- Value Selector -->
 <div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
@@ -388,7 +407,7 @@
 </div>
 </div>
 
-<!-- iOS: Bondfires -->
+<!-- Bondfires -->
 <div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
 <div class="p-6">
 <div class="flex gap-2 mb-6">
