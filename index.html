@@ -120,7 +120,7 @@
 <div class="text-sm md:text-base font-black tracking-tighter text-[#44d8f1]">
         Datacenter Ops // SR TECH
       </div>
-<div class="hidden lg:flex gap-6 items-center">
+<div class="hidden md:flex gap-6 items-center">
 <a class="font-['Manrope'] tracking-tight uppercase font-bold text-xs text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/">Home</a>
 <a class="font-['Manrope'] tracking-tight uppercase font-bold text-xs text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="/resume">Resume</a>
 <a class="font-['Manrope'] tracking-tight uppercase font-bold text-xs text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="/projects">Projects</a>
@@ -132,45 +132,31 @@
 <div class="bg-gradient-to-b from-[#131b2e] to-transparent h-px"></div>
 </nav>
 <!-- SideNavBar (Shared Component - Desktop Only) -->
-<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-[#131b2e] dark:bg-[#131b2e] border-r border-[#454652] border-opacity-15 py-20 px-4 z-40">
-<div class="mb-10 px-4">
-<div class="flex items-center gap-3 mb-2">
-<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-primary/20">
-<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional technologist with a confident expression and subtle technical blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACZxZzYxShtZszbkiqhzse1aDxtr8exNYXHwYYmadPg2TkXhjMlPvnBkYyxwd3Q4gKo4J4cSoOgFCl3AShCD1xDyHJrooVVCQGkUzku_eRaefLnfgBh2sHaauBCGIWlMeFNUHOk4vPSq3xd23qZVwIO8RxBNwelDFdYJlPgUOp5MsZkYcMiEme-MNNa-c82dmRqR7Y95IXsZ7AgS_aJzbFWh_mhoBFIePKxm8V7iQL6Wh2nyOWFYCrcyeEkOfPrSOt9e60iq6dh-A"/>
-</div>
-<div>
-<div class="text-[#44d8f1] font-bold text-sm">Jacob Sumsion</div>
-<div class="text-[10px] text-on-surface-variant uppercase tracking-widest">Node: 01_JS</div>
-</div>
-</div>
-<div class="text-[#44d8f1] text-[10px] font-['Manrope'] font-medium uppercase tracking-widest mb-1 flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-        System Status
-      </div>
-<div class="text-[#c6c5d4] text-[10px] uppercase tracking-tighter">All Nodes Nominal</div>
-</div>
-<div class="space-y-1">
-<a href="/" class="bg-[#222a3d] text-[#44d8f1] rounded-full mx-2 my-1 p-4 flex items-center gap-3 cursor-pointer">
-<span class="material-symbols-outlined text-sm" data-icon="sensors">sensors</span>
-<span class="font-['Manrope'] font-medium text-xs uppercase tracking-widest">Home</span>
+<aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex-col items-center pt-16 pb-8 gap-8 bg-[#131b2e] z-40">
+<div class="text-lg font-black text-[#44d8f1] font-['Manrope'] mb-8">J</div>
+<div class="flex flex-col gap-10">
+<a href="/" class="flex flex-col items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[#44d8f1]" style="font-variation-settings: 'FILL' 1;">sensors</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#44d8f1]">Home</span>
 </a>
-<a href="/resume" class="text-[#c6c5d4] p-4 mx-2 my-1 flex items-center gap-3 cursor-pointer hover:bg-[#2d3449] transition-colors rounded-full">
-<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
-<span class="font-['Manrope'] font-medium text-xs uppercase tracking-widest">Resume</span>
+<a href="/resume" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">description</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Resume</span>
 </a>
-<a href="/projects" class="text-[#c6c5d4] p-4 mx-2 my-1 flex items-center gap-3 cursor-pointer hover:bg-[#2d3449] transition-colors rounded-full">
-<span class="material-symbols-outlined text-sm" data-icon="folder_open">folder_open</span>
-<span class="font-['Manrope'] font-medium text-xs uppercase tracking-widest">Projects</span>
+<a href="/projects" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">folder_open</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Projects</span>
 </a>
-<a href="mailto:jacob.sumsion@gmail.com" class="text-[#c6c5d4] p-4 mx-2 my-1 flex items-center gap-3 cursor-pointer hover:bg-[#2d3449] transition-colors rounded-full">
-<span class="material-symbols-outlined text-sm" data-icon="mail">mail</span>
-<span class="font-['Manrope'] font-medium text-xs uppercase tracking-widest">Contact</span>
+<a href="mailto:jacob.sumsion@gmail.com" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">mail</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#c6c5d4] group-hover:text-[#44d8f1]">Contact</span>
 </a>
 </div>
-<div class="mt-auto px-4">
-<button onclick="triggerEmergency()" class="w-full py-3 rounded-full border border-error/30 text-error text-[10px] uppercase font-bold tracking-widest hover:bg-error/10 transition-colors">
-        Emergency Protocol
-      </button>
+<div class="mt-auto">
+<button onclick="triggerEmergency()" class="flex flex-col items-center gap-1 group cursor-pointer">
+<span class="material-symbols-outlined text-error/40 group-hover:text-error transition-colors">warning</span>
+<span class="font-['Manrope'] uppercase tracking-widest text-[8px] text-error/40 group-hover:text-error">SOS</span>
+</button>
 </div>
 </aside>
 <!-- Emergency Protocol Overlay -->
@@ -247,7 +233,7 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 <!-- Main Content Canvas -->
-<main class="lg:ml-64 pt-24 pb-12 px-6 md:px-12">
+<main class="md:pl-20 pt-20 pb-12 px-4 md:px-10">
 <!-- Hero Section -->
 <section class="relative mb-16 lg:mb-24 min-h-[50vh] lg:min-h-[600px] flex flex-col justify-center">
 <div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -468,7 +454,7 @@ document.addEventListener('keydown', function(e) {
 </section>
 </main>
 <!-- Footer (Shared Component) -->
-<footer class="w-full py-12 pb-24 lg:pb-12 bg-[#0b1326] dark:bg-[#0b1326]">
+<footer class="w-full py-12 pb-24 md:pb-12 bg-[#0b1326] dark:bg-[#0b1326]">
 <div class="bg-[#131b2e] h-px w-full mb-8"></div>
 <div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-12 max-w-7xl mx-auto">
 <div class="font-['Manrope'] text-[10px] uppercase tracking-[0.05em] text-[#c6c5d4] mb-4 md:mb-0">
@@ -485,7 +471,7 @@ document.addEventListener('keydown', function(e) {
 </div>
 </footer>
 <!-- Mobile Bottom Nav -->
-<nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#131b2e] border-t border-[#454652]/15 flex justify-around items-center z-50">
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#131b2e] border-t border-[#454652]/15 flex justify-around items-center z-50">
 <a href="/" class="flex flex-col items-center gap-1">
 <span class="material-symbols-outlined text-[#44d8f1]" style="font-variation-settings: 'FILL' 1;">sensors</span>
 <span class="font-['Manrope'] uppercase tracking-widest text-[8px] text-[#44d8f1]">Home</span>
