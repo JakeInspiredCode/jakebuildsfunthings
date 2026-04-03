@@ -33,6 +33,7 @@
       }
     </script>
 <style>
+      html { font-size: clamp(13px, 0.4vw + 12px, 16px); }
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         display: inline-block; line-height: 1; text-transform: none; letter-spacing: normal; word-wrap: normal; white-space: nowrap; direction: ltr;
@@ -48,6 +49,9 @@
       .filter-btn.active { background: rgba(68, 216, 241, 0.1); color: #44d8f1; border-color: rgba(68, 216, 241, 0.2); }
       .project-card { transition: all 0.3s ease; }
       .project-card.hidden-by-filter { display: none; }
+      .fluid-hero { font-size: clamp(1.75rem, 3vw + 0.5rem, 3rem); }
+      .fluid-h2 { font-size: clamp(1.5rem, 2vw + 0.5rem, 2.25rem); }
+      .fluid-h3 { font-size: clamp(1.25rem, 1.5vw + 0.5rem, 1.875rem); }
     </style>
 </head>
 <body class="bg-[#0b1326] text-[#c6c5d4] font-body selection:bg-[#44d8f1] selection:text-[#0b1326] custom-scrollbar">
@@ -88,9 +92,9 @@
 <header class="max-w-7xl mx-auto px-4 md:px-8 py-16">
 <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-8">
 <div class="max-w-2xl">
-<h1 class="text-5xl font-extrabold text-[#44d8f1] font-headline tracking-tighter mb-4">Project Index</h1>
-<p class="text-2xl text-white font-bold leading-snug mb-2">"I build to <span class="text-[#ffb4a5]">understand</span>. I ship products that <span class="text-[#44d8f1]">empower</span>."</p>
-<p class="text-base text-[#c6c5d4] leading-relaxed">
+<h1 class="fluid-hero font-extrabold text-[#44d8f1] font-headline tracking-tighter mb-4">Project Index</h1>
+<p class="text-lg lg:text-xl text-white font-bold leading-snug mb-2">"I build to <span class="text-[#ffb4a5]">understand</span>. I ship products that <span class="text-[#44d8f1]">empower</span>."</p>
+<p class="text-sm text-[#c6c5d4] leading-relaxed">
                         Every project here started with a problem I needed to solve — for myself, for a team, or for a client. The pattern is the same: learn deeply, build something useful, and make it available to others. 22 projects. 15 live demos you can <span class="text-[#44d8f1] font-bold">try right now</span>.
                     </p>
 </div>
@@ -140,7 +144,7 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Streamlit</span>
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Claude API</span>
 </div>
-<h3 class="text-3xl font-bold text-white mb-2 font-headline">Agentic SOC Proof of Concept</h3>
+<h3 class="fluid-h2 font-bold text-white mb-2 font-headline">Agentic SOC Proof of Concept</h3>
 <p class="text-[#c6c5d4] max-w-lg mb-3 line-clamp-3">Multi-agent system simulating three-phase attack chains against GKE/ML infrastructure. Five AI agents orchestrate triage, investigation, containment, and compliance — 47-second MTTR, zero manual intervention.</p>
 <p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: multi-agent orchestration · incident response automation · compliance verification</p>
 <div class="flex gap-2 items-center">
@@ -178,7 +182,7 @@
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">NEXT.JS</span>
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
-<h4 class="text-2xl font-bold text-white mb-4">L1NX Forge — Technical Training Platform</h4>
+<h4 class="fluid-h3 font-bold text-white mb-4">L1NX Forge — Technical Training Platform</h4>
 <p class="text-[#c6c5d4] mb-2">Full-stack spaced-repetition app with SM-2 algorithm, four-tier progression, assessment simulator, and AI coaching agent. Built to accelerate technical skill acquisition.</p>
 <p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: full-stack product · AI-assisted learning · spaced repetition</p>
 <div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
@@ -217,19 +221,19 @@
 <div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
 <div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Live Demos</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">15</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">15</div>
 </div>
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
 <div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">AI Agent Systems</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">5</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">5</div>
 </div>
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
 <div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Security Research</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">6</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">6</div>
 </div>
 <div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
 <div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Total Projects</div>
-<div class="text-3xl font-black text-white font-headline tracking-tighter">22</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">22</div>
 </div>
 </div>
 
@@ -356,7 +360,7 @@
 <div class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 overflow-hidden" data-category="security">
 <div class="relative z-10">
 <div class="flex gap-2 mb-4"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">INTERACTIVE</span></div>
-<h4 class="text-2xl font-bold text-white mb-4">Interactive Knowledge Base — Security Operations</h4>
+<h4 class="fluid-h3 font-bold text-white mb-4">Interactive Knowledge Base — Security Operations</h4>
 <p class="text-[#c6c5d4] mb-2">Turns unstructured domain knowledge into interactive, cross-referenced learning tools. Five interconnected guides covering SOC/MDR, Enterprise Controls, and Product Security — built for onboarding, training, and quick reference. Increases engagement and decreases ramp-up time.</p>
 <p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: knowledge management · onboarding automation · training tool design</p>
 <div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">HTML | Zero Dependencies | Onboarding & Training</div>
@@ -467,7 +471,7 @@
 <section class="w-full bg-[#131b2e] py-24 relative overflow-hidden">
 <div class="max-w-4xl mx-auto px-8 text-center relative z-10">
 <span class="material-symbols-outlined text-[#ffb4a5] text-5xl mb-6">terminal</span>
-<h2 class="text-3xl md:text-5xl font-black text-white font-headline tracking-tighter mb-8 leading-tight">
+<h2 class="fluid-h2 font-black text-white font-headline tracking-tighter mb-8 leading-tight">
                     "I build to <span class="text-[#ffb4a5]">understand</span>. I ship products that <span class="text-[#44d8f1]">empower</span>."
                 </h2>
 <div class="flex justify-center gap-6">

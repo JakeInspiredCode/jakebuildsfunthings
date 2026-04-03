@@ -73,6 +73,9 @@
     }
   </script>
 <style>
+    html {
+      font-size: clamp(13px, 0.4vw + 12px, 16px);
+    }
     body {
       background-color: #0b1326;
       color: #dae2fd;
@@ -91,6 +94,22 @@
     }
     @media (max-width: 1024px) {
       .asymmetric-grid { grid-template-columns: 1fr; }
+    }
+    .fluid-hero {
+      font-size: clamp(2rem, 4vw + 1rem, 4.5rem);
+      line-height: 0.95;
+    }
+    .fluid-h2 {
+      font-size: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+    }
+    .fluid-h3 {
+      font-size: clamp(1.25rem, 1.5vw + 0.5rem, 1.875rem);
+    }
+    .fluid-stat {
+      font-size: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+    }
+    .fluid-body {
+      font-size: clamp(0.875rem, 0.8vw + 0.5rem, 1.05rem);
     }
   </style>
 </head>
@@ -230,7 +249,7 @@ document.addEventListener('keydown', function(e) {
 <!-- Main Content Canvas -->
 <main class="lg:ml-64 pt-24 pb-12 px-6 md:px-12">
 <!-- Hero Section -->
-<section class="relative mb-24 min-h-[716px] flex flex-col justify-center">
+<section class="relative mb-16 lg:mb-24 min-h-[50vh] lg:min-h-[600px] flex flex-col justify-center">
 <div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
 <div class="absolute top-40 -left-20 w-64 h-64 bg-secondary/5 rounded-full blur-[80px] pointer-events-none"></div>
 <div class="max-w-4xl relative z-10">
@@ -238,17 +257,17 @@ document.addEventListener('keydown', function(e) {
 <span class="flex h-2 w-2 rounded-full bg-primary animate-ping"></span>
 <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] text-primary">Fleet Operational: 1.0M+ Nodes Managed</span>
 </div>
-<h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.95] mb-8 text-on-surface">
+<h1 class="fluid-hero font-extrabold tracking-tighter mb-6 text-on-surface">
           Architecting <span class="text-primary italic">Resilience</span> <br/> for the Infinite.
         </h1>
-<p class="text-lg md:text-xl text-on-surface-variant max-w-2xl font-light leading-relaxed mb-10">
+<p class="fluid-body text-on-surface-variant max-w-2xl font-light leading-relaxed mb-8">
           Bridging hyperscale efficiency with human-centric engineering. Meta Infrastructure and Military Lead, now seeking the mission of understanding the universe through unshakeable hardware integrity.
         </p>
 <div class="flex flex-wrap gap-4">
-<a href="/projects" class="bg-primary text-on-primary px-8 py-4 rounded-full font-extrabold uppercase tracking-tight hover:scale-105 transition-transform inline-block">
+<a href="/projects" class="bg-primary text-on-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full font-extrabold uppercase tracking-tight text-sm hover:scale-105 transition-transform inline-block">
             Explore Projects
           </a>
-<a href="/resume" class="flex items-center gap-3 px-6 py-4 rounded-full bg-surface-container-high border border-outline-variant/20 hover:border-primary/40 hover:scale-105 transition-all">
+<a href="/resume" class="flex items-center gap-3 px-5 py-3 lg:px-6 lg:py-4 rounded-full bg-surface-container-high border border-outline-variant/20 hover:border-primary/40 hover:scale-105 transition-all">
 <span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">verified</span>
 <span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">See the Proof</span>
 </a>
@@ -276,39 +295,39 @@ document.addEventListener('keydown', function(e) {
 </div>
 </section>
 <!-- Stats & Technical Badges -->
-<section class="mb-32">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<section class="mb-16 lg:mb-24">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
 <!-- MTTD Card -->
-<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-primary/20 group-hover:text-primary/40 transition-colors" data-icon="biotech">biotech</span>
 </div>
 <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Mean Time to Detect</div>
-<div class="text-4xl font-black text-primary mb-2">1.8m</div>
+<div class="fluid-stat font-black text-primary mb-2">1.8m</div>
 <div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
 <div class="bg-primary h-full w-4/5"></div>
 </div>
 <div class="mt-4 text-[10px] text-primary font-bold uppercase">Optimized Response</div>
 </div>
 <!-- MTTR Card -->
-<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-secondary/20 group-hover:text-secondary/40 transition-colors" data-icon="build">build</span>
 </div>
 <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Mean Time to Repair</div>
-<div class="text-4xl font-black text-secondary mb-2">12.4m</div>
+<div class="fluid-stat font-black text-secondary mb-2">12.4m</div>
 <div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
 <div class="bg-secondary h-full w-2/3"></div>
 </div>
 <div class="mt-4 text-[10px] text-secondary font-bold uppercase">Global Average: 45m</div>
 </div>
 <!-- Uptime -->
-<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-primary/20 group-hover:text-primary/40 transition-colors" data-icon="speed">speed</span>
 </div>
 <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">System Availability</div>
-<div class="text-4xl font-black text-on-surface mb-2">99.999%</div>
+<div class="fluid-stat font-black text-on-surface mb-2">99.999%</div>
 <div class="flex gap-1 mt-4">
 <span class="w-2 h-2 rounded-full bg-primary"></span>
 <span class="w-2 h-2 rounded-full bg-primary"></span>
@@ -318,12 +337,12 @@ document.addEventListener('keydown', function(e) {
 </div>
 </div>
 <!-- Fleet Size -->
-<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-tertiary/20 group-hover:text-tertiary/40 transition-colors" data-icon="cloud">cloud</span>
 </div>
 <div class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Nodes Maintained</div>
-<div class="text-4xl font-black text-on-surface mb-2">1.0M</div>
+<div class="fluid-stat font-black text-on-surface mb-2">1.0M</div>
 <div class="mt-4 text-[10px] text-tertiary font-bold uppercase flex items-center gap-1">
 <span class="material-symbols-outlined text-[12px]" data-icon="military_tech">military_tech</span> Precision Driven
           </div>
@@ -331,11 +350,11 @@ document.addEventListener('keydown', function(e) {
 </div>
 </section>
 <!-- Three Pillars Section -->
-<section class="mb-32">
-<div class="asymmetric-grid gap-12 items-start">
+<section class="mb-16 lg:mb-24">
+<div class="asymmetric-grid gap-8 lg:gap-12 items-start">
 <div class="order-2 lg:order-1">
-<h2 class="text-4xl font-extrabold tracking-tight mb-4 text-on-surface">Mission Parameters</h2>
-<p class="text-on-surface-variant mb-12 text-lg max-w-xl">
+<h2 class="fluid-h2 font-extrabold tracking-tight mb-4 text-on-surface">Mission Parameters</h2>
+<p class="text-on-surface-variant mb-8 lg:mb-12 fluid-body max-w-xl">
             Success at xAI requires more than technical proficiency; it demands a fusion of military-grade discipline and high-empathy engineering.
           </p>
 <div class="space-y-6">
@@ -345,8 +364,8 @@ document.addEventListener('keydown', function(e) {
 <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
 </div>
 <div>
-<h4 class="text-xl font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Excellence in Quality</h4>
-<p class="text-on-surface-variant">Zero-tolerance for operational entropy. Every cable, rack, and server is optimized for maximum thermodynamic efficiency and compute density.</p>
+<h4 class="text-base lg:text-lg font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Excellence in Quality</h4>
+<p class="text-sm text-on-surface-variant">Zero-tolerance for operational entropy. Every cable, rack, and server is optimized for maximum thermodynamic efficiency and compute density.</p>
 </div>
 </div>
 <!-- Pillar 2 -->
@@ -355,8 +374,8 @@ document.addEventListener('keydown', function(e) {
 <span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
 </div>
 <div>
-<h4 class="text-xl font-bold text-on-surface mb-2 group-hover:text-tertiary transition-colors">Human Connection</h4>
-<p class="text-on-surface-variant">The 'Human Technologist' approach ensures that behind every hyperscale fleet is a culture of mentorship, clarity, and shared purpose.</p>
+<h4 class="text-base lg:text-lg font-bold text-on-surface mb-2 group-hover:text-tertiary transition-colors">Human Connection</h4>
+<p class="text-sm text-on-surface-variant">The 'Human Technologist' approach ensures that behind every hyperscale fleet is a culture of mentorship, clarity, and shared purpose.</p>
 </div>
 </div>
 <!-- Pillar 3 -->
@@ -365,8 +384,8 @@ document.addEventListener('keydown', function(e) {
 <span class="material-symbols-outlined" data-icon="shield">shield</span>
 </div>
 <div>
-<h4 class="text-xl font-bold text-on-surface mb-2 group-hover:text-secondary transition-colors">Resilient Security</h4>
-<p class="text-on-surface-variant">Protecting the integrity of the universe's most important datasets through hardened infrastructure and proactive threat detection.</p>
+<h4 class="text-base lg:text-lg font-bold text-on-surface mb-2 group-hover:text-secondary transition-colors">Resilient Security</h4>
+<p class="text-sm text-on-surface-variant">Protecting the integrity of the universe's most important datasets through hardened infrastructure and proactive threat detection.</p>
 </div>
 </div>
 </div>
@@ -378,7 +397,7 @@ document.addEventListener('keydown', function(e) {
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
 <div class="absolute bottom-8 left-8 right-8">
 <div class="text-[10px] text-primary uppercase font-bold tracking-[0.3em] mb-2">Location: Frontier-01</div>
-<div class="text-2xl font-black text-on-surface leading-tight">Securing the Future of AGI</div>
+<div class="text-lg lg:text-xl font-black text-on-surface leading-tight">Securing the Future of AGI</div>
 </div>
 </div>
 <div class="p-6 rounded-xl bg-surface-container-low border border-outline-variant/5">
@@ -402,27 +421,27 @@ document.addEventListener('keydown', function(e) {
 </div>
 </section>
 <!-- Experience Timeline / Bento Grid -->
-<section class="mb-32">
-<h3 class="text-2xl font-bold uppercase tracking-widest mb-12 text-center text-primary">Strategic Deployment</h3>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<div class="md:col-span-2 bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
-<div class="flex justify-between items-start mb-6">
+<section class="mb-16 lg:mb-24">
+<h3 class="fluid-h3 font-bold uppercase tracking-widest mb-8 lg:mb-12 text-center text-primary">Strategic Deployment</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+<div class="md:col-span-2 bg-surface-container-low p-6 lg:p-8 rounded-2xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4 lg:mb-6">
 <div>
 <div class="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-1">Meta Infrastructure</div>
-<h4 class="text-3xl font-black text-on-surface">Data Center Lead</h4>
+<h4 class="fluid-h2 font-black text-on-surface">Data Center Lead</h4>
 </div>
 <div class="text-on-surface-variant font-mono text-xs text-right">
               2024 — Present<br/>
               FLEET_ALPHA
             </div>
 </div>
-<p class="text-on-surface-variant leading-relaxed">
+<p class="text-sm text-on-surface-variant leading-relaxed">
             Engineered solutions for 1.0M+ server fleet deployments. Led high-impact MTTD initiatives that reduced critical incident response time by 40%. Specialized in hardware remediation and thermodynamic optimization at hyperscale.
           </p>
 </div>
-<div class="bg-surface-container-high p-8 rounded-2xl border border-outline-variant/10 flex flex-col">
+<div class="bg-surface-container-high p-6 lg:p-8 rounded-2xl border border-outline-variant/10 flex flex-col">
 <div class="text-tertiary font-bold uppercase tracking-[0.2em] text-xs mb-1">Military Ops</div>
-<h4 class="text-2xl font-black text-on-surface mb-4">Command &amp; Precision</h4>
+<h4 class="fluid-h3 font-black text-on-surface mb-4">Command &amp; Precision</h4>
 <p class="text-sm text-on-surface-variant leading-relaxed">
             Applied rigorous operational discipline from military service to technical infrastructure management. Zero-failure mindset.
           </p>
@@ -433,15 +452,15 @@ document.addEventListener('keydown', function(e) {
 </div>
 </section>
 <!-- CTA Section -->
-<section class="mb-24">
-<div class="bg-primary-container/30 rounded-3xl p-12 text-center border border-primary/10 relative overflow-hidden">
+<section class="mb-16 lg:mb-24">
+<div class="bg-primary-container/30 rounded-2xl lg:rounded-3xl p-6 lg:p-12 text-center border border-primary/10 relative overflow-hidden">
 <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 to-transparent"></div>
 <div class="relative z-10 max-w-2xl mx-auto">
-<h2 class="text-4xl font-extrabold text-on-surface mb-6">Ready to Scale the Universe.</h2>
-<p class="text-on-surface-variant mb-10">
+<h2 class="fluid-h2 font-extrabold text-on-surface mb-4 lg:mb-6">Ready to Scale the Universe.</h2>
+<p class="text-sm text-on-surface-variant mb-6 lg:mb-10">
             Currently focused on applying high-performance infrastructure management to the AGI frontier. Let's build the hardware that understands reality.
           </p>
-<a href="mailto:jacob.sumsion@gmail.com" class="bg-primary text-on-primary px-10 py-5 rounded-full font-black uppercase tracking-tight hover:scale-105 transition-transform text-lg shadow-xl shadow-primary/20 inline-block">
+<a href="mailto:jacob.sumsion@gmail.com" class="bg-primary text-on-primary px-8 py-3 lg:px-10 lg:py-4 rounded-full font-black uppercase tracking-tight hover:scale-105 transition-transform text-sm lg:text-base shadow-xl shadow-primary/20 inline-block">
             Initiate Connection
           </a>
 </div>
