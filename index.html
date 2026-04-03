@@ -74,7 +74,7 @@
   </script>
 <style>
     html {
-      font-size: clamp(13px, 0.4vw + 12px, 16px);
+      font-size: clamp(12px, 0.3vw + 11px, 14px);
     }
     body {
       background-color: #0b1326;
@@ -96,36 +96,36 @@
       .asymmetric-grid { grid-template-columns: 1fr; }
     }
     .fluid-hero {
-      font-size: clamp(2rem, 4vw + 1rem, 4.5rem);
+      font-size: clamp(1.5rem, 3vw + 0.5rem, 3rem);
       line-height: 0.95;
     }
     .fluid-h2 {
-      font-size: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+      font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.5rem);
     }
     .fluid-h3 {
-      font-size: clamp(1.25rem, 1.5vw + 0.5rem, 1.875rem);
+      font-size: clamp(1rem, 1vw + 0.4rem, 1.25rem);
     }
     .fluid-stat {
-      font-size: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+      font-size: clamp(1.25rem, 1.5vw + 0.4rem, 1.75rem);
     }
     .fluid-body {
-      font-size: clamp(0.875rem, 0.8vw + 0.5rem, 1.05rem);
+      font-size: clamp(0.8rem, 0.5vw + 0.5rem, 0.9rem);
     }
   </style>
 </head>
 <body class="selection:bg-primary selection:text-on-primary">
 <!-- TopNavBar (Shared Component) -->
 <nav class="fixed top-0 w-full z-50 bg-[#0b1326] dark:bg-[#0b1326] backdrop-blur-md bg-opacity-60 shadow-[0_24px_48px_rgba(6,14,32,0.4)]">
-<div class="flex justify-between items-center px-4 md:px-8 py-4 w-full max-w-none">
-<div class="text-base md:text-lg font-black tracking-tighter text-[#44d8f1]">
+<div class="flex justify-between items-center px-4 md:px-6 py-3 w-full max-w-none">
+<div class="text-sm md:text-base font-black tracking-tighter text-[#44d8f1]">
         Datacenter Ops // SR TECH
       </div>
-<div class="hidden lg:flex gap-8 items-center">
-<a class="font-['Manrope'] tracking-tight uppercase font-bold text-sm text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/">Home</a>
-<a class="font-['Manrope'] tracking-tight uppercase font-bold text-sm text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="/resume">Resume</a>
-<a class="font-['Manrope'] tracking-tight uppercase font-bold text-sm text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="/projects">Projects</a>
+<div class="hidden lg:flex gap-6 items-center">
+<a class="font-['Manrope'] tracking-tight uppercase font-bold text-xs text-[#44d8f1] border-b-2 border-[#44d8f1] pb-1" href="/">Home</a>
+<a class="font-['Manrope'] tracking-tight uppercase font-bold text-xs text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="/resume">Resume</a>
+<a class="font-['Manrope'] tracking-tight uppercase font-bold text-xs text-[#c6c5d4] hover:text-[#44d8f1] transition-colors" href="/projects">Projects</a>
 </div>
-<a href="mailto:jacob.sumsion@gmail.com" class="hidden md:inline-block bg-primary text-on-primary px-6 py-2 rounded-full font-bold tracking-tight uppercase text-sm hover:opacity-90 active:scale-95 transition-all">
+<a href="mailto:jacob.sumsion@gmail.com" class="hidden md:inline-block bg-primary text-on-primary px-4 py-1.5 rounded-full font-bold tracking-tight uppercase text-xs hover:opacity-90 active:scale-95 transition-all">
         Contact
       </a>
 </div>
@@ -264,12 +264,12 @@ document.addEventListener('keydown', function(e) {
           Bridging hyperscale efficiency with human-centric engineering. Meta Infrastructure and Military Lead, now seeking the mission of understanding the universe through unshakeable hardware integrity.
         </p>
 <div class="flex flex-wrap gap-4">
-<a href="/projects" class="bg-primary text-on-primary px-6 py-3 lg:px-8 lg:py-4 rounded-full font-extrabold uppercase tracking-tight text-sm hover:scale-105 transition-transform inline-block">
+<a href="/projects" class="bg-primary text-on-primary px-5 py-2 lg:px-6 lg:py-2.5 rounded-full font-extrabold uppercase tracking-tight text-xs hover:scale-105 transition-transform inline-block">
             Explore Projects
           </a>
-<a href="/resume" class="flex items-center gap-3 px-5 py-3 lg:px-6 lg:py-4 rounded-full bg-surface-container-high border border-outline-variant/20 hover:border-primary/40 hover:scale-105 transition-all">
-<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">verified</span>
-<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">See the Proof</span>
+<a href="/resume" class="flex items-center gap-2 px-4 py-2 lg:px-5 lg:py-2.5 rounded-full bg-surface-container-high border border-outline-variant/20 hover:border-primary/40 hover:scale-105 transition-all">
+<span class="material-symbols-outlined text-tertiary text-base" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">See the Proof</span>
 </a>
 </div>
 </div>
@@ -298,7 +298,7 @@ document.addEventListener('keydown', function(e) {
 <section class="mb-16 lg:mb-24">
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
 <!-- MTTD Card -->
-<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-4 lg:p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-primary/20 group-hover:text-primary/40 transition-colors" data-icon="biotech">biotech</span>
 </div>
@@ -310,7 +310,7 @@ document.addEventListener('keydown', function(e) {
 <div class="mt-4 text-[10px] text-primary font-bold uppercase">Optimized Response</div>
 </div>
 <!-- MTTR Card -->
-<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-4 lg:p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-secondary/20 group-hover:text-secondary/40 transition-colors" data-icon="build">build</span>
 </div>
@@ -322,7 +322,7 @@ document.addEventListener('keydown', function(e) {
 <div class="mt-4 text-[10px] text-secondary font-bold uppercase">Global Average: 45m</div>
 </div>
 <!-- Uptime -->
-<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-4 lg:p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-primary/20 group-hover:text-primary/40 transition-colors" data-icon="speed">speed</span>
 </div>
@@ -337,7 +337,7 @@ document.addEventListener('keydown', function(e) {
 </div>
 </div>
 <!-- Fleet Size -->
-<div class="bg-surface-container-low p-5 lg:p-8 rounded-xl relative overflow-hidden group">
+<div class="bg-surface-container-low p-4 lg:p-6 rounded-xl relative overflow-hidden group">
 <div class="absolute top-0 right-0 p-4">
 <span class="material-symbols-outlined text-tertiary/20 group-hover:text-tertiary/40 transition-colors" data-icon="cloud">cloud</span>
 </div>
@@ -360,31 +360,31 @@ document.addEventListener('keydown', function(e) {
 <div class="space-y-6">
 <!-- Pillar 1 -->
 <div class="flex gap-6 items-start group">
-<div class="w-12 h-12 shrink-0 rounded-full bg-primary-container flex items-center justify-center text-primary">
+<div class="w-9 h-9 shrink-0 rounded-full bg-primary-container flex items-center justify-center text-primary">
 <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
 </div>
 <div>
-<h4 class="text-base lg:text-lg font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Excellence in Quality</h4>
+<h4 class="text-sm lg:text-base font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Excellence in Quality</h4>
 <p class="text-sm text-on-surface-variant">Zero-tolerance for operational entropy. Every cable, rack, and server is optimized for maximum thermodynamic efficiency and compute density.</p>
 </div>
 </div>
 <!-- Pillar 2 -->
 <div class="flex gap-6 items-start group">
-<div class="w-12 h-12 shrink-0 rounded-full bg-tertiary-container flex items-center justify-center text-tertiary">
+<div class="w-9 h-9 shrink-0 rounded-full bg-tertiary-container flex items-center justify-center text-tertiary">
 <span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
 </div>
 <div>
-<h4 class="text-base lg:text-lg font-bold text-on-surface mb-2 group-hover:text-tertiary transition-colors">Human Connection</h4>
+<h4 class="text-sm lg:text-base font-bold text-on-surface mb-1 group-hover:text-tertiary transition-colors">Human Connection</h4>
 <p class="text-sm text-on-surface-variant">The 'Human Technologist' approach ensures that behind every hyperscale fleet is a culture of mentorship, clarity, and shared purpose.</p>
 </div>
 </div>
 <!-- Pillar 3 -->
 <div class="flex gap-6 items-start group">
-<div class="w-12 h-12 shrink-0 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<div class="w-9 h-9 shrink-0 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
 <span class="material-symbols-outlined" data-icon="shield">shield</span>
 </div>
 <div>
-<h4 class="text-base lg:text-lg font-bold text-on-surface mb-2 group-hover:text-secondary transition-colors">Resilient Security</h4>
+<h4 class="text-sm lg:text-base font-bold text-on-surface mb-1 group-hover:text-secondary transition-colors">Resilient Security</h4>
 <p class="text-sm text-on-surface-variant">Protecting the integrity of the universe's most important datasets through hardened infrastructure and proactive threat detection.</p>
 </div>
 </div>
@@ -424,7 +424,7 @@ document.addEventListener('keydown', function(e) {
 <section class="mb-16 lg:mb-24">
 <h3 class="fluid-h3 font-bold uppercase tracking-widest mb-8 lg:mb-12 text-center text-primary">Strategic Deployment</h3>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
-<div class="md:col-span-2 bg-surface-container-low p-6 lg:p-8 rounded-2xl border border-outline-variant/10">
+<div class="md:col-span-2 bg-surface-container-low p-5 lg:p-6 rounded-2xl border border-outline-variant/10">
 <div class="flex justify-between items-start mb-4 lg:mb-6">
 <div>
 <div class="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-1">Meta Infrastructure</div>
@@ -435,14 +435,14 @@ document.addEventListener('keydown', function(e) {
               FLEET_ALPHA
             </div>
 </div>
-<p class="text-sm text-on-surface-variant leading-relaxed">
+<p class="text-xs text-on-surface-variant leading-relaxed">
             Engineered solutions for 1.0M+ server fleet deployments. Led high-impact MTTD initiatives that reduced critical incident response time by 40%. Specialized in hardware remediation and thermodynamic optimization at hyperscale.
           </p>
 </div>
-<div class="bg-surface-container-high p-6 lg:p-8 rounded-2xl border border-outline-variant/10 flex flex-col">
+<div class="bg-surface-container-high p-5 lg:p-6 rounded-2xl border border-outline-variant/10 flex flex-col">
 <div class="text-tertiary font-bold uppercase tracking-[0.2em] text-xs mb-1">Military Ops</div>
 <h4 class="fluid-h3 font-black text-on-surface mb-4">Command &amp; Precision</h4>
-<p class="text-sm text-on-surface-variant leading-relaxed">
+<p class="text-xs text-on-surface-variant leading-relaxed">
             Applied rigorous operational discipline from military service to technical infrastructure management. Zero-failure mindset.
           </p>
 <div class="mt-auto pt-6 flex justify-end">
@@ -460,7 +460,7 @@ document.addEventListener('keydown', function(e) {
 <p class="text-sm text-on-surface-variant mb-6 lg:mb-10">
             Currently focused on applying high-performance infrastructure management to the AGI frontier. Let's build the hardware that understands reality.
           </p>
-<a href="mailto:jacob.sumsion@gmail.com" class="bg-primary text-on-primary px-8 py-3 lg:px-10 lg:py-4 rounded-full font-black uppercase tracking-tight hover:scale-105 transition-transform text-sm lg:text-base shadow-xl shadow-primary/20 inline-block">
+<a href="mailto:jacob.sumsion@gmail.com" class="bg-primary text-on-primary px-6 py-2 lg:px-8 lg:py-3 rounded-full font-black uppercase tracking-tight hover:scale-105 transition-transform text-xs lg:text-sm shadow-xl shadow-primary/20 inline-block">
             Initiate Connection
           </a>
 </div>
