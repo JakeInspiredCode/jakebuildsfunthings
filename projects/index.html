@@ -133,9 +133,50 @@
 <!-- Bento Grid -->
 <div class="grid grid-cols-1 md:grid-cols-12 gap-6" id="projects-grid">
 
-<!-- ═══ ROW 1: Flagships ═══ -->
+<!-- ═══ ROW 1: Flagship ═══ -->
 
-<!-- FEATURED: Agentic SOC -->
+<!-- FEATURED: SLO Guardian -->
+<a href="/slo-guardian/" target="_blank" class="md:col-span-8 project-card group relative overflow-hidden rounded-xl glass-card transition-all duration-500 hover:shadow-[0_0_50px_rgba(68,216,241,0.15)]" data-category="automation">
+<div class="h-[400px] w-full overflow-hidden bg-gradient-to-br from-[#44d8f1]/10 via-[#131b2e] to-[#ffb4a5]/10 flex items-center justify-center relative">
+<div class="font-mono text-[#44d8f1]/10 text-[100px] font-black select-none leading-none">SLO</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-transparent to-transparent"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-[#0b1326]/40 to-transparent p-8 flex flex-col justify-end">
+<div class="flex gap-3 mb-4">
+<span class="bg-[#ffb4a5] text-[#0b1326] px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-tighter">Featured</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">React</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Vite</span>
+</div>
+<h3 class="fluid-h2 font-bold text-white mb-2 font-headline">SLO Guardian — Kubernetes Operator Simulation</h3>
+<p class="text-[#c6c5d4] max-w-lg mb-3 line-clamp-3">Interactive real-time simulation of a Kubernetes SLO Guardian operator. Inject chaos events — error spikes, pod kills, Prometheus outages — and watch graduated automated response: annotate, scale, page. Dampened burn rate, error budget gauges, predictive ghost lines, and auto-generated post-mortems.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: Kubernetes operator pattern · SRE error budget mechanics · graduated response automation</p>
+<div class="flex gap-2 items-center">
+<span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">React 18</span>
+<span class="text-[10px] text-[#c6c5d4]/60">|</span>
+<span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">Chaos Console</span>
+<span class="text-[10px] text-[#c6c5d4]/60">|</span>
+<span class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">SRE Simulation</span>
+<span class="text-[10px] text-[#c6c5d4]/60">|</span>
+<span class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try live demo →</span>
+</div>
+</div>
+</a>
+
+<!-- GCP Security Lab -->
+<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<div class="p-6">
+<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">TERRAFORM</span></div>
+<h4 class="text-xl font-bold text-white mb-2">GCP Security Lab</h4>
+<p class="text-sm text-[#c6c5d4] mb-2">Cost-minimal GCP lab for hands-on security testing in GKE-based ML infrastructure. 6-sprint Terraform IaC project.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: infrastructure-as-code · GCP/GKE · cost optimization</p>
+<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GKE | GCP | Terraform · Infrastructure-as-code</div>
+</div>
+</div>
+
+<!-- ═══ ROW 2: Agentic SOC + Full-Stack ═══ -->
+
+<!-- Agentic SOC -->
+<!-- Agentic SOC -->
 <a href="https://agentic-soc-poc.streamlit.app/" target="_blank" class="md:col-span-8 project-card group relative overflow-hidden rounded-xl glass-card transition-all duration-500 hover:shadow-[0_0_50px_rgba(68,216,241,0.15)]" data-category="security ai">
 <div class="h-[400px] w-full overflow-hidden bg-gradient-to-br from-[#ffb4a5]/10 via-[#131b2e] to-[#44d8f1]/10 flex items-center justify-center relative">
 <div class="font-mono text-[#ffb4a5]/10 text-[120px] font-black select-none leading-none">SOC</div>
@@ -143,7 +184,6 @@
 </div>
 <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-[#0b1326]/40 to-transparent p-8 flex flex-col justify-end">
 <div class="flex gap-3 mb-4">
-<span class="bg-[#ffb4a5] text-[#0b1326] px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-tighter">Featured</span>
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Streamlit</span>
 <span class="bg-[#44d8f1]/20 text-[#44d8f1] px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-tighter border border-[#44d8f1]/30">Claude API</span>
 </div>
@@ -162,18 +202,21 @@
 </div>
 </a>
 
-<!-- GCP Security Lab (moved up for SRE signal) -->
-<div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security">
+<!-- Life Command Center -->
+<a href="/life-command-center/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai automation">
 <div class="p-6">
-<div class="flex gap-2 mb-6"><span class="bg-[#ffb4a5]/20 text-[#ffb4a5] px-2 py-1 rounded-sm text-[10px] font-black tracking-widest border border-[#ffb4a5]/30">TERRAFORM</span></div>
-<h4 class="text-xl font-bold text-white mb-2">GCP Security Lab</h4>
-<p class="text-sm text-[#c6c5d4] mb-2">Cost-minimal GCP lab for hands-on security testing in GKE-based ML infrastructure. 6-sprint Terraform IaC project.</p>
-<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: infrastructure-as-code · GCP/GKE · cost optimization</p>
-<div class="text-[10px] text-[#c6c5d4]/60 uppercase tracking-widest">GKE | GCP | Terraform · Infrastructure-as-code</div>
+<div class="flex gap-2 mb-6">
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">MULTI-LLM</span>
+<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
 </div>
+<h4 class="text-xl font-bold text-white mb-2">Life Command Center</h4>
+<p class="text-sm text-[#c6c5d4] mb-2">Personal operating system dashboard unifying projects, health, and AI workflows. Multi-LLM orchestration with cost tracking across providers.</p>
+<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: multi-LLM orchestration · real-time dashboards · agent cost management</p>
+<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
 </div>
+</a>
 
-<!-- ═══ ROW 2: Full-Stack Products ═══ -->
+<!-- ═══ ROW 3: Full-Stack Products ═══ -->
 
 <!-- L1NX Forge -->
 <a href="/l1nx/" class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 flex items-center gap-8 overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai automation">
@@ -190,21 +233,7 @@
 <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-[#44d8f1]/5 rounded-full blur-3xl"></div>
 </a>
 
-<!-- Life Command Center -->
-<a href="/life-command-center/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai automation">
-<div class="p-6">
-<div class="flex gap-2 mb-6">
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">MULTI-LLM</span>
-<span class="bg-[#44d8f1]/20 text-[#44d8f1] px-2 py-1 rounded-sm text-[10px] font-bold border border-[#44d8f1]/30">CONVEX</span>
-</div>
-<h4 class="text-xl font-bold text-white mb-2">Life Command Center</h4>
-<p class="text-sm text-[#c6c5d4] mb-2">Personal operating system dashboard unifying projects, health, and AI workflows. Multi-LLM orchestration with cost tracking across providers.</p>
-<p class="text-[10px] text-[#c6c5d4]/40 uppercase tracking-widest mb-3">Demonstrates: multi-LLM orchestration · real-time dashboards · agent cost management</p>
-<div class="text-[10px] text-[#44d8f1] uppercase tracking-widest font-bold">Try demo →</div>
-</div>
-</a>
-
-<!-- ═══ ROW 3: Security Research ═══ -->
+<!-- ═══ ROW 4: Security Research ═══ -->
 
 <!-- AI Agent Safety Framework -->
 <div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="security ai">
