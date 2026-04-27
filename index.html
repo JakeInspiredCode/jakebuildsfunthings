@@ -197,8 +197,10 @@
 <div class="bg-gradient-to-b from-[#131b2e] to-transparent h-px"></div>
 </nav>
 <!-- SideNavBar (Shared Component - Desktop Only) -->
-<aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex-col items-center pt-16 pb-8 gap-8 bg-[#131b2e] z-40">
-<div class="text-lg font-black text-[#44d8f1] font-['Manrope'] mb-8">J</div>
+<aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex-col items-center pt-14 pb-8 gap-6 bg-[#131b2e] z-40">
+<button id="portraitTrigger" type="button" aria-label="View larger portrait of Jacob Sumsion" class="rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary group">
+<img src="/media/portrait_thumb.jpg" alt="Jacob Sumsion" width="600" height="600" loading="eager" decoding="async" class="portrait-thumb w-12 h-12 rounded-full object-cover ring-1 ring-primary/30 group-hover:ring-2 group-hover:ring-primary/70 shadow-[0_4px_20px_rgba(0,0,0,0.4)] group-hover:shadow-[0_4px_20px_rgba(68,216,241,0.25)] transition-all duration-300 group-hover:scale-105 cursor-pointer"/>
+</button>
 <div class="flex flex-col gap-10">
 <a href="/" class="flex flex-col items-center gap-1 cursor-pointer">
 <span class="material-symbols-outlined text-[#44d8f1]" style="font-variation-settings: 'FILL' 1;">sensors</span>
@@ -304,10 +306,6 @@ document.addEventListener('keydown', function(e) {
 <section class="relative mb-16 lg:mb-24 min-h-[50vh] lg:min-h-[600px] flex flex-col justify-center">
 <div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
 <div class="absolute top-40 -left-20 w-64 h-64 bg-secondary/5 rounded-full blur-[80px] pointer-events-none"></div>
-<!-- Portrait thumbnail (top-right of hero) -->
-<button id="portraitTrigger" type="button" aria-label="View larger portrait of Jacob Sumsion" class="absolute top-2 right-2 lg:top-6 lg:right-6 z-20 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary group">
-<img src="/media/portrait_thumb.jpg" alt="Jacob Sumsion" width="600" height="600" loading="eager" decoding="async" class="portrait-thumb w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full object-cover ring-1 ring-outline-variant/30 group-hover:ring-2 group-hover:ring-primary/60 shadow-[0_8px_30px_rgba(0,0,0,0.4)] group-hover:shadow-[0_8px_30px_rgba(68,216,241,0.18)] transition-all duration-300 group-hover:scale-105 cursor-pointer"/>
-</button>
 <div class="max-w-4xl relative z-10">
 <div class="inline-flex items-center gap-3 px-4 py-1 rounded-full bg-surface-container-low border border-outline-variant/15 mb-8">
 <span class="flex h-2 w-2 rounded-full bg-primary animate-ping"></span>
