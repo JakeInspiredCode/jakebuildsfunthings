@@ -80,6 +80,16 @@
         .fluid-h2 { font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.5rem); }
         .fluid-h3 { font-size: clamp(1rem, 1vw + 0.4rem, 1.25rem); }
         .fluid-body { font-size: clamp(0.8rem, 0.5vw + 0.5rem, 0.9rem); }
+        .portrait-thumb { view-transition-name: portrait; }
+        .portrait-full { view-transition-name: portrait; }
+        body.portrait-open .portrait-thumb { view-transition-name: none; }
+        dialog.portrait-dialog { background: transparent; border: 0; padding: 0; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; margin: 0; color: inherit; overflow: hidden; }
+        dialog.portrait-dialog[open] { display: flex; align-items: center; justify-content: center; }
+        dialog.portrait-dialog::backdrop { background: rgba(6, 14, 32, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .portrait-dialog-inner { position: relative; padding: 1rem; display: flex; align-items: center; justify-content: center; }
+        .portrait-full { display: block; max-width: min(560px, calc(100vw - 2rem)); max-height: calc(100vh - 4rem); width: auto; height: auto; border-radius: 1rem; border: 1px solid rgba(68, 216, 241, 0.18); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(68, 216, 241, 0.08); }
+        .portrait-close { position: absolute; top: 0.25rem; right: 0.25rem; width: 2.5rem; height: 2.5rem; border-radius: 9999px; background: rgba(11, 19, 38, 0.92); border: 1px solid rgba(68, 216, 241, 0.22); color: #c6c5d4; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s, color 0.2s, border-color 0.2s; z-index: 1; }
+        .portrait-close:hover { border-color: rgba(68, 216, 241, 0.6); color: #44d8f1; transform: scale(1.05); }
     </style>
 </head>
 <body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary">
@@ -95,7 +105,9 @@
 </nav>
 <!-- Side Navigation (Desktop) -->
 <aside class="hidden md:flex h-screen w-20 fixed left-0 top-0 flex-col items-center pt-16 pb-8 gap-8 bg-[#131b2e] z-40">
-<div class="text-lg font-black text-[#44d8f1] font-['Manrope'] mb-8">J</div>
+<button id="portraitTrigger" type="button" aria-label="View larger portrait of Jacob Sumsion" class="rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary group mb-2">
+<img src="/media/portrait_suit_thumb.jpg" alt="Jacob Sumsion" width="600" height="600" loading="eager" decoding="async" class="portrait-thumb w-12 h-12 rounded-full object-cover ring-1 ring-primary/30 group-hover:ring-2 group-hover:ring-primary/70 shadow-[0_4px_20px_rgba(0,0,0,0.4)] group-hover:shadow-[0_4px_20px_rgba(68,216,241,0.25)] transition-all duration-300 group-hover:scale-105 cursor-pointer"/>
+</button>
 <div class="flex flex-col gap-10">
 <a href="/" class="flex flex-col items-center gap-1 group cursor-pointer">
 <span class="material-symbols-outlined text-[#c6c5d4] group-hover:text-[#44d8f1] transition-colors">sensors</span>
@@ -456,4 +468,43 @@
 <a href="/projects"><span class="material-symbols-outlined text-[#c6c5d4]">folder_open</span></a>
 <a href="mailto:jacob.sumsion@gmail.com"><span class="material-symbols-outlined text-[#c6c5d4]">mail</span></a>
 </nav>
+<!-- Portrait Dialog -->
+<dialog id="portraitDialog" class="portrait-dialog" aria-label="Portrait of Jacob Sumsion">
+<div class="portrait-dialog-inner">
+<button id="portraitClose" type="button" class="portrait-close" aria-label="Close portrait">
+<span class="material-symbols-outlined">close</span>
+</button>
+<img src="/media/portrait_suit_full.jpg" alt="Jacob Sumsion" width="1400" height="1867" loading="lazy" decoding="async" class="portrait-full"/>
+</div>
+</dialog>
+<script>
+(function () {
+  var trigger = document.getElementById('portraitTrigger');
+  var dialog = document.getElementById('portraitDialog');
+  var closeBtn = document.getElementById('portraitClose');
+  if (!trigger || !dialog) return;
+  function withTransition(fn) {
+    if (typeof document.startViewTransition === 'function') {
+      document.startViewTransition(fn);
+    } else { fn(); }
+  }
+  function openPortrait() {
+    withTransition(function () {
+      document.body.classList.add('portrait-open');
+      dialog.showModal();
+    });
+  }
+  function closePortrait() {
+    if (!dialog.open) return;
+    withTransition(function () {
+      document.body.classList.remove('portrait-open');
+      dialog.close();
+    });
+  }
+  trigger.addEventListener('click', openPortrait);
+  closeBtn.addEventListener('click', closePortrait);
+  dialog.addEventListener('click', function (e) { if (e.target === dialog) closePortrait(); });
+  dialog.addEventListener('close', function () { document.body.classList.remove('portrait-open'); });
+})();
+</script>
 </body></html>
