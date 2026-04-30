@@ -49,7 +49,7 @@
       .filter-btn.active { background: rgba(68, 216, 241, 0.1); color: #44d8f1; border-color: rgba(68, 216, 241, 0.2); }
       .project-card { transition: all 0.3s ease; }
       .project-card.hidden-by-filter { display: none; }
-      .fluid-hero { font-size: clamp(1.25rem, 2vw + 0.5rem, 2rem); }
+      .fluid-hero { font-size: clamp(1.5rem, 3vw + 0.5rem, 3rem); line-height: 0.95; }
       .fluid-h2 { font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.5rem); }
       .fluid-h3 { font-size: clamp(1rem, 1vw + 0.4rem, 1.25rem); }
       .portrait-thumb { view-transition-name: portrait; }
@@ -102,25 +102,36 @@
 <!-- Main Content -->
 <main class="md:pl-28 pt-20 min-h-screen">
 <header class="max-w-7xl mx-auto px-4 md:pr-8 py-16">
-<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-8">
-<div class="max-w-2xl">
+<div class="max-w-2xl mb-8">
 <h1 class="fluid-hero font-extrabold text-[#44d8f1] font-headline tracking-tighter mb-4">Project Index</h1>
 <p class="text-sm lg:text-base text-white font-bold leading-snug mb-2">"I build to <span class="text-[#ffb4a5]">understand</span>. I ship products that <span class="text-[#44d8f1]">empower</span>."</p>
 <p class="text-sm text-[#c6c5d4] leading-relaxed">
                         Every project here started with a real problem. The SOC wanted to see what an agentic pipeline could do for them, so I built the proof-of-concept. Technicians couldn't identify server hardware by sight, so I shipped an iOS app. Same pattern every time: find the gap, build the bridge. 20+ projects. 15+ live demos you can <span class="text-[#44d8f1] font-bold">try right now</span>.
                     </p>
 </div>
-<div class="flex flex-wrap gap-3" id="filter-tabs">
-<button onclick="filterProjects('all')" class="filter-btn active px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-[#222a3d] transition-all cursor-pointer">All Projects</button>
-<button onclick="filterProjects('ai')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">AI &amp; Agents</button>
-<button onclick="filterProjects('security')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Security</button>
-<button onclick="filterProjects('automation')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Automation &amp; Tools</button>
-<button onclick="filterProjects('ios')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">iOS Apps</button>
-</div>
-</div>
 
 <!-- Thesis -->
 <p class="text-sm text-[#44d8f1] font-bold uppercase tracking-widest mb-8">I build systems, tools, and teams to solve tough problems.</p>
+
+<!-- ═══ STATS ROW ═══ -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Live Demos</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">15+</div>
+</div>
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">AI Agent Systems</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">5</div>
+</div>
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Security Research</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">6</div>
+</div>
+<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
+<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Total Projects</div>
+<div class="text-2xl font-black text-white font-headline tracking-tighter">20+</div>
+</div>
+</div>
 
 <!-- What These Projects Prove -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
@@ -140,6 +151,15 @@
 <div class="text-[10px] font-bold text-[#d4bbff] uppercase mb-2 tracking-widest">Tools That Teach</div>
 <p class="text-xs text-[#c6c5d4] leading-relaxed">Complex knowledge turned into something you can actually use. Study systems, onboarding guides, discovery frameworks. Less ramp time, more retention.</p>
 </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="flex flex-wrap gap-3 mb-6" id="filter-tabs">
+<button onclick="filterProjects('all')" class="filter-btn active px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-[#222a3d] transition-all cursor-pointer">All Projects</button>
+<button onclick="filterProjects('ai')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">AI &amp; Agents</button>
+<button onclick="filterProjects('security')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Security</button>
+<button onclick="filterProjects('automation')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">Automation &amp; Tools</button>
+<button onclick="filterProjects('ios')" class="filter-btn px-4 py-1 rounded-full bg-[#131b2e] text-[#c6c5d4] text-xs font-bold uppercase tracking-widest border border-[#222a3d] hover:border-[#44d8f1]/30 transition-all cursor-pointer">iOS Apps</button>
 </div>
 
 <!-- Bento Grid -->
@@ -314,27 +334,7 @@
 </div>
 </a>
 
-<!-- ═══ STATS ROW ═══ -->
-<div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Live Demos</div>
-<div class="text-2xl font-black text-white font-headline tracking-tighter">15+</div>
-</div>
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">AI Agent Systems</div>
-<div class="text-2xl font-black text-white font-headline tracking-tighter">5</div>
-</div>
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Security Research</div>
-<div class="text-2xl font-black text-white font-headline tracking-tighter">6</div>
-</div>
-<div class="p-6 rounded-xl border border-[#222a3d] bg-[#0b1326]/40">
-<div class="text-[10px] font-bold text-[#ffb4a5] uppercase mb-1 tracking-widest">Total Projects</div>
-<div class="text-2xl font-black text-white font-headline tracking-tighter">20+</div>
-</div>
-</div>
-
-<!-- ═══ ROW 4: Security Research & Governance ═══ -->
+<!-- ═══ ROW 5: Security Research & Governance ═══ -->
 
 <!-- Cog-0 Showcase -->
 <a href="/cog0-showcase/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai">
@@ -361,7 +361,7 @@
 </div>
 </a>
 
-<!-- ═══ ROW 5: Automation & Business ═══ -->
+<!-- ═══ ROW 6: Automation & Business ═══ -->
 
 <!-- Sovereign Operations -->
 <a href="/sovereign-operations/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation">
@@ -402,7 +402,7 @@
 </div>
 </a>
 
-<!-- ═══ ROW 6: Personal Tools & Study ═══ -->
+<!-- ═══ ROW 7: Personal Tools & Study ═══ -->
 
 <!-- Alignment -->
 <a href="/alignment/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="automation ai">
@@ -440,7 +440,7 @@
 </div>
 </a>
 
-<!-- ═══ ROW 7: Study Guides & Research ═══ -->
+<!-- ═══ ROW 8: Study Guides & Research ═══ -->
 
 <!-- Three-Pillar Study Guide -->
 <div class="md:col-span-8 project-card group relative rounded-xl bg-[#131b2e] border border-[#222a3d] p-8 overflow-hidden" data-category="security">
@@ -468,7 +468,7 @@
 </div>
 </div>
 
-<!-- ═══ ROW 8: In Development ═══ -->
+<!-- ═══ ROW 9: In Development ═══ -->
 
 <!-- Cog-0 -->
 <a href="/cog0/" class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden hover:shadow-[0_0_30px_rgba(68,216,241,0.1)]" data-category="ai">
@@ -500,7 +500,7 @@
 </div>
 </a>
 
-<!-- ═══ ROW 9: iOS Apps ═══ -->
+<!-- ═══ ROW 10: iOS Apps ═══ -->
 
 <!-- Meta Server Training -->
 <div class="md:col-span-4 project-card group flex flex-col rounded-xl glass-card overflow-hidden" data-category="ios">
