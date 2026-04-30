@@ -4,3 +4,10 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# claude tooling — local-only state
+.claude/settings.local.json
+.claude/worktrees/
+
+# macOS
+.DS_Store
