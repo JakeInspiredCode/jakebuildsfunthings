@@ -17,13 +17,20 @@ Most subdirectories are **hand-written static pages** built from the home-page T
 
 ## Deploying
 
+**Cloudflare Workers Build is connected to this repo and auto-deploys from `origin/main` on every push** (~60 seconds after the push lands). So the normal deploy flow is just:
+
 ```bash
-npx wrangler deploy
+git add <whatever you changed>
+git commit -m "…"
+git push origin main
+# wait ~60 seconds, refresh the site
 ```
 
-Worker name is `jakebuildsfunthings`; the apex domain `jakebuildsfunthings.com` is bound to it via Cloudflare's custom-domain config. There is no build step for the hand-written pages — `wrangler deploy` just uploads the current working tree.
+You can also publish manually with `npx wrangler deploy` for instant feedback (useful when iterating on a hand-written page), but be aware that **a local-only deploy is silently overwritten by the next `git push`** because Workers Build redeploys from `origin/main` afterward. Always commit + push if you want the change to stick.
 
-**One-time setup:** `npx wrangler login` against the Cloudflare account that owns the worker.
+Worker name is `jakebuildsfunthings`; the apex domain `jakebuildsfunthings.com` is bound to it via Cloudflare's custom-domain config.
+
+**One-time setup for manual `wrangler deploy`:** `npx wrangler login` against the Cloudflare account that owns the worker.
 
 ### Local preview
 
@@ -39,9 +46,9 @@ Then open <http://localhost:8080>. Good enough for a static site; no need for th
 |----------------|---------------------------|--------------------------------------------------|
 | `l1nx-forge/`  | `~/Projects/l1nx`         | `cd ~/Projects/l1nx && npm run deploy:demo`      |
 
-The L1NX deploy script builds the static export, replaces `l1nx-forge/` here with the fresh build, then runs `wrangler deploy` on this repo for you. After that runs, `l1nx-forge/` will be uncommitted in this repo — Cloudflare is already updated, but commit it here too if you want the rendered state mirrored to GitHub.
+The L1NX deploy script builds the static export, replaces `l1nx-forge/` here with the fresh build, and **commits + pushes** so Workers Build redeploys from GitHub. The committed state IS the deploy — never rely on a local-only `wrangler deploy` for these subdirs, since the next push to this repo will revert them to whatever's in `origin/main`.
 
-When adding a new generated subdirectory in the future, document it in the table above so future-you (and any LLMs you bring in) know not to fight the next overwrite.
+When adding a new generated subdirectory in the future, document it in the table above so future-you (and any LLMs you bring in) know it's machine-generated and shouldn't be hand-edited.
 
 ## Why this setup
 

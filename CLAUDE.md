@@ -8,11 +8,9 @@ The Cloudflare Workers static-asset host for **jakebuildsfunthings.com**. `wrang
 
 ## Deploying
 
-```bash
-npx wrangler deploy
-```
+**Cloudflare Workers Build is connected to this repo and auto-deploys from `origin/main` on every push.** So the normal deploy flow is just `git push origin main`; Workers Build picks it up and ships ~60 seconds later. No `wrangler deploy` call needed.
 
-**You (the LLM) usually cannot run this from a non-interactive shell** — `wrangler` needs OAuth creds from `wrangler login`, and that opens a browser. If `wrangler whoami` succeeds, you're fine; otherwise tell the user to run the deploy from their terminal.
+**Critical pitfall:** a local-only `wrangler deploy` is silently overwritten by the next `git push` to this repo, because Workers Build redeploys whatever's in `origin/main` afterward. If the working tree has changes that aren't committed, `wrangler deploy` ships them temporarily, then the next push reverts everything to the committed state. Always commit + push to make a deploy stick.
 
 ## Generated subdirectories — DO NOT hand-edit
 
@@ -22,7 +20,7 @@ npx wrangler deploy
 
 Anything in a generated subdir will be wiped by the next regeneration. To change what's there, change the source repo and redeploy.
 
-If you're updating the L1NX demo specifically: prefer running `npm run deploy:demo -- --build-only` from the L1NX repo. That handles the build + copy here, then hands the `wrangler deploy` step back to the user.
+If you're updating the L1NX demo specifically: run `npm run deploy:demo` from the L1NX repo. It builds, replaces `l1nx-forge/` here, commits, and pushes — Workers Build then redeploys from origin/main automatically. Works fine from non-interactive shells.
 
 ## Everything else
 
