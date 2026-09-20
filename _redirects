@@ -1,0 +1,9 @@
+# The DC-Tech-Forge demo used to be published here as a static copy under
+# /l1nx-forge/. It now lives on its own domain. Old links are out in the world
+# (including on résumés), so keep them working.
+#
+# The bare path opened a pre-filled demo account, so it goes to the link that
+# does the same. Deep links keep their path.
+/l1nx-forge https://forge.jakebuildsfunthings.com/?demo=1 301
+/l1nx-forge/ https://forge.jakebuildsfunthings.com/?demo=1 301
+/l1nx-forge/* https://forge.jakebuildsfunthings.com/:splat 301

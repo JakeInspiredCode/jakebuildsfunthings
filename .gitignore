@@ -11,3 +11,6 @@
 
 # macOS
 .DS_Store
+
+# claude tooling in sub-projects
+**/.claude/settings.local.json

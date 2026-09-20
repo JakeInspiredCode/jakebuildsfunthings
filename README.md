@@ -8,12 +8,17 @@ Source for the personal site at **jakebuildsfunthings.com**. Hosted on Cloudflar
 .
 ├── index.html                  # site home
 ├── wrangler.jsonc              # Cloudflare Workers config (assets.directory = ".")
+├── .assetsignore               # what must NOT be served (see below)
+├── _redirects                  # redirects, e.g. the retired /l1nx-forge/ demo
 ├── media/                      # shared images, video, etc.
-├── projects/, resume/, …       # static project pages — hand-written HTML
-└── <project>/                  # generated project pages — DO NOT hand-edit
+└── projects/, resume/, …       # static project pages — hand-written HTML
 ```
 
-Most subdirectories are **hand-written static pages** built from the home-page Tailwind palette. A handful are **generated outputs** from external project repos and should never be edited in-place — see "Generated subdirectories" below.
+The subdirectories are **hand-written static pages** built from the home-page Tailwind palette.
+
+### Everything here is public unless `.assetsignore` lists it
+
+Because `assets.directory` is the repo root, every file is uploaded and served at its path. `.assetsignore` (same syntax as `.gitignore`) keeps the repo's plumbing — `.git/`, `CLAUDE.md`, `README.md`, `wrangler.jsonc`, `.claude/` — off the live site. If you add a file that isn't meant to be public, list it there.
 
 ## Deploying
 
@@ -40,16 +45,16 @@ python3 -m http.server 8080
 
 Then open <http://localhost:8080>. Good enough for a static site; no need for the wrangler dev server unless you're testing Worker-specific behavior (you're not — this site is static assets only).
 
-## Generated subdirectories (don't hand-edit)
+## Projects hosted elsewhere
 
-| Path           | Source repo               | Regenerate with                                  |
-|----------------|---------------------------|--------------------------------------------------|
-| `l1nx-forge/`  | `~/Projects/l1nx`         | `cd ~/Projects/l1nx && npm run deploy:demo`      |
+Projects with their own deployment are **linked to**, not copied in.
 
-The L1NX deploy script builds the static export, replaces `l1nx-forge/` here with the fresh build, and **commits + pushes** so Workers Build redeploys from GitHub. The committed state IS the deploy — never rely on a local-only `wrangler deploy` for these subdirs, since the next push to this repo will revert them to whatever's in `origin/main`.
+| Project | Lives at | Repo |
+|---|---|---|
+| DC-Tech-Forge | <https://forge.jakebuildsfunthings.com> (Vercel) | `~/Projects/l1nx` |
 
-When adding a new generated subdirectory in the future, document it in the table above so future-you (and any LLMs you bring in) know it's machine-generated and shouldn't be hand-edited.
+DC-Tech-Forge (formerly "L1NX Forge") used to be published here as a generated static copy under `l1nx-forge/`, rebuilt and committed by a deploy script in its repo — about 5 MB of build output per deploy. That pipeline is retired. `_redirects` sends `/l1nx-forge/*` to the new domain so links already in circulation keep working.
 
 ## Why this setup
 
-One source of truth per project, with the personal site acting as the showcase host. Project repos own their build; the showcase repo owns the routing, hosting config, and the hand-written landing pages. Improvements ship to each project's primary deployment first (e.g., L1NX → Vercel), then a one-line script pulls them through to here.
+One source of truth per project, with the personal site acting as the showcase. Project repos own their build and their hosting; this repo owns the hand-written landing pages and links out to them.

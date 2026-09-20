@@ -1,0 +1,21 @@
+# wrangler.jsonc sets assets.directory to ".", so EVERYTHING in this repo is
+# uploaded and served unless it is listed here. Same syntax as .gitignore.
+#
+# Without this file the live site served /.git/config, /CLAUDE.md,
+# /wrangler.jsonc and a tracked Claude settings file.
+
+# Version control and tooling
+.git
+.gitignore
+.assetsignore
+.claude
+**/.claude
+.wrangler
+node_modules
+.DS_Store
+
+# Repo docs and hosting config — not pages
+README.md
+CLAUDE.md
+wrangler.jsonc
+wrangler.toml

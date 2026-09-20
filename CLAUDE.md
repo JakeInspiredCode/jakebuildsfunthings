@@ -12,16 +12,16 @@ The Cloudflare Workers static-asset host for **jakebuildsfunthings.com**. `wrang
 
 **Critical pitfall:** a local-only `wrangler deploy` is silently overwritten by the next `git push` to this repo, because Workers Build redeploys whatever's in `origin/main` afterward. If the working tree has changes that aren't committed, `wrangler deploy` ships them temporarily, then the next push reverts everything to the committed state. Always commit + push to make a deploy stick.
 
-## Generated subdirectories — DO NOT hand-edit
+## Everything in the repo is served — unless `.assetsignore` says otherwise
 
-| Path             | Source repo                      | Regenerate with                                                |
-|------------------|----------------------------------|----------------------------------------------------------------|
-| `l1nx-forge/`    | `~/Projects/l1nx`                | `cd ~/Projects/l1nx && npm run deploy:demo`                    |
+`wrangler.jsonc` sets `assets.directory` to `"."`, so every file here is uploaded and publicly reachable at its path. [`.assetsignore`](.assetsignore) (gitignore syntax) is the only thing that keeps repo plumbing off the live site — before it existed, `/.git/config`, `/CLAUDE.md` and `/wrangler.jsonc` were all being served. **If you add a file that isn't meant to be public, add it there.** After deploying, check with `curl -sI https://jakebuildsfunthings.com/<path>`.
 
-Anything in a generated subdir will be wiped by the next regeneration. To change what's there, change the source repo and redeploy.
+## Redirects
 
-If you're updating the L1NX demo specifically: run `npm run deploy:demo` from the L1NX repo. It builds, replaces `l1nx-forge/` here, commits, and pushes — Workers Build then redeploys from origin/main automatically. Works fine from non-interactive shells.
+[`_redirects`](_redirects) holds them (`source destination code`, one per line). Cloudflare applies a redirect even when a file exists at that path.
+
+DC-Tech-Forge (formerly "L1NX Forge") used to be published here as a generated static copy under `l1nx-forge/`, rebuilt by an `npm run deploy:demo` script in its repo. **That pipeline is retired.** The app lives at <https://forge.jakebuildsfunthings.com> (Vercel, from `~/Projects/l1nx`), and `/l1nx-forge/*` 301s there. Don't recreate the directory. There are currently no generated subdirectories.
 
 ## Everything else
 
-The hand-written project pages (`projects/`, `resume/`, `agent-safety-framework/`, `colossus-triage/`, etc.), `index.html`, and `media/` are all hand-edited static files. Edit them in place and `npx wrangler deploy` to ship.
+The hand-written project pages (`projects/`, `resume/`, `agent-safety-framework/`, `colossus-triage/`, etc.), `index.html`, and `media/` are all hand-edited static files. Edit them in place, commit, and push.
